@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản của tôi - EduPass</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="EduPass Logo" class="logo-img">
+                <span class="logo-text">EduPass</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="tai-lieu.html">Kho tài liệu</a></li>
+                <li><a href="luyen-thi.html">Luyện thi</a></li>
+                <li><a href="tai-khoan.html">Tài khoản</a></li>
+                <li><a href="#" onclick="logout()" class="btn-primary">Đăng xuất</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="account-section">
+        <div class="container">
+            <div class="account-header">
+                <div class="account-avatar">
+                    <img src="assets/logo2.png" alt="Avatar" class="avatar-img" id="avatarImg">
+                </div>
+                <div class="account-info">
+                    <h1 id="userName">Đang tải...</h1>
+                    <p id="userEmail">email@example.com</p>
+                </div>
+            </div>
+
+            <div class="account-grid">
+                <!-- Thông tin cá nhân -->
+                <div class="account-card">
+                    <div class="card-header">
+                        <h3>📋 Thông tin cá nhân</h3>
+                        <button class="btn-edit" onclick="editProfile()">Chỉnh sửa</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="info-label">Họ và tên:</span>
+                            <span class="info-value" id="displayName">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value" id="displayEmail">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Ngày tham gia:</span>
+                            <span class="info-value" id="displayJoinDate">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thống kê -->
+                <div class="account-card stats-card">
+                    <div class="card-header">
+                        <h3>📊 Thống kê học tập</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalExams">0</div>
+                            <div class="stat-label">Bài thi đã làm</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalMaterials">0</div>
+                            <div class="stat-label">Tài liệu đã mua</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="avgScore">0</div>
+                            <div class="stat-label">Điểm trung bình</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tài liệu đã mua -->
+            <div class="account-section-full">
+                <div class="section-header">
+                    <h2>📚 Tài liệu đã mua</h2>
+                </div>
+                <div class="purchased-materials" id="purchasedMaterials">
+                    <p class="empty-message">Bạn chưa mua tài liệu nào</p>
+                </div>
+            </div>
+
+            <!-- Lịch sử luyện thi -->
+            <div class="account-section-full">
+                <div class="section-header">
+                    <h2>📝 Lịch sử luyện thi</h2>
+                </div>
+                <div class="exam-history" id="examHistory">
+                    <p class="empty-message">Bạn chưa làm bài thi nào</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modal chỉnh sửa thông tin -->
+    <div id="editModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            <h2>Chỉnh sửa thông tin</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label>Họ và tên</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Lưu thay đổi</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <img src="assets/logo.png" alt="EduPass Logo" class="footer-logo">
+                    <div class="footer-description">
+                        <h4>EduPass</h4>
+                        <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <p>&copy; 2026 EduPass. All rights reserved.</p>
+                    <p class="footer-tagline">Learn today. Pass tomorrow.</p>
+                    <p><a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
