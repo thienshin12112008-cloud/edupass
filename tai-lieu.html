@@ -24,34 +24,56 @@
         </div>
     </nav>
 
-    <section class="page-header">
+    <section class="page-header page-header-materials">
         <div class="container">
-            <h1>Kho tài liệu</h1>
-            <p>Tìm kiếm và tải về tài liệu học tập chất lượng cao</p>
+            <div class="header-content">
+                <div class="header-icon">📚</div>
+                <h1>Kho tài liệu</h1>
+                <p>Tìm kiếm và tải về tài liệu học tập chất lượng cao</p>
+            </div>
         </div>
     </section>
 
     <section class="materials-section">
         <div class="container">
-            <div class="filters">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm tài liệu...">
-                <select id="subjectFilter">
-                    <option value="">Tất cả môn học</option>
-                    <option value="toan">Toán học</option>
-                    <option value="ly">Vật lý</option>
-                    <option value="hoa">Hóa học</option>
-                    <option value="anh">Tiếng Anh</option>
-                    <option value="van">Ngữ văn</option>
-                    <option value="sinh">Sinh học</option>
-                </select>
-                <select id="gradeFilter">
-                    <option value="">Tất cả lớp</option>
-                    <option value="10">Lớp 10</option>
-                    <option value="11">Lớp 11</option>
-                    <option value="12">Lớp 12</option>
-                </select>
-                <select id="priceFilter">
-                    <option value="">Tất cả</option>
+            <div class="filters-wrapper">
+                <h3>🔍 Tìm kiếm tài liệu</h3>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Từ khóa</label>
+                        <input type="text" id="searchInput" placeholder="Nhập tên tài liệu...">
+                    </div>
+                    <div class="filter-group">
+                        <label>Môn học</label>
+                        <select id="subjectFilter">
+                            <option value="">Tất cả môn học</option>
+                            <option value="toan">Toán</option>
+                            <option value="ly">Vật Lý</option>
+                            <option value="hoa">Hóa</option>
+                            <option value="van">Ngữ Văn</option>
+                            <option value="su">Lịch Sử</option>
+                            <option value="dia">Địa Lí</option>
+                            <option value="sinh">Sinh học</option>
+                            <option value="anh">Tiếng Anh</option>
+                            <option value="gdcd">Giáo dục công dân</option>
+                            <option value="ktpl">Kinh tế & Pháp luật</option>
+                            <option value="congnghe">Công nghệ</option>
+                            <option value="tinhoc">Tin học</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Lớp</label>
+                        <select id="gradeFilter">
+                            <option value="">Tất cả lớp</option>
+                            <option value="10">Lớp 10</option>
+                            <option value="11">Lớp 11</option>
+                            <option value="12">Lớp 12</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Loại</label>
+                        <select id="priceFilter">
+                            <option value="">Tất cả</option>
                     <option value="free">Miễn phí</option>
                     <option value="paid">Trả phí</option>
                 </select>

@@ -24,15 +24,24 @@
         </div>
     </nav>
 
-    <section class="page-header">
+    <section class="page-header page-header-exam">
         <div class="container">
-            <h1>Luyện thi trực tuyến</h1>
-            <p>Chọn môn học và bắt đầu làm bài thi</p>
+            <div class="header-content">
+                <div class="header-icon">📝</div>
+                <h1>Luyện thi trực tuyến</h1>
+                <p>Chọn môn học và bắt đầu làm bài thi để nâng cao kiến thức</p>
+            </div>
         </div>
     </section>
 
     <section class="exam-section">
         <div class="container">
+            <div class="exam-actions">
+                <button class="btn-primary btn-create-exam" onclick="window.location.href='tao-de-thi.html'">
+                    ✨ Tạo đề thi tự luyện
+                </button>
+            </div>
+            
             <div id="subjectList" class="subject-list">
                 <h2>Chọn môn học</h2>
                 <div class="subjects-grid"></div>
@@ -67,6 +76,68 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal tạo đề thi -->
+    <div id="createExamModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCreateExamModal()">&times;</span>
+            <h2>Tạo đề thi mới</h2>
+            <p class="modal-subtitle" style="text-align: center; color: #777; margin-bottom: 1.5rem;">Nhập thông tin đề thi của bạn</p>
+            <form id="createExamForm" class="create-exam-form">
+                <div class="form-group">
+                    <label for="examTitle">Tên đề thi *</label>
+                    <input type="text" id="examTitle" placeholder="VD: Đề thi giữa kỳ I - Toán 12" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="examSubject">Môn học *</label>
+                        <select id="examSubject" required>
+                            <option value="">-- Chọn môn học --</option>
+                            <option value="toan">Toán</option>
+                            <option value="ly">Vật Lý</option>
+                            <option value="hoa">Hóa</option>
+                            <option value="van">Ngữ Văn</option>
+                            <option value="su">Lịch Sử</option>
+                            <option value="dia">Địa Lí</option>
+                            <option value="sinh">Sinh học</option>
+                            <option value="anh">Tiếng Anh</option>
+                            <option value="gdcd">Giáo dục công dân</option>
+                            <option value="ktpl">Kinh tế & Pháp luật</option>
+                            <option value="congnghe">Công nghệ</option>
+                            <option value="tinhoc">Tin học</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="examGrade">Lớp *</label>
+                        <select id="examGrade" required>
+                            <option value="">-- Chọn lớp --</option>
+                            <option value="10">Lớp 10</option>
+                            <option value="11">Lớp 11</option>
+                            <option value="12">Lớp 12</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="examQuestions">Số câu hỏi *</label>
+                        <input type="number" id="examQuestions" min="5" max="100" value="20" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="examTime">Thời gian (phút) *</label>
+                        <input type="number" id="examTime" min="10" max="180" value="45" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary btn-full">
+                    ✨ Tạo đề thi
+                </button>
+            </form>
+        </div>
+    </div>
 
     <footer>
         <div class="container">

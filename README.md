@@ -1,96 +1,159 @@
-# EduPass - Learn today. Pass tomorrow
+# EduPass - Nền tảng học tập trực tuyến
 
-Website học tập trực tuyến với kho đề thi và tài liệu phong phú.
+**Learn today. Pass tomorrow.**
 
-## 📁 Cấu trúc thư mục
+## 📚 Giới thiệu
+
+EduPass là nền tảng học tập trực tuyến dành cho học sinh THPT, cung cấp kho tài liệu phong phú và hệ thống luyện thi hiệu quả.
+
+## ✨ Tính năng chính
+
+### 🏠 Trang chủ
+- Hero section với mascot cá heo EduPass
+- Giới thiệu về EduPass
+- Môn học nổi bật (12 môn)
+- Đánh giá từ học viên
+- Thông tin đội ngũ sáng lập
+- Form liên hệ
+
+### 📖 Kho tài liệu
+- Tìm kiếm và lọc tài liệu theo môn, lớp, giá
+- Xem trước và tải tài liệu
+- Thanh toán qua QR code
+
+### 📝 Luyện thi
+- Chọn môn học và làm đề thi
+- Hệ thống đếm giờ
+- Chấm điểm tự động
+- Xem đáp án chi tiết
+
+### ✨ Tạo đề thi tự luyện (MỚI!)
+- **Nhập thông tin đề thi**: Tên đề, lớp, môn học, chủ đề
+- **2 cách tạo đề**:
+  - Upload file (hỗ trợ nhiều định dạng):
+    - 📄 PDF (.pdf)
+    - 📝 Word (.doc, .docx)
+    - 🖼️ Ảnh (.jpg, .jpeg, .png, .gif, .bmp, .webp, .svg)
+    - 📃 Text (.txt, .rtf)
+    - Kích thước tối đa: 20MB
+    - Drag & drop hoặc click để chọn
+  - Tạo câu hỏi trắc nghiệm trực tiếp
+- **Cài đặt đề thi**:
+  - Số câu hỏi (5-100)
+  - Thời gian làm bài
+  - Mức độ: Cơ bản/Trung bình/Nâng cao/Tổng hợp
+  - Toggle xáo trộn câu hỏi
+  - Toggle xem đáp án sau khi nộp
+- **Hành động**:
+  - Xem trước đề
+  - Lưu đề vào tài khoản
+  - Bắt đầu làm bài ngay
+- **UI/UX**: Card layout hiện đại giống Azota, responsive mobile
+- **Hướng dẫn**: Có phần hướng dẫn chi tiết 5 bước và mẹo nhỏ
+
+### 👤 Tài khoản
+- Thông tin cá nhân (tên, email, ngày tham gia)
+- Thống kê học tập
+- Lịch sử làm bài
+- Tài liệu đã mua
+
+### 🔐 Đăng nhập / Đăng ký
+- Form đăng nhập với "Quên mật khẩu"
+- Form đăng ký với validation
+- Lưu phiên đăng nhập
+
+### 📖 Câu chuyện EduPass
+- Giới thiệu về sứ mệnh
+- Thông tin đội ngũ sáng lập
+- Tầm nhìn và giá trị cốt lõi
+
+## 🛠️ Công nghệ
+
+- HTML5
+- CSS3 (Gradient, Animation, Flexbox, Grid)
+- JavaScript (ES6+)
+- LocalStorage API
+- Responsive Design
+
+## 📁 Cấu trúc file
 
 ```
 EduPass/
 ├── assets/
-│   └── logo.png          ⭐ ĐẶT LOGO EDUPASS VÀO ĐÂY
-├── index.html
-├── dang-nhap.html
-├── dang-ky.html
-├── tai-lieu.html
-├── luyen-thi.html
-├── styles.css
-├── script.js
+│   ├── logo.png           # Logo EduPass
+│   └── logo2.png          # Mascot cá heo
+├── index.html             # Trang chủ
+├── tai-lieu.html          # Kho tài liệu
+├── luyen-thi.html         # Luyện thi
+├── tao-de-thi.html        # Tạo đề thi tự luyện ⭐ MỚI
+├── tai-khoan.html         # Tài khoản
+├── dang-nhap.html         # Đăng nhập
+├── dang-ky.html           # Đăng ký
+├── cau-chuyen.html        # Câu chuyện EduPass
+├── styles.css             # CSS chung
+├── tao-de-thi.css         # CSS trang tạo đề thi ⭐ MỚI
+├── script.js              # JavaScript chung
+├── tao-de-thi.js          # JavaScript trang tạo đề thi ⭐ MỚI
 └── README.md
 ```
 
-## 🎨 Hướng dẫn cài đặt Logo
+## 🎨 Thiết kế
 
-### ⚠️ QUAN TRỌNG: Đặt logo vào đúng vị trí
+- **Màu chủ đạo**: Gradient tím (#667eea → #764ba2)
+- **Font**: Segoe UI
+- **Bo góc**: 12px
+- **Shadow**: Nhẹ nhàng, hiện đại
+- **Animation**: Mượt mà, không quá phức tạp
 
-1. Lưu file logo EduPass (PNG nền trong suốt) vào thư mục `assets/`
-2. Đổi tên file thành `logo.png`
-3. Đường dẫn cuối cùng: `assets/logo.png`
+## 📱 Responsive
 
-### ✅ Logo đã được tích hợp vào:
+- **Desktop**: > 1024px
+- **Tablet**: 768px - 1024px
+- **Mobile**: < 768px
 
-#### 1. NAVBAR (Tất cả trang)
-- Vị trí: Góc trái menu
-- Kích thước: 45px chiều cao
-- Hover: Scale 1.05 với transition 0.3s
-- Click: Quay về trang chủ
-- Mobile: Giảm xuống 35px
+## 🚀 Hướng dẫn sử dụng
 
-#### 2. TRANG ĐĂNG NHẬP / ĐĂNG KÝ
-- Vị trí: Phía trên form, căn giữa
-- Kích thước: 80px
-- Có slogan: "Learn today. Pass tomorrow."
-- Animation: Fade-in khi mở trang
-- Mobile: Giảm xuống 70px, vẫn căn giữa
-
-#### 3. FOOTER (Tất cả trang)
-- Vị trí: Bên trái footer
-- Kích thước: 35px
-- Bên cạnh: Mô tả ngắn về EduPass
-- Layout: Flexbox responsive
-- Mobile: Logo nằm trên, text nằm dưới, căn giữa
-
-## 🎯 Tính năng Logo
-
-✅ Responsive trên mọi thiết bị
-✅ Không bị méo hoặc vỡ
-✅ Hiệu ứng hover mượt mà
-✅ Tối ưu hiển thị mọi màn hình
-✅ Favicon tự động từ logo
-✅ Transition mượt 0.3s
-
-## 🔧 Thông tin thanh toán cần cập nhật
-
-Trong file `script.js`, cập nhật thông tin sau:
-
-1. **Số Zalo**: Tìm `0987654321` và thay bằng số của bạn
-2. **Link Zalo**: Tìm `https://zalo.me/0987654321` và thay bằng link của bạn
-3. **Thông tin ngân hàng**:
-   - Ngân hàng: MB Bank (hoặc ngân hàng của bạn)
-   - Số tài khoản: 0123456789
-   - Chủ tài khoản: NGUYEN VAN A
-
-## 🚀 Chạy website
-
+### Chạy website
 Mở file `index.html` trong trình duyệt để xem website.
 
-## 📱 Responsive Design
+### Tạo đề thi tự luyện
+1. Truy cập trang "Tạo đề thi" từ menu
+2. Nhập thông tin đề thi
+3. Chọn cách tạo đề (upload hoặc tạo câu hỏi)
+4. Cài đặt đề thi
+5. Xem trước và bắt đầu làm bài
 
-- Desktop: Logo 45px (navbar), 80px (auth), 35px (footer)
-- Mobile: Logo 35px (navbar), 70px (auth), 30px (footer)
-- Tất cả logo đều responsive và không bị méo
+## 🔧 Cấu hình
 
-## 🎨 Màu sắc chính
+### Thông tin thanh toán (trong `script.js`)
+- Số Zalo: `0987654321`
+- Link Zalo: `https://zalo.me/0987654321`
+- Ngân hàng: MB Bank
+- Số tài khoản: 0123456789
+- Chủ tài khoản: NGUYEN VAN A
 
-- Navbar: Nền trắng, chữ #2c3e50
-- Primary: #3498db (xanh dương)
-- Footer: Nền #2c3e50 (xám đậm)
-- Hover: #3498db (xanh dương)
+### Thông tin liên hệ
+- Email: trcuong12112008@gmail.com
+- Phone: 0348908243
 
-## 📄 Các trang
+## 👥 Đội ngũ
 
-1. **Trang chủ** (index.html) - Giới thiệu và điều hướng
-2. **Kho tài liệu** (tai-lieu.html) - Tìm kiếm và mua tài liệu
-3. **Luyện thi** (luyen-thi.html) - Làm bài thi trực tuyến
-4. **Đăng ký** (dang-ky.html) - Tạo tài khoản mới
-5. **Đăng nhập** (dang-nhap.html) - Đăng nhập hệ thống
+- **Trần Nguyễn Chí Cường** - Founder & Operator
+  - Email: trcuong12112008@gmail.com
+- **Nguyễn Nhật Trường** - Co-Founder
 
+## 🎯 Tính năng mở rộng (trong tương lai)
+
+Các tính năng đã được comment trong code `tao-de-thi.js`:
+- Lưu đề vào tài khoản học sinh
+- Random câu hỏi
+- Chấm điểm tự động
+- Thống kê điểm
+- Xuất PDF đề
+- Import câu hỏi từ Excel
+- Tạo mã đề ngẫu nhiên
+- Chia sẻ đề thi
+
+## 📄 License
+
+© 2026 EduPass. All rights reserved.

@@ -1,82 +1,24 @@
 // Dữ liệu mẫu
-const materials = [
-    {
-        id: 1,
-        title: "Đề thi Toán học lớp 12",
-        description: "Bộ đề thi Toán học THPT Quốc gia",
-        subject: "toan",
-        grade: "12",
-        price: 0,
-        image: "https://via.placeholder.com/300x200?text=Toán+học"
-    },
-    {
-        id: 2,
-        title: "Tài liệu Vật lý nâng cao",
-        description: "Tổng hợp kiến thức Vật lý 11",
-        subject: "ly",
-        grade: "11",
-        price: 50000,
-        image: "https://via.placeholder.com/300x200?text=Vật+lý"
-    },
-    {
-        id: 3,
-        title: "Ngữ pháp Tiếng Anh cơ bản",
-        description: "Hệ thống ngữ pháp từ A-Z",
-        subject: "anh",
-        grade: "10",
-        price: 0,
-        image: "https://via.placeholder.com/300x200?text=Tiếng+Anh"
-    },
-    {
-        id: 4,
-        title: "Hóa học hữu cơ",
-        description: "Chuyên đề Hóa học hữu cơ lớp 12",
-        subject: "hoa",
-        grade: "12",
-        price: 75000,
-        image: "https://via.placeholder.com/300x200?text=Hóa+học"
-    }
-];
+const materials = [];
 
 const subjects = [
-    { id: "toan", name: "Toán học" },
-    { id: "ly", name: "Vật lý" },
-    { id: "hoa", name: "Hóa học" },
+    { id: "toan", name: "Toán" },
+    { id: "ly", name: "Vật Lý" },
+    { id: "hoa", name: "Hóa" },
+    { id: "van", name: "Ngữ Văn" },
+    { id: "su", name: "Lịch Sử" },
+    { id: "dia", name: "Địa Lí" },
+    { id: "sinh", name: "Sinh học" },
     { id: "anh", name: "Tiếng Anh" },
-    { id: "van", name: "Ngữ văn" },
-    { id: "sinh", name: "Sinh học" }
+    { id: "gdcd", name: "Giáo dục công dân" },
+    { id: "ktpl", name: "Kinh tế & Pháp luật" },
+    { id: "congnghe", name: "Công nghệ" },
+    { id: "tinhoc", name: "Tin học" }
 ];
 
-const exams = {
-    toan: [
-        { id: 1, title: "Đề thi thử THPT QG 2024 - Lần 1", questions: 40, time: 90 },
-        { id: 2, title: "Đề thi học kỳ I - Lớp 12", questions: 30, time: 60 }
-    ],
-    ly: [
-        { id: 3, title: "Đề thi thử THPT QG 2024 - Vật lý", questions: 40, time: 50 }
-    ],
-    hoa: [
-        { id: 4, title: "Đề thi học kỳ II - Hóa 11", questions: 30, time: 45 }
-    ]
-};
+const exams = {};
 
-const sampleQuestions = [
-    {
-        question: "Phương trình x² - 5x + 6 = 0 có nghiệm là:",
-        options: ["x = 2 hoặc x = 3", "x = 1 hoặc x = 6", "x = -2 hoặc x = -3", "Vô nghiệm"],
-        correct: 0
-    },
-    {
-        question: "Đạo hàm của hàm số y = x³ là:",
-        options: ["y' = x²", "y' = 3x²", "y' = 3x", "y' = x³"],
-        correct: 1
-    },
-    {
-        question: "Giá trị của sin(90°) là:",
-        options: ["0", "1", "-1", "0.5"],
-        correct: 1
-    }
-];
+const sampleQuestions = [];
 
 let currentSubject = null;
 let currentExam = null;
@@ -101,6 +43,12 @@ if (document.getElementById('materialsGrid')) {
 
 function displayMaterials(items, containerId) {
     const container = document.getElementById(containerId);
+    
+    if (items.length === 0) {
+        container.innerHTML = '<p class="empty-message">Chưa có tài liệu nào. Vui lòng quay lại sau!</p>';
+        return;
+    }
+    
     container.innerHTML = items.map(material => `
         <div class="material-card">
             <img src="${material.image}" alt="${material.title}">
@@ -175,25 +123,24 @@ function showPaymentModal(material) {
             
             <div class="payment-qr">
                 <h3>Quét mã QR để thanh toán</h3>
-                <img src="https://img.vietqr.io/image/MB-0123456789-compact2.png?amount=${material.price}&addInfo=EDUPASS${material.id}" 
-                     alt="QR Code" class="qr-code">
+                <img src="8e2cd9923b54b50aec45.jpg" 
+                     alt="QR Code Thanh Toán" class="qr-code">
                 <p class="bank-info">
-                    <strong>Ngân hàng:</strong> MB Bank<br>
-                    <strong>Số tài khoản:</strong> 0123456789<br>
-                    <strong>Chủ tài khoản:</strong> NGUYEN VAN A<br>
-                    <strong>Nội dung:</strong> EDUPASS${material.id}
+                    <strong>Quét mã QR bên trên để thanh toán</strong><br>
+                    <strong>Nội dung chuyển khoản:</strong> EDUPASS${material.id}
                 </p>
             </div>
             
             <div class="payment-instructions">
                 <h3>Hướng dẫn thanh toán:</h3>
                 <ol>
-                    <li>Quét mã QR hoặc chuyển khoản theo thông tin trên</li>
+                    <li>Quét mã QR bên trên để thanh toán</li>
+                    <li>Nhập nội dung chuyển khoản: <strong>EDUPASS${material.id}</strong></li>
                     <li>Chụp màn hình xác nhận chuyển tiền thành công</li>
-                    <li>Nhắn tin Zalo kèm ảnh chụp màn hình đến: <strong class="zalo-link">0987654321</strong></li>
+                    <li>Nhắn tin Zalo kèm ảnh chụp màn hình đến: <strong class="zalo-link">0348908243</strong></li>
                     <li>Nhận mã tải tài liệu từ admin (trong vòng 5-10 phút)</li>
                 </ol>
-                <a href="https://zalo.me/0987654321" target="_blank" class="btn-primary btn-zalo">
+                <a href="https://zalo.me/0348908243" target="_blank" class="btn-primary btn-zalo">
                     💬 Nhắn tin Zalo ngay
                 </a>
             </div>
@@ -268,6 +215,11 @@ function selectSubject(subjectId) {
     
     const subjectExams = exams[subjectId] || [];
     const container = document.querySelector('.exams-grid');
+    
+    if (subjectExams.length === 0) {
+        container.innerHTML = '<p class="empty-message">Chưa có đề thi nào cho môn học này. Vui lòng quay lại sau!</p>';
+        return;
+    }
     
     container.innerHTML = subjectExams.map(exam => `
         <div class="exam-card" onclick="startExam(${exam.id})">
@@ -447,7 +399,7 @@ function togglePasswordRegister(inputId, iconId) {
 // Account Page Functions
 if (window.location.pathname.includes('tai-khoan.html')) {
     // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('loggedIn') || sessionStorage.getItem('loggedIn');
+    const isLoggedIn = localStorage.getItem('loggedIn');
     if (!isLoggedIn) {
         window.location.href = 'dang-nhap.html';
     }
@@ -457,18 +409,46 @@ if (window.location.pathname.includes('tai-khoan.html')) {
 
 function loadAccountData() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
+    let accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
     
-    // Set default data if not exists
-    if (!accountData.balance) {
+    // Initialize accountData if it's empty
+    let needsSave = false;
+    
+    if (accountData.balance === undefined || accountData.balance === null) {
         accountData.balance = 0;
+        needsSave = true;
+    }
+    if (accountData.birthday === undefined || accountData.birthday === null) {
         accountData.birthday = '';
+        needsSave = true;
+    }
+    if (accountData.phone === undefined || accountData.phone === null) {
         accountData.phone = '';
+        needsSave = true;
+    }
+    if (accountData.joinDate === undefined || accountData.joinDate === null || accountData.joinDate === '') {
         accountData.joinDate = new Date().toLocaleDateString('vi-VN');
+        needsSave = true;
+    }
+    if (!accountData.purchasedMaterials) {
         accountData.purchasedMaterials = [];
+        needsSave = true;
+    }
+    if (!accountData.examHistory) {
         accountData.examHistory = [];
+        needsSave = true;
+    }
+    if (!accountData.rechargeHistory) {
         accountData.rechargeHistory = [];
+        needsSave = true;
+    }
+    if (!accountData.avatar) {
         accountData.avatar = 'assets/logo2.png';
+        needsSave = true;
+    }
+    
+    // Only save if we added new fields
+    if (needsSave) {
         localStorage.setItem('accountData', JSON.stringify(accountData));
     }
     
@@ -480,12 +460,12 @@ function loadAccountData() {
     document.getElementById('userEmail').textContent = user.email || '';
     document.getElementById('displayName').textContent = user.fullname || '-';
     document.getElementById('displayEmail').textContent = user.email || '-';
-    document.getElementById('displayBirthday').textContent = accountData.birthday || 'Chưa cập nhật';
-    document.getElementById('displayPhone').textContent = accountData.phone || 'Chưa cập nhật';
     document.getElementById('displayJoinDate').textContent = accountData.joinDate || '-';
     
     // Display balance
-    document.getElementById('accountBalance').textContent = accountData.balance.toLocaleString('vi-VN') + 'đ';
+    if (document.getElementById('accountBalance')) {
+        document.getElementById('accountBalance').textContent = accountData.balance.toLocaleString('vi-VN') + 'đ';
+    }
     
     // Display stats
     document.getElementById('totalExams').textContent = accountData.examHistory.length;
@@ -568,11 +548,8 @@ function displayRechargeHistory(history) {
 
 function editProfile() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
     
     document.getElementById('editName').value = user.fullname || '';
-    document.getElementById('editBirthday').value = accountData.birthday || '';
-    document.getElementById('editPhone').value = accountData.phone || '';
     
     document.getElementById('editModal').style.display = 'flex';
 }
@@ -585,17 +562,19 @@ document.getElementById('editForm')?.addEventListener('submit', function(e) {
     e.preventDefault();
     
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
     
+    // Update only fullname
     user.fullname = document.getElementById('editName').value;
-    accountData.birthday = document.getElementById('editBirthday').value;
-    accountData.phone = document.getElementById('editPhone').value;
     
+    // Save to localStorage
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('accountData', JSON.stringify(accountData));
     
+    // Close modal
     closeEditModal();
+    
+    // Reload data to display
     loadAccountData();
+    
     alert('✅ Cập nhật thông tin thành công!');
 });
 
@@ -635,7 +614,6 @@ function rechargeCustom() {
 
 function logout() {
     localStorage.removeItem('loggedIn');
-    sessionStorage.removeItem('loggedIn');
     window.location.href = 'index.html';
 }
 
@@ -686,11 +664,8 @@ if (document.getElementById('loginForm')) {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             
             if (user.email === email && user.password === password) {
-                if (remember) {
-                    localStorage.setItem('loggedIn', 'true');
-                } else {
-                    sessionStorage.setItem('loggedIn', 'true');
-                }
+                // Always save to localStorage for persistent login
+                localStorage.setItem('loggedIn', 'true');
                 alert('Đăng nhập thành công!');
                 window.location.href = 'tai-khoan.html';
             } else {
@@ -853,4 +828,147 @@ if (document.getElementById('contactForm')) {
         // Reset form
         this.reset();
     };
+}
+
+
+// Update navigation menu based on login status
+function updateNavMenu() {
+    const isLoggedIn = localStorage.getItem('loggedIn');
+    const navMenus = document.querySelectorAll('.nav-menu');
+    
+    navMenus.forEach(navMenu => {
+        if (isLoggedIn) {
+            // User is logged in - show Tài khoản and Đăng xuất
+            const loginLink = navMenu.querySelector('a[href="dang-nhap.html"]');
+            const registerLink = navMenu.querySelector('a[href="dang-ky.html"]');
+            
+            if (loginLink) {
+                loginLink.parentElement.style.display = 'none';
+            }
+            if (registerLink) {
+                registerLink.parentElement.style.display = 'none';
+            }
+            
+            // Check if Tài khoản link already exists
+            const accountLink = navMenu.querySelector('a[href="tai-khoan.html"]');
+            if (!accountLink) {
+                // Add Tài khoản and Đăng xuất links
+                const accountLi = document.createElement('li');
+                accountLi.innerHTML = '<a href="tai-khoan.html">Tài khoản</a>';
+                
+                const logoutLi = document.createElement('li');
+                logoutLi.innerHTML = '<a href="#" onclick="logout()" class="btn-primary">Đăng xuất</a>';
+                
+                navMenu.appendChild(accountLi);
+                navMenu.appendChild(logoutLi);
+            }
+        } else {
+            // User is not logged in - show Đăng nhập and Đăng ký
+            const loginLink = navMenu.querySelector('a[href="dang-nhap.html"]');
+            const registerLink = navMenu.querySelector('a[href="dang-ky.html"]');
+            
+            if (loginLink) {
+                loginLink.parentElement.style.display = 'list-item';
+            }
+            if (registerLink) {
+                registerLink.parentElement.style.display = 'list-item';
+            }
+            
+            // Remove Tài khoản and Đăng xuất if they exist
+            const accountLink = navMenu.querySelector('a[href="tai-khoan.html"]');
+            const logoutLink = navMenu.querySelector('a[onclick="logout()"]');
+            
+            if (accountLink) {
+                accountLink.parentElement.remove();
+            }
+            if (logoutLink) {
+                logoutLink.parentElement.remove();
+            }
+        }
+    });
+}
+
+// Call updateNavMenu on page load
+document.addEventListener('DOMContentLoaded', updateNavMenu);
+
+
+// Create Exam Modal Functions
+function showCreateExamModal() {
+    document.getElementById('createExamModal').style.display = 'flex';
+}
+
+function closeCreateExamModal() {
+    document.getElementById('createExamModal').style.display = 'none';
+}
+
+// Handle Create Exam Form
+if (document.getElementById('createExamForm')) {
+    document.getElementById('createExamForm').onsubmit = function(e) {
+        e.preventDefault();
+        
+        const subject = document.getElementById('examSubject').value;
+        const grade = document.getElementById('examGrade').value;
+        const title = document.getElementById('examTitle').value;
+        const questions = document.getElementById('examQuestions').value;
+        const time = document.getElementById('examTime').value;
+        
+        // Get subject name
+        const subjectName = subjects.find(s => s.id === subject)?.name || subject;
+        
+        // Create new exam object
+        const newExam = {
+            id: Date.now(),
+            title: title,
+            subject: subjectName,
+            grade: grade,
+            questions: parseInt(questions),
+            time: parseInt(time),
+            createdAt: new Date().toLocaleDateString('vi-VN')
+        };
+        
+        // Save to localStorage
+        let customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
+        customExams.push(newExam);
+        localStorage.setItem('customExams', JSON.stringify(customExams));
+        
+        // Add to exams object
+        if (!exams[subject]) {
+            exams[subject] = [];
+        }
+        exams[subject].push(newExam);
+        
+        // Close modal and show success
+        closeCreateExamModal();
+        
+        alert('✅ Tạo đề thi thành công!\n\nĐề thi: ' + title + '\nMôn: ' + subjectName + '\nSố câu: ' + questions + '\nThời gian: ' + time + ' phút');
+        
+        // Reset form
+        this.reset();
+        
+        // Reload page to show new exam
+        location.reload();
+    };
+}
+
+
+// Load custom exams on page load
+function loadCustomExams() {
+    const customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
+    customExams.forEach(exam => {
+        const subjectId = subjects.find(s => s.name === exam.subject)?.id;
+        if (subjectId) {
+            if (!exams[subjectId]) {
+                exams[subjectId] = [];
+            }
+            // Check if exam already exists
+            if (!exams[subjectId].find(e => e.id === exam.id)) {
+                exams[subjectId].push(exam);
+            }
+        }
+    });
+}
+
+// Call loadCustomExams when page loads
+if (window.location.pathname.includes('luyen-thi.html')) {
+    loadCustomExams();
 }
