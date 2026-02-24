@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho tài liệu - EduPass</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="EduPass Logo" class="logo-img">
+                <span class="logo-text">EduPass</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="tai-lieu.html">Kho tài liệu</a></li>
+                <li><a href="luyen-thi.html">Luyện thi</a></li>
+                <li><a href="dang-nhap.html">Đăng nhập</a></li>
+                <li><a href="dang-ky.html" class="btn-primary">Đăng ký</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Kho tài liệu</h1>
+            <p>Tìm kiếm và tải về tài liệu học tập chất lượng cao</p>
+        </div>
+    </section>
+
+    <section class="materials-section">
+        <div class="container">
+            <div class="filters">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm tài liệu...">
+                <select id="subjectFilter">
+                    <option value="">Tất cả môn học</option>
+                    <option value="toan">Toán học</option>
+                    <option value="ly">Vật lý</option>
+                    <option value="hoa">Hóa học</option>
+                    <option value="anh">Tiếng Anh</option>
+                    <option value="van">Ngữ văn</option>
+                    <option value="sinh">Sinh học</option>
+                </select>
+                <select id="gradeFilter">
+                    <option value="">Tất cả lớp</option>
+                    <option value="10">Lớp 10</option>
+                    <option value="11">Lớp 11</option>
+                    <option value="12">Lớp 12</option>
+                </select>
+                <select id="priceFilter">
+                    <option value="">Tất cả</option>
+                    <option value="free">Miễn phí</option>
+                    <option value="paid">Trả phí</option>
+                </select>
+            </div>
+
+            <div class="materials-grid" id="materialsGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <img src="assets/logo.png" alt="EduPass Logo" class="footer-logo">
+                    <div class="footer-description">
+                        <h4>EduPass</h4>
+                        <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <p>&copy; 2026 EduPass. All rights reserved.</p>
+                    <p class="footer-tagline">Learn today. Pass tomorrow.</p>
+                    <p><a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

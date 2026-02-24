@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký - EduPass</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="EduPass Logo" class="logo-img">
+                <span class="logo-text">EduPass</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="tai-lieu.html">Kho tài liệu</a></li>
+                <li><a href="luyen-thi.html">Luyện thi</a></li>
+                <li><a href="dang-nhap.html">Đăng nhập</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-box">
+                <div class="auth-mascot">
+                    <img src="assets/logo2.png" alt="EduPass Mascot" class="auth-mascot-img">
+                </div>
+                <div class="auth-logo-container">
+                    <img src="assets/logo.png" alt="EduPass Logo" class="auth-logo">
+                    <p class="auth-slogan">Learn today. Pass tomorrow.</p>
+                </div>
+                <h2>Đăng ký tài khoản</h2>
+                
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="fullname">Họ và tên</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Nguyễn Văn A" required>
+                        <span class="helper-text">Nhập họ tên đầy đủ của bạn</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+                        <span class="helper-text">Email sẽ dùng để đăng nhập</span>
+                        <span class="error-text" id="emailError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Tối thiểu 6 ký tự" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordRegister('password', 'eyeIcon1')">
+                                <span class="eye-icon" id="eyeIcon1">👁️</span>
+                            </button>
+                        </div>
+                        <span class="helper-text">Sử dụng mật khẩu mạnh để bảo mật tài khoản</span>
+                        <span class="error-text" id="passwordError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Xác nhận mật khẩu</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                            <button type="button" class="toggle-password" onclick="togglePasswordRegister('confirmPassword', 'eyeIcon2')">
+                                <span class="eye-icon" id="eyeIcon2">👁️</span>
+                            </button>
+                        </div>
+                        <span class="helper-text">Nhập lại mật khẩu để xác nhận</span>
+                        <span class="error-text" id="confirmPasswordError"></span>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full" id="registerBtn">
+                        <span class="btn-text">Đăng ký</span>
+                        <span class="btn-loader" style="display: none;">
+                            <span class="spinner"></span> Đang xử lý...
+                        </span>
+                    </button>
+                </form>
+                <p class="auth-link">Đã có tài khoản? <a href="dang-nhap.html">Đăng nhập ngay</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <img src="assets/logo.png" alt="EduPass Logo" class="footer-logo">
+                    <div class="footer-description">
+                        <h4>EduPass</h4>
+                        <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <p>&copy; 2026 EduPass. All rights reserved.</p>
+                    <p class="footer-tagline">Learn today. Pass tomorrow.</p>
+                    <p><a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
