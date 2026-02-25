@@ -195,19 +195,6 @@
         </div>
     </section>
 
-    <section class="latest-materials">
-        <div class="container">
-            <h2>Tài liệu mới nhất</h2>
-            <div class="material-grid" id="latestMaterials">
-                <!-- Empty State -->
-                <div class="empty-state">
-                    <img src="assets/logo3.png" alt="Chưa có tài liệu" class="empty-state-image">
-                    <p class="empty-state-text">Chưa có tài liệu nào. Vui lòng quay lại sau!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="testimonials">
         <div class="container">
             <h2>Đánh giá từ học viên</h2>
@@ -430,7 +417,7 @@
                         </div>
                         <div class="form-group">
                             <label for="contactPhone">Số điện thoại</label>
-                            <input type="tel" id="contactPhone" placeholder="0123456789" required>
+                            <input type="tel" id="contactPhone" placeholder="0123456789" pattern="[0-9]{10,11}" title="Vui lòng nhập số điện thoại hợp lệ (10-11 số)" required>
                         </div>
                         <div class="form-group">
                             <label for="contactSubject">Tiêu đề</label>
@@ -446,6 +433,7 @@
                         </button>
                     </form>
                 </div>
+                
                 <div class="contact-info">
                     <div class="info-card">
                         <div class="info-icon">📧</div>

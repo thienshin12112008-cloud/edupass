@@ -1,5 +1,20 @@
 // Dữ liệu mẫu
-const materials = [];
+const materials = [
+    {
+        id: 1,
+        title: "100 Đề Minh Họa Tốt Nghiệp THPT 2025 - Môn Ngữ Văn",
+        description: "Bộ 100 đề thi minh họa tốt nghiệp THPT 2025 môn Ngữ Văn. Bám sát cấu trúc đề thi mới nhất của Bộ GD&ĐT. Có đáp án và hướng dẫn giải chi tiết.",
+        subject: "van",
+        grade: "12",
+        price: 50000,
+        image: "50demh01.jpg",
+        downloadLink: "https://drive.google.com/file/d/1J4-0b2-WLqMP85Vdt3Vo8XzL7vhY4-R3/view?usp=sharing",
+        downloadCode: "EdupassVan50demh",
+        author: "Dung Vũ (Chủ biên) - Hà Thúy Linh - Cao Hằng",
+        publisher: "Moon.vn - Nhà xuất bản Dân trí",
+        year: 2025
+    }
+];
 
 const subjects = [
     { id: "toan", name: "Toán" },
@@ -25,11 +40,6 @@ let currentExam = null;
 let startTime = null;
 let timerInterval = null;
 
-// Trang chủ - Hiển thị tài liệu mới nhất
-if (document.getElementById('latestMaterials')) {
-    displayMaterials(materials.slice(0, 3), 'latestMaterials');
-}
-
 // Trang tài liệu
 if (document.getElementById('materialsGrid')) {
     displayMaterials(materials, 'materialsGrid');
@@ -49,8 +59,18 @@ function displayMaterials(items, containerId) {
         return;
     }
     
-    container.innerHTML = items.map(material => `
+    // Sắp xếp: tài liệu trả phí lên đầu, miễn phí xuống dưới
+    const sortedItems = [...items].sort((a, b) => {
+        if (a.price > 0 && b.price === 0) return -1; // a trả phí, b miễn phí -> a lên trước
+        if (a.price === 0 && b.price > 0) return 1;  // a miễn phí, b trả phí -> b lên trước
+        return 0; // giữ nguyên thứ tự nếu cùng loại
+    });
+    
+    container.innerHTML = sortedItems.map(material => `
         <div class="material-card">
+            <div class="material-badge ${material.price === 0 ? 'badge-free' : 'badge-paid'}">
+                ${material.price === 0 ? '🎁 Miễn phí' : '💎 Trả phí'}
+            </div>
             <img src="${material.image}" alt="${material.title}">
             <div class="material-card-content">
                 <h3>${material.title}</h3>
@@ -97,7 +117,50 @@ function getSubjectName(id) {
 }
 
 function previewMaterial(id) {
-    alert('Chức năng xem trước tài liệu #' + id);
+    const material = materials.find(m => m.id === id);
+    if (!material) {
+        alert('Không tìm thấy tài liệu!');
+        return;
+    }
+    
+    const modal = document.createElement('div');
+    modal.className = 'preview-modal';
+    modal.innerHTML = `
+        <div class="preview-modal-content">
+            <span class="close-modal" onclick="closePreviewModal()">&times;</span>
+            <h2>Xem trước tài liệu</h2>
+            <div class="preview-info">
+                <div class="preview-image">
+                    <img src="${material.image}" alt="${material.title}">
+                </div>
+                <div class="preview-details">
+                    <h3>${material.title}</h3>
+                    <p class="preview-description">${material.description}</p>
+                    <div class="preview-meta">
+                        <p><strong>📚 Môn học:</strong> ${getSubjectName(material.subject)}</p>
+                        <p><strong>🎓 Lớp:</strong> ${material.grade}</p>
+                        <p><strong>✍️ Tác giả:</strong> ${material.author}</p>
+                        <p><strong>📖 Nhà xuất bản:</strong> ${material.publisher}</p>
+                        <p><strong>📅 Năm:</strong> ${material.year}</p>
+                        <p class="preview-price"><strong>💰 Giá:</strong> ${material.price === 0 ? 'Miễn phí' : material.price.toLocaleString('vi-VN') + 'đ'}</p>
+                    </div>
+                    <button class="btn-primary" onclick="closePreviewModal(); downloadMaterial(${material.id})">
+                        ${material.price === 0 ? '📥 Tải về ngay' : '🛒 Mua ngay'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.style.display = 'flex';
+}
+
+function closePreviewModal() {
+    const modal = document.querySelector('.preview-modal');
+    if (modal) {
+        modal.remove();
+    }
 }
 
 function downloadMaterial(id) {
@@ -172,16 +235,69 @@ function verifyDownloadCode(materialId) {
         return;
     }
     
-    // Demo: Kiểm tra mã (trong thực tế sẽ gọi API)
-    if (code.length >= 6) {
-        alert('Mã hợp lệ! Đang tải tài liệu...');
+    // Find the material
+    const material = materials.find(m => m.id === materialId);
+    
+    if (!material) {
+        alert('Không tìm thấy tài liệu!');
+        return;
+    }
+    
+    // Verify the download code
+    if (code === material.downloadCode) {
+        // Check if user is logged in
+        const isLoggedIn = localStorage.getItem('loggedIn');
+        
+        if (!isLoggedIn) {
+            alert('⚠️ Bạn cần đăng nhập để lưu tài liệu vào tài khoản!\n\nTài liệu vẫn sẽ được tải về, nhưng không lưu vào lịch sử.');
+        } else {
+            // Save purchase to account data
+            let accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
+            
+            // Initialize purchasedMaterials if not exists
+            if (!accountData.purchasedMaterials) {
+                accountData.purchasedMaterials = [];
+            }
+            
+            // Check if already purchased
+            const alreadyPurchased = accountData.purchasedMaterials.some(
+                item => item.id === material.id
+            );
+            
+            if (!alreadyPurchased) {
+                // Add to purchased materials
+                accountData.purchasedMaterials.push({
+                    id: material.id,
+                    title: material.title,
+                    subject: getSubjectName(material.subject),
+                    price: material.price,
+                    date: new Date().toLocaleString('vi-VN'),
+                    downloadCode: code
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('accountData', JSON.stringify(accountData));
+                
+                console.log('✅ Đã lưu tài liệu vào tài khoản:', accountData.purchasedMaterials);
+            } else {
+                console.log('ℹ️ Tài liệu đã có trong tài khoản');
+            }
+        }
+        
+        alert('✅ Mã hợp lệ! Đang tải tài liệu...' + (isLoggedIn ? '\n\n📚 Tài liệu đã được lưu vào tài khoản của bạn!' : ''));
         closePaymentModal();
-        // Thực hiện tải tài liệu
+        
+        // Open the download link
         setTimeout(() => {
-            alert('Tải tài liệu thành công!');
-        }, 1000);
+            window.open(material.downloadLink, '_blank');
+            if (isLoggedIn) {
+                alert('✅ Tải tài liệu thành công!\n\n💡 Bạn có thể xem lại tài liệu trong trang Tài khoản.');
+            } else {
+                alert('✅ Tải tài liệu thành công!');
+            }
+        }, 500);
     } else {
-        alert('Mã không hợp lệ! Vui lòng kiểm tra lại hoặc liên hệ Zalo.');
+        alert('❌ Mã không hợp lệ! Vui lòng kiểm tra lại hoặc liên hệ Zalo: 0348908243');
     }
 }
 
@@ -436,6 +552,9 @@ function loadAccountData() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     let accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
     
+    console.log('🔍 Loading account data:', accountData);
+    console.log('📚 Purchased materials:', accountData.purchasedMaterials);
+    
     // Initialize accountData if it's empty
     let needsSave = false;
     
@@ -511,24 +630,37 @@ function loadAccountData() {
     displayRechargeHistory(accountData.rechargeHistory);
 }
 
-function displayPurchasedMaterials(materials) {
+function displayPurchasedMaterials(purchasedMaterials) {
     const container = document.getElementById('purchasedMaterials');
-    if (materials.length === 0) {
+    if (purchasedMaterials.length === 0) {
         container.innerHTML = '<p class="empty-message">Bạn chưa mua tài liệu nào</p>';
         return;
     }
     
-    container.innerHTML = materials.map(item => `
-        <div class="material-item">
-            <div class="item-header">
-                <span class="item-title">${item.title}</span>
-                <span class="item-price">${item.price.toLocaleString('vi-VN')}đ</span>
+    container.innerHTML = purchasedMaterials.map(item => {
+        // Find the full material data
+        const fullMaterial = materials.find(m => m.id === item.id);
+        const downloadLink = fullMaterial ? fullMaterial.downloadLink : '#';
+        
+        return `
+            <div class="material-item purchased-item">
+                <div class="item-header">
+                    <span class="item-title">📚 ${item.title}</span>
+                    <span class="item-price">${item.price.toLocaleString('vi-VN')}đ</span>
+                </div>
+                <div class="item-info">
+                    <span>📅 Ngày mua: ${item.date}</span>
+                    <span>📖 Môn: ${item.subject}</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn-download" onclick="window.open('${downloadLink}', '_blank')">
+                        📥 Tải lại tài liệu
+                    </button>
+                    <span class="download-code-display">🔑 Mã: ${item.downloadCode}</span>
+                </div>
             </div>
-            <div class="item-info">
-                Ngày mua: ${item.date} | Môn: ${item.subject}
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function displayExamHistory(exams) {
@@ -832,7 +964,23 @@ if (document.getElementById('resetPasswordForm')) {
 
 // Contact Form Handler
 if (document.getElementById('contactForm')) {
-    document.getElementById('contactForm').onsubmit = function(e) {
+    // Chặn nhập chữ vào ô số điện thoại
+    const phoneInput = document.getElementById('contactPhone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            // Chỉ giữ lại số
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        
+        phoneInput.addEventListener('keypress', function(e) {
+            // Chặn nhập ký tự không phải số
+            if (e.key && !/[0-9]/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+    }
+    
+    document.getElementById('contactForm').onsubmit = async function(e) {
         e.preventDefault();
         
         const name = document.getElementById('contactName').value;
@@ -841,17 +989,43 @@ if (document.getElementById('contactForm')) {
         const subject = document.getElementById('contactSubject').value;
         const message = document.getElementById('contactMessage').value;
         
-        // Create mailto link
-        const mailtoLink = `mailto:trcuong12112008@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Họ tên: ${name}\nEmail: ${email}\nSố điện thoại: ${phone}\n\nNội dung:\n${message}`)}`;
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '⏳ Đang gửi...';
         
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // Show success message
-        alert('✅ Đang mở ứng dụng email của bạn để gửi câu hỏi!');
-        
-        // Reset form
-        this.reset();
+        try {
+            // Google Apps Script URL
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHj1rFzNw943bqvmmTmAg0D4Am4nq2gGO2Ysd3A2gwc9HWhVJCVixq96jHb9MpefCH/exec';
+            
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    subject: subject,
+                    message: message
+                })
+            });
+            
+            // Show success message
+            alert('✅ Cảm ơn bạn đã gửi câu hỏi!\n\nChúng tôi sẽ phản hồi trong vòng 24 giờ.');
+            
+            // Reset form
+            this.reset();
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ trực tiếp qua:\n📧 trcuong12112008@gmail.com\n📱 0348 908 243');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
     };
 }
 

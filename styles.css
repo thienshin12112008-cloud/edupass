@@ -566,62 +566,128 @@ body {
 
 .material-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2rem;
 }
 
 .material-card {
     background: white;
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid #f0f0f0;
+}
+
+.material-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    backdrop-filter: blur(10px);
+}
+
+.badge-paid {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.badge-free {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
 }
 
 .material-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
 }
 
 .material-card img {
     width: 100%;
-    height: 200px;
+    height: 240px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.material-card:hover img {
+    transform: scale(1.05);
 }
 
 .material-card-content {
-    padding: 1.5rem;
+    padding: 1.8rem;
 }
 
 .material-card h3 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.15rem;
+    line-height: 1.4;
+    color: #2c3e50;
+    min-height: 2.8rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.material-card p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .material-meta {
     display: flex;
     gap: 1rem;
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
     color: #666;
+    flex-wrap: wrap;
+}
+
+.material-meta span {
+    background: #f8f9fa;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 500;
 }
 
 .material-price {
-    font-size: 1.2rem;
-    color: #27ae60;
-    font-weight: bold;
-    margin: 1rem 0;
+    font-size: 1.4rem;
+    color: #e74c3c;
+    font-weight: 700;
+    margin: 1.2rem 0;
+    text-align: center;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+    border-radius: 10px;
 }
 
 .material-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.8rem;
 }
 
 .material-actions button {
     flex: 1;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
 }
 
 /* Page Header */
@@ -1523,6 +1589,8 @@ footer {
 .payment-qr h3 {
     margin-bottom: 1rem;
     color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .qr-code {
@@ -4311,4 +4379,180 @@ footer {
 
 .footer-links a {
     display: block;
+}
+
+/* Preview Modal */
+.preview-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.preview-modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideDown 0.3s ease;
+}
+
+.preview-modal-content h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.preview-info {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.preview-image {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.preview-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.preview-details h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.preview-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.preview-meta {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.preview-meta p {
+    margin-bottom: 0.8rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.preview-meta strong {
+    color: #2c3e50;
+}
+
+.preview-price {
+    font-size: 1.2rem;
+    color: #e74c3c;
+    font-weight: bold;
+    padding-top: 0.5rem;
+    border-top: 2px solid #ddd;
+    margin-top: 0.5rem;
+}
+
+.preview-details .btn-primary {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Responsive for Preview Modal */
+@media (max-width: 768px) {
+    .preview-info {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .preview-modal-content {
+        padding: 1.5rem;
+    }
+}
+
+/* Purchased Materials Styles */
+.purchased-item {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.purchased-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.item-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.btn-download {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.download-code-display {
+    background: #fff3cd;
+    color: #856404;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid #ffc107;
+}
+
+.item-info {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.item-info span {
+    color: #6c757d;
+    font-size: 0.9rem;
 }

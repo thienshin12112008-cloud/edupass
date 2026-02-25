@@ -1113,3 +1113,118 @@
         flex-direction: column;
     }
 }
+
+/* Saved Exams Section */
+.saved-exams-section {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+}
+
+.saved-exams-section .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.saved-exams-section .section-header h2 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.saved-exams-section .section-header p {
+    color: #6c757d;
+}
+
+.saved-exams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.saved-exam-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-left: 4px solid #667eea;
+}
+
+.saved-exam-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.saved-exam-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+
+.saved-exam-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.saved-exam-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.saved-exam-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.saved-exam-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-start-saved {
+    flex: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-start-saved:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-delete-saved {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-delete-saved:hover {
+    background: #c0392b;
+}
+
+.saved-exam-date {
+    font-size: 0.85rem;
+    color: #95a5a6;
+    margin-top: 0.5rem;
+}

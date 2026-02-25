@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Làm bài thi - EduPass</title>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tao-de-thi.css">
+    <style>
+        .exam-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .exam-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .exam-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+        }
+        
+        .exam-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .exam-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .timer {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 100;
+        }
+        
+        .timer-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 0.5rem;
+        }
+        
+        .timer.warning {
+            animation: pulse 1s infinite;
+        }
+        
+        .timer.warning .timer-display {
+            color: #e74c3c;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .question-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .question-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+        
+        .answer-option {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .answer-option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .answer-option input[type="radio"] {
+            margin-right: 1rem;
+        }
+        
+        .answer-option.selected {
+            background: #e8f4f8;
+            border-color: #667eea;
+        }
+        
+        .submit-section {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .result-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .result-score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #667eea;
+            margin: 1rem 0;
+        }
+        
+        .result-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="EduPass Logo" class="logo-img">
+                <span class="logo-text">EduPass</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="exam-container">
+        <div class="exam-header">
+            <h1 id="examTitle">Đề thi</h1>
+            <div class="exam-info">
+                <div class="exam-info-item">
+                    <span>📚</span>
+                    <span id="examSubject">Môn học</span>
+                </div>
+                <div class="exam-info-item">
+                    <span>🎓</span>
+                    <span id="examGrade">Lớp</span>
+                </div>
+                <div class="exam-info-item">
+                    <span>📝</span>
+                    <span id="examQuestionCount">0 câu</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timer" id="timer">
+            <div>⏱️ Thời gian còn lại</div>
+            <div class="timer-display" id="timerDisplay">00:00</div>
+        </div>
+
+        <form id="examForm">
+            <div id="questionsContainer"></div>
+            
+            <div class="submit-section">
+                <button type="submit" class="btn-submit">
+                    ✅ Nộp bài
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <h2>🎉 Hoàn thành bài thi!</h2>
+            <div class="result-score" id="resultScore">0</div>
+            <div class="result-details">
+                <p><strong>Số câu đúng:</strong> <span id="correctCount">0</span>/<span id="totalCount">0</span></p>
+                <p><strong>Thời gian làm bài:</strong> <span id="timeSpent">0 phút</span></p>
+            </div>
+            <div class="result-actions">
+                <button class="btn-primary" onclick="window.location.href='tao-de-thi.html'">
+                    🔄 Tạo đề mới
+                </button>
+                <button class="btn-secondary" onclick="window.location.href='index.html'">
+                    🏠 Về trang chủ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let startTime = Date.now();
+        let timerInterval;
+        let examData;
+
+        // Load exam data
+        window.onload = function() {
+            const examDataStr = sessionStorage.getItem('currentExam');
+            
+            if (!examDataStr) {
+                alert('❌ Không tìm thấy dữ liệu đề thi!\n\nVui lòng tạo đề thi trước.');
+                window.location.href = 'tao-de-thi.html';
+                return;
+            }
+            
+            examData = JSON.parse(examDataStr);
+            loadExam();
+            startTimer();
+        };
+
+        function loadExam() {
+            // Set header info
+            document.getElementById('examTitle').textContent = examData.name;
+            document.getElementById('examSubject').textContent = examData.subjectName;
+            document.getElementById('examGrade').textContent = 'Lớp ' + examData.grade;
+            document.getElementById('examQuestionCount').textContent = examData.questions.length + ' câu';
+            
+            // Shuffle questions if enabled
+            let questions = examData.questions;
+            if (examData.shuffle) {
+                questions = shuffleArray([...questions]);
+            }
+            
+            // Render questions
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = questions.map((q, index) => `
+                <div class="question-card">
+                    <div class="question-number">Câu ${index + 1}</div>
+                    <div class="question-content">${q.content}</div>
+                    <div class="answers">
+                        ${Object.entries(q.answers).map(([key, value]) => `
+                            <label class="answer-option">
+                                <input type="radio" name="question${index}" value="${key}">
+                                <strong>${key}.</strong> ${value}
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add click handlers for answer options
+            document.querySelectorAll('.answer-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    
+                    // Remove selected class from siblings
+                    this.parentElement.querySelectorAll('.answer-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to this option
+                    this.classList.add('selected');
+                });
+            });
+        }
+
+        function startTimer() {
+            const duration = examData.duration * 60; // Convert to seconds
+            let remaining = duration;
+            
+            updateTimerDisplay(remaining);
+            
+            timerInterval = setInterval(() => {
+                remaining--;
+                updateTimerDisplay(remaining);
+                
+                // Warning when 5 minutes left
+                if (remaining === 300) {
+                    document.getElementById('timer').classList.add('warning');
+                    alert('⚠️ Còn 5 phút nữa hết giờ!');
+                }
+                
+                // Time's up
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ Hết giờ làm bài!');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Handle form submission
+        document.getElementById('examForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (confirm('Bạn có chắc muốn nộp bài không?')) {
+                submitExam();
+            }
+        });
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            
+            let correctCount = 0;
+            const questions = examData.shuffle ? shuffleArray([...examData.questions]) : examData.questions;
+            
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selected && selected.value === q.correct) {
+                    correctCount++;
+                }
+            });
+            
+            const totalQuestions = questions.length;
+            const score = ((correctCount / totalQuestions) * 10).toFixed(2);
+            const timeSpent = Math.floor((Date.now() - startTime) / 1000 / 60);
+            
+            // Show result
+            document.getElementById('resultScore').textContent = score + ' điểm';
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('totalCount').textContent = totalQuestions;
+            document.getElementById('timeSpent').textContent = timeSpent + ' phút';
+            document.getElementById('resultModal').style.display = 'flex';
+            
+            // Save to account if logged in
+            const isLoggedIn = localStorage.getItem('loggedIn');
+            if (isLoggedIn) {
+                let accountData = JSON.parse(localStorage.getItem('accountData') || '{}');
+                if (!accountData.examHistory) {
+                    accountData.examHistory = [];
+                }
+                
+                accountData.examHistory.push({
+                    title: examData.name,
+                    score: parseFloat(score),
+                    date: new Date().toLocaleString('vi-VN'),
+                    time: timeSpent
+                });
+                
+                localStorage.setItem('accountData', JSON.stringify(accountData));
+            }
+        }
+    </script>
+</body>
+</html>

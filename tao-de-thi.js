@@ -265,10 +265,13 @@ function saveExam() {
     savedExams.push(examData);
     localStorage.setItem('myExams', JSON.stringify(savedExams));
     
-    alert('✅ Đã lưu đề thi thành công!\n\nBạn có thể xem lại đề thi trong mục "Đề thi của tôi".');
+    alert('✅ Đã lưu đề thi thành công!\n\nBạn có thể xem đề trong danh sách "Đề thi đã lưu" bên dưới.');
     
-    // TODO: Redirect to my exams page
-    // window.location.href = 'de-thi-cua-toi.html';
+    // Reload saved exams list
+    loadSavedExams();
+    
+    // Scroll to saved exams section
+    document.getElementById('savedExamsSection').scrollIntoView({ behavior: 'smooth' });
 }
 
 function startExam() {
@@ -281,13 +284,8 @@ function startExam() {
     // Save exam data to sessionStorage for the exam page
     sessionStorage.setItem('currentExam', JSON.stringify(examData));
     
-    alert('✅ Chuẩn bị bắt đầu làm bài!\n\nBạn sẽ được chuyển đến trang làm bài...');
-    
-    // TODO: Redirect to exam taking page
-    // window.location.href = 'lam-bai-thi.html';
-    
-    // For now, just show a message
-    console.log('Exam data:', examData);
+    // Redirect to exam taking page
+    window.location.href = 'lam-bai-thi.html';
 }
 
 // ===== HELPER FUNCTIONS =====
@@ -631,3 +629,76 @@ function shareExam(examId) {
     }
 }
 */
+
+
+// ===== LOAD SAVED EXAMS =====
+function loadSavedExams() {
+    const savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
+    const section = document.getElementById('savedExamsSection');
+    const grid = document.getElementById('savedExamsGrid');
+    
+    if (savedExams.length === 0) {
+        section.style.display = 'none';
+        return;
+    }
+    
+    section.style.display = 'block';
+    
+    grid.innerHTML = savedExams.map((exam, index) => `
+        <div class="saved-exam-card">
+            <div class="saved-exam-header">
+                <div>
+                    <div class="saved-exam-title">${exam.name}</div>
+                    <div class="saved-exam-date">📅 ${exam.createdAt}</div>
+                </div>
+            </div>
+            <div class="saved-exam-meta">
+                <span>📚 ${exam.subjectName}</span>
+                <span>🎓 Lớp ${exam.grade}</span>
+                <span>📝 ${exam.questions.length} câu</span>
+                <span>⏱️ ${exam.duration} phút</span>
+            </div>
+            ${exam.topic ? `<div style="color: #6c757d; font-size: 0.9rem; margin: 0.5rem 0;">🎯 ${exam.topic}</div>` : ''}
+            <div class="saved-exam-actions">
+                <button class="btn-start-saved" onclick="startSavedExam(${index})">
+                    ▶️ Làm bài
+                </button>
+                <button class="btn-delete-saved" onclick="deleteSavedExam(${index})">
+                    🗑️
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function startSavedExam(index) {
+    const savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
+    const exam = savedExams[index];
+    
+    if (!exam) {
+        alert('❌ Không tìm thấy đề thi!');
+        return;
+    }
+    
+    // Save to sessionStorage and redirect
+    sessionStorage.setItem('currentExam', JSON.stringify(exam));
+    window.location.href = 'lam-bai-thi.html';
+}
+
+function deleteSavedExam(index) {
+    if (!confirm('Bạn có chắc muốn xóa đề thi này?')) {
+        return;
+    }
+    
+    let savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
+    savedExams.splice(index, 1);
+    localStorage.setItem('myExams', JSON.stringify(savedExams));
+    
+    alert('✅ Đã xóa đề thi!');
+    loadSavedExams();
+}
+
+// Load saved exams on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadSavedExams();
+});
