@@ -1,16 +1,17 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hành trình hình thành EduPass - Learn today. Pass tomorrow</title>
-    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="edupass-ai.css">
     <style>
         .journey-hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 100px 20px 80px;
+            padding: 120px 20px 100px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -29,15 +30,16 @@
         }
 
         .journey-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
             position: relative;
             z-index: 1;
             animation: fadeInDown 1s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .journey-hero p {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             opacity: 0.95;
             max-width: 700px;
             margin: 0 auto;
@@ -47,21 +49,47 @@
         }
 
         .journey-content {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 80px auto;
             padding: 0 20px;
+            position: relative;
+        }
+
+        /* Timeline line */
+        .journey-content::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+            z-index: 0;
         }
 
         .journey-phase {
             background: white;
             border-radius: 20px;
             padding: 40px;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border-left: 6px solid #667eea;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             opacity: 0;
             animation: fadeInUp 0.8s ease forwards;
+            position: relative;
+            z-index: 1;
+        }
+
+        .journey-phase:nth-child(odd) {
+            margin-right: 52%;
+        }
+
+        .journey-phase:nth-child(even) {
+            margin-left: 52%;
+            border-left: none;
+            border-right: 6px solid #764ba2;
         }
 
         .journey-phase:nth-child(1) { animation-delay: 0.2s; }
@@ -72,64 +100,100 @@
         .journey-phase:nth-child(6) { animation-delay: 1.2s; }
 
         .journey-phase:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
         }
 
         .phase-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 20px;
             display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .phase-title {
-            color: #667eea;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.9rem;
+            margin-bottom: 20px;
             font-weight: 700;
         }
 
         .phase-content {
             color: #555;
-            line-height: 1.9;
-            font-size: 1.1rem;
+            line-height: 2;
+            font-size: 1.15rem;
         }
 
         .message-section {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 80px 20px;
-            margin-top: 60px;
+            padding: 100px 20px;
+            margin-top: 80px;
         }
 
         .message-box {
             max-width: 900px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            padding: 50px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-            border-top: 6px solid #667eea;
+            border-radius: 25px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            border-top: 8px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .message-icon {
-            font-size: 4rem;
+            font-size: 5rem;
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
         }
 
         .message-title {
-            color: #667eea;
-            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.3rem;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             font-weight: 700;
+            position: relative;
+            z-index: 1;
         }
 
         .message-text {
             color: #555;
-            line-height: 2;
-            font-size: 1.15rem;
+            line-height: 2.2;
+            font-size: 1.2rem;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes fadeInDown {
@@ -155,8 +219,20 @@
         }
 
         @media (max-width: 768px) {
+            .journey-content::before {
+                left: 20px;
+            }
+
+            .journey-phase:nth-child(odd),
+            .journey-phase:nth-child(even) {
+                margin-left: 0;
+                margin-right: 0;
+                border-left: 6px solid #667eea;
+                border-right: none;
+            }
+
             .journey-hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .journey-hero p {
@@ -176,15 +252,15 @@
             }
 
             .message-box {
-                padding: 35px 25px;
+                padding: 40px 25px;
             }
 
             .message-title {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
 
             .message-text {
-                font-size: 1rem;
+                font-size: 1.05rem;
             }
         }
     </style>
@@ -193,7 +269,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">
-                <img src="assets/logo.png" alt="EduPass Logo" class="logo-img">
+                <img src="logo.png" alt="EduPass Logo" class="logo-img">
                 <span class="logo-text">EduPass</span>
             </a>
             <ul class="nav-menu">
@@ -284,7 +360,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-left">
-                    <img src="assets/logo.png" alt="EduPass Logo" class="footer-logo">
+                    <img src="logo.png" alt="EduPass Logo" class="footer-logo">
                     <div class="footer-description">
                         <h4>EduPass</h4>
                         <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
