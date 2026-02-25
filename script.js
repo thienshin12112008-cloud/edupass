@@ -201,11 +201,36 @@ function displaySubjects() {
     const container = document.querySelector('.subjects-grid');
     if (!container) return;
     
-    container.innerHTML = subjects.map(subject => `
-        <div class="subject-card" onclick="selectSubject('${subject.id}')">
-            ${subject.name}
-        </div>
-    `).join('');
+    // Icon và màu cho từng môn học
+    const subjectData = {
+        'toan': { icon: '🔢', color: '#667eea', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+        'ly': { icon: '⚛️', color: '#f093fb', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' },
+        'hoa': { icon: '🧪', color: '#4facfe', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
+        'van': { icon: '📖', color: '#43e97b', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' },
+        'su': { icon: '🏛️', color: '#fa709a', gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
+        'dia': { icon: '🌍', color: '#30cfd0', gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)' },
+        'sinh': { icon: '🧬', color: '#a8edea', gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' },
+        'anh': { icon: '🇬🇧', color: '#ff6b6b', gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)' },
+        'gdcd': { icon: '⚖️', color: '#fbc2eb', gradient: 'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)' },
+        'ktpl': { icon: '💼', color: '#fdcbf1', gradient: 'linear-gradient(135deg, #fdcbf1 0%, #e6dee9 100%)' },
+        'congnghe': { icon: '⚙️', color: '#a1c4fd', gradient: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)' },
+        'tinhoc': { icon: '💻', color: '#ffecd2', gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)' }
+    };
+    
+    container.innerHTML = subjects.map(subject => {
+        const data = subjectData[subject.id] || { icon: '📚', color: '#667eea', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' };
+        return `
+            <div class="subject-card-pro" onclick="selectSubject('${subject.id}')" style="--card-gradient: ${data.gradient}">
+                <div class="card-background"></div>
+                <div class="card-content">
+                    <div class="subject-icon-pro">${data.icon}</div>
+                    <div class="subject-name-pro">${subject.name}</div>
+                    <div class="card-shine"></div>
+                </div>
+                <div class="card-hover-effect"></div>
+            </div>
+        `;
+    }).join('');
 }
 
 function selectSubject(subjectId) {

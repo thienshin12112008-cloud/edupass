@@ -6,6 +6,7 @@
     <title>EduPass - Learn today. Pass tomorrow</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="edupass-ai.css">
 </head>
 <body>
     <nav class="navbar">
@@ -50,6 +51,66 @@
                 </div>
                 <div class="hero-mascot">
                     <img src="assets/logo2.png" alt="EduPass Mascot" class="mascot-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ecosystem-section">
+        <div class="container">
+            <div class="ecosystem-header">
+                <h2>HỆ SINH THÁI EDUPASS</h2>
+                <p class="ecosystem-subtitle">Giải pháp học tập toàn diện</p>
+            </div>
+            <div class="ecosystem-content">
+                <div class="ecosystem-text">
+                    <p class="ecosystem-description">
+                        Từ luyện thi THPT Quốc gia, ôn tập học kỳ đến phát triển tư duy và kỹ năng học tập hiện đại, 
+                        EduPass xây dựng một hệ sinh thái công cụ học tập ứng dụng AI nhằm hỗ trợ bạn tối ưu hóa 
+                        quá trình ôn luyện và nâng cao hiệu quả tiếp thu kiến thức.
+                    </p>
+                    <p class="ecosystem-highlight">
+                        Chúng tôi không chỉ cung cấp tài liệu và đề thi, mà còn mang đến giải pháp học tập có chiến lược, 
+                        giúp bạn tự tin chinh phục các kỳ thi quan trọng và từng bước tiến gần hơn tới cánh cửa đại học.
+                    </p>
+                    <div class="ecosystem-features">
+                        <div class="eco-feature">
+                            <div class="eco-icon">🎯</div>
+                            <div class="eco-text">
+                                <h4>Học có chiến lược</h4>
+                                <p>Lộ trình cá nhân hóa theo năng lực</p>
+                            </div>
+                        </div>
+                        <div class="eco-feature">
+                            <div class="eco-icon">🤖</div>
+                            <div class="eco-text">
+                                <h4>Ứng dụng AI</h4>
+                                <p>Trợ lý AI hỗ trợ 24/7</p>
+                            </div>
+                        </div>
+                        <div class="eco-feature">
+                            <div class="eco-icon">📊</div>
+                            <div class="eco-text">
+                                <h4>Theo dõi tiến độ</h4>
+                                <p>Phân tích chi tiết điểm mạnh/yếu</p>
+                            </div>
+                        </div>
+                        <div class="eco-feature">
+                            <div class="eco-icon">🎓</div>
+                            <div class="eco-text">
+                                <h4>Chuẩn đại học</h4>
+                                <p>Đề thi chuẩn THPT Quốc gia</p>
+                            </div>
+                        </div>
+                        <div class="eco-feature eco-feature-coming-soon">
+                            <div class="eco-icon">🏫</div>
+                            <div class="eco-text">
+                                <h4>Phòng luyện thi ảo</h4>
+                                <p>Mô phỏng môi trường thi thật</p>
+                                <span class="coming-soon-badge">Sắp ra mắt</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,7 +198,13 @@
     <section class="latest-materials">
         <div class="container">
             <h2>Tài liệu mới nhất</h2>
-            <div class="material-grid" id="latestMaterials"></div>
+            <div class="material-grid" id="latestMaterials">
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <img src="assets/logo3.png" alt="Chưa có tài liệu" class="empty-state-image">
+                    <p class="empty-state-text">Chưa có tài liệu nào. Vui lòng quay lại sau!</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -194,7 +261,7 @@
             <div class="about-content">
                 <div class="about-image">
                     <div class="image-wrapper">
-                        <img src="assets/logo2.png" alt="EduPass Mascot">
+                        <img src="assets/logo 3.png" alt="EduPass Mascot">
                     </div>
                 </div>
                 <div class="about-text">
@@ -218,32 +285,125 @@
 
     <section class="team-section">
         <div class="container">
-            <h2>Đội ngũ sáng lập</h2>
-            <div class="founder-grid">
-                <div class="founder-card">
+            <h2>🌟 ĐỘI NGŨ SÁNG LẬP EDUPASS</h2>
+            
+            <div class="founder-main">
+                <div class="founder-card-main">
                     <div class="founder-info">
                         <h3>Trần Nguyễn Chí Cường</h3>
                         <p class="founder-title">Founder & Operator – EduPass</p>
-                        <p class="founder-bio">🎓 Học sinh THPT đam mê công nghệ giáo dục, định hướng xây dựng nền tảng học tập trực tuyến giúp học sinh học thông minh hơn và ôn thi hiệu quả hơn.</p>
-                        <p class="founder-role">✨ Vai trò: Phát triển & vận hành website, xây dựng tài liệu và định hướng trải nghiệm học tập.</p>
-                        <p class="founder-contact">📩 Email: <a href="mailto:trcuong12112008@gmail.com">trcuong12112008@gmail.com</a></p>
-                    </div>
-                </div>
-
-                <div class="founder-card">
-                    <div class="founder-info">
-                        <h3>Nguyễn Nhật Trường</h3>
-                        <p class="founder-title">Co-Founder – EduPass</p>
-                        <p class="founder-bio">🎓 Đồng sáng lập EduPass với mong muốn hỗ trợ học sinh tiếp cận tài liệu học tập chất lượng và tạo môi trường ôn luyện thi tích cực, dễ tiếp cận.</p>
-                        <p class="founder-role">✨ Vai trò: Hỗ trợ phát triển nội dung, đóng góp ý tưởng xây dựng nền tảng và cải thiện trải nghiệm học sinh.</p>
+                        <p class="founder-bio">
+                            🎓 Ngay từ khi còn là học sinh THPT, Trần Nguyễn Chí Cường đã nuôi dưỡng niềm tin rằng việc học không nên dừng lại ở ghi nhớ kiến thức, mà cần trở thành một hành trình khám phá, thấu hiểu và phát triển bản thân. Từ suy nghĩ đó, EduPass được hình thành như một dự án nhỏ nhưng mang theo khát vọng lớn: kiến tạo một không gian học tập trực tuyến nơi học sinh có thể học thông minh hơn, ôn luyện hiệu quả hơn và chủ động hơn trên con đường chinh phục tri thức.
+                        </p>
+                        <p class="founder-bio">
+                            Không chỉ là người khởi xướng, Chí Cường còn trực tiếp xây dựng và vận hành nền tảng với tinh thần thử nghiệm không ngừng — từ phát triển website, biên soạn tài liệu đến tối ưu trải nghiệm người học. Mỗi bước tiến của EduPass đều phản ánh sự kiên trì, sáng tạo và mong muốn tạo ra giá trị thực cho cộng đồng học sinh.
+                        </p>
+                        <p class="founder-role">
+                            <strong>✨ Vai trò chính:</strong><br>
+                            • Phát triển và vận hành toàn bộ hệ thống nền tảng EduPass<br>
+                            • Xây dựng kho tài liệu và ngân hàng đề luyện thi bám sát chương trình THPT<br>
+                            • Định hướng trải nghiệm học tập và chiến lược phát triển bền vững<br>
+                            • Đồng hành hỗ trợ học sinh trong quá trình ôn tập, rèn luyện kỹ năng và nâng cao hiệu quả học tập
+                        </p>
+                        <p class="founder-contact">📩 Email liên hệ: <a href="mailto:trcuong12112008@gmail.com">trcuong12112008@gmail.com</a></p>
                     </div>
                 </div>
             </div>
 
+            <div class="team-members">
+                <h3>🤝 Thành viên đồng sáng lập & cộng sự</h3>
+                <p class="team-intro">
+                    Bên cạnh Founder, EduPass được phát triển nhờ sự đồng hành của những người bạn cùng chung đam mê giáo dục, sáng tạo và mong muốn tạo ra môi trường học tập tích cực cho học sinh. Mỗi thành viên đều đóng góp theo thế mạnh riêng, góp phần hoàn thiện hệ sinh thái EduPass từng ngày.
+                </p>
+                <div class="members-grid">
+                    <div class="member-item-detailed">
+                        <h4>Phạm Như Anh</h4>
+                        <p class="member-role">Content & Learning Material Support</p>
+                        <p class="member-bio">🎓 Đồng hành trong quá trình xây dựng nội dung học tập, Phạm Như Anh tập trung hỗ trợ biên soạn và phát triển học liệu nhằm đảm bảo tài liệu của EduPass luôn rõ ràng, dễ hiểu và phù hợp với nhu cầu ôn luyện của học sinh.</p>
+                        <p class="member-contribution">
+                            <strong>✨ Đóng góp chính:</strong><br>
+                            • Hỗ trợ xây dựng và chỉnh sửa nội dung học liệu<br>
+                            • Đề xuất cải tiến tài liệu giúp tăng tính dễ hiểu và thực tiễn<br>
+                            • Đồng hành trong quá trình hoàn thiện kho tài liệu học tập
+                        </p>
+                    </div>
+                    
+                    <div class="member-item-detailed">
+                        <h4>Lê Hoàng Gia Huy</h4>
+                        <p class="member-role">Idea Development & Operation Support</p>
+                        <p class="member-bio">🎓 Là người thường xuyên đóng góp ý tưởng sáng tạo, Gia Huy hỗ trợ EduPass trong việc định hướng phát triển tính năng và vận hành dự án một cách linh hoạt.</p>
+                        <p class="member-contribution">
+                            <strong>✨ Đóng góp chính:</strong><br>
+                            • Phát triển và đề xuất ý tưởng cải tiến nền tảng<br>
+                            • Hỗ trợ vận hành và thử nghiệm tính năng mới<br>
+                            • Tham gia định hướng phát triển dự án
+                        </p>
+                    </div>
+                    
+                    <div class="member-item-detailed">
+                        <h4>Hồ Nguyễn Trúc Ngân</h4>
+                        <p class="member-role">Design & Learning Experience Support</p>
+                        <p class="member-bio">🎓 Trúc Ngân hỗ trợ EduPass trong việc tối ưu giao diện và trải nghiệm học tập, góp phần tạo nên môi trường học tập thân thiện và dễ tiếp cận.</p>
+                        <p class="member-contribution">
+                            <strong>✨ Đóng góp chính:</strong><br>
+                            • Hỗ trợ thiết kế và cải thiện giao diện<br>
+                            • Đóng góp ý tưởng nâng cao trải nghiệm người học<br>
+                            • Tham gia xây dựng hình ảnh trực quan cho nền tảng
+                        </p>
+                    </div>
+                    
+                    <div class="member-item-detailed">
+                        <h4>Nguyễn Minh Tiến</h4>
+                        <p class="member-role">Learning Resource & Exam Bank Development</p>
+                        <p class="member-bio">🎓 Minh Tiến tập trung hỗ trợ xây dựng kho học liệu và hệ thống đề luyện thi, giúp EduPass ngày càng phong phú và bám sát chương trình học.</p>
+                        <p class="member-contribution">
+                            <strong>✨ Đóng góp chính:</strong><br>
+                            • Phát triển kho đề luyện thi và học liệu<br>
+                            • Hỗ trợ tổ chức và phân loại tài liệu<br>
+                            • Đảm bảo nội dung phục vụ tốt nhu cầu ôn luyện
+                        </p>
+                    </div>
+                    
+                    <div class="member-item-detailed">
+                        <h4>Nguyễn Gia Hòa</h4>
+                        <p class="member-role">Content & Project Support</p>
+                        <p class="member-bio">🎓 Gia Hòa đồng hành trong quá trình phát triển nội dung và hỗ trợ triển khai các hoạt động của EduPass, góp phần duy trì sự ổn định của dự án.</p>
+                        <p class="member-contribution">
+                            <strong>✨ Đóng góp chính:</strong><br>
+                            • Hỗ trợ nội dung và phát triển học liệu<br>
+                            • Tham gia các hoạt động xây dựng dự án<br>
+                            • Đóng góp ý tưởng cải thiện nền tảng
+                        </p>
+                    </div>
+                    
+                    <div class="member-item-detailed">
+                        <h4>Lê Nhất Duy</h4>
+                        <p class="member-role">Project & Community Support</p>
+                        <p class="member-bio">🎓 Nhất Duy hỗ trợ EduPass trong hoạt động cộng đồng và phát triển dự án, góp phần lan tỏa tinh thần học tập tích cực đến học sinh.</p>
+                        <p class="member-contribution">
+                            <strong>✨ Đóng góp chính:</strong><br>
+                            • Hỗ trợ hoạt động và phát triển dự án<br>
+                            • Tham gia kết nối và lan tỏa cộng đồng học tập<br>
+                            • Đồng hành trong các hoạt động xây dựng EduPass
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="team-spirit">
+                    <div class="spirit-icon">💡</div>
+                    <h4>Tinh thần chung của đội ngũ</h4>
+                    <p>
+                        Mỗi thành viên của EduPass đều là một mảnh ghép quan trọng. Sự khác biệt về thế mạnh nhưng chung mục tiêu đã tạo nên một tập thể trẻ trung, sáng tạo và luôn nỗ lực xây dựng nền tảng học tập hữu ích cho cộng đồng học sinh.
+                    </p>
+                </div>
+            </div>
+
             <div class="project-quote">
-                <div class="quote-icon">💬</div>
-                <p>"EduPass được tạo ra để giúp học sinh học đúng cách hôm nay và tự tin bước vào đại học ngày mai."</p>
-                <p class="quote-project">🌐 Dự án: EduPass – Learn today. Pass tomorrow.</p>
+                <div class="quote-icon">💡</div>
+                <h3>Thông điệp của đội ngũ</h3>
+                <p>
+                    EduPass không đơn thuần là một nền tảng học tập, mà là biểu tượng cho tinh thần dám nghĩ – dám làm của những học sinh mong muốn thay đổi cách học truyền thống. Chúng tôi tin rằng khi được trao công cụ phù hợp và môi trường học tập tích cực, mỗi học sinh đều có thể phát huy tiềm năng của mình, tự tin chinh phục kỳ thi và từng bước tiến gần hơn tới ước mơ đại học.
+                </p>
             </div>
         </div>
     </section>
@@ -360,15 +520,38 @@
                         <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
                     </div>
                 </div>
+                <div class="footer-center">
+                    <div class="footer-links">
+                        <a href="index.html" class="footer-link">Trang chủ</a>
+                        <a href="tai-lieu.html" class="footer-link">Kho tài liệu</a>
+                        <a href="luyen-thi.html" class="footer-link">Luyện thi</a>
+                        <a href="tao-de-thi.html" class="footer-link">Tạo đề thi</a>
+                    </div>
+                    <p>
+                        <a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a> | 
+                        <a href="hanh-trinh-edupass.html" class="footer-link">Hành trình EduPass</a>
+                    </p>
+                </div>
+                <div class="footer-contact-col">
+                    <h4>Liên hệ</h4>
+                    <p>📧 <a href="mailto:trcuong12112008@gmail.com">trcuong12112008@gmail.com</a></p>
+                    <p>📱 <a href="tel:0348908243">0348 908 243</a></p>
+                    <p>📱 <a href="tel:0876422788">0876 422 788</a></p>
+                </div>
                 <div class="footer-right">
                     <p>&copy; 2026 EduPass. All rights reserved.</p>
                     <p class="footer-tagline">Learn today. Pass tomorrow.</p>
-                    <p><a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a></p>
+                    <p class="footer-description-text">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
                 </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
+                <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script src="edupass-ai.js"></script>
 </body>
 </html>

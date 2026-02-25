@@ -6,6 +6,7 @@
     <title>Kho tài liệu - EduPass</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="edupass-ai.css">
 </head>
 <body>
     <nav class="navbar">
@@ -27,7 +28,9 @@
     <section class="page-header page-header-materials">
         <div class="container">
             <div class="header-content">
-                <div class="header-icon">📚</div>
+                <div class="header-icon-wrapper">
+                    <div class="header-icon">📚</div>
+                </div>
                 <h1>Kho tài liệu</h1>
                 <p>Tìm kiếm và tải về tài liệu học tập chất lượng cao</p>
             </div>
@@ -36,16 +39,26 @@
 
     <section class="materials-section">
         <div class="container">
-            <div class="filters-wrapper">
-                <h3>🔍 Tìm kiếm tài liệu</h3>
-                <div class="filters">
-                    <div class="filter-group">
-                        <label>Từ khóa</label>
-                        <input type="text" id="searchInput" placeholder="Nhập tên tài liệu...">
+            <!-- Search & Filter Card -->
+            <div class="search-filter-card">
+                <div class="search-header">
+                    <h3>🔍 Tìm kiếm tài liệu</h3>
+                    <p>Lọc và tìm kiếm tài liệu phù hợp với nhu cầu của bạn</p>
+                </div>
+                <div class="filters-modern">
+                    <div class="filter-group-modern">
+                        <label>
+                            <span class="filter-icon">🔎</span>
+                            Từ khóa
+                        </label>
+                        <input type="text" id="searchInput" placeholder="Nhập tên tài liệu..." class="filter-input-modern">
                     </div>
-                    <div class="filter-group">
-                        <label>Môn học</label>
-                        <select id="subjectFilter">
+                    <div class="filter-group-modern">
+                        <label>
+                            <span class="filter-icon">📖</span>
+                            Môn học
+                        </label>
+                        <select id="subjectFilter" class="filter-select-modern">
                             <option value="">Tất cả môn học</option>
                             <option value="toan">Toán</option>
                             <option value="ly">Vật Lý</option>
@@ -61,25 +74,45 @@
                             <option value="tinhoc">Tin học</option>
                         </select>
                     </div>
-                    <div class="filter-group">
-                        <label>Lớp</label>
-                        <select id="gradeFilter">
+                    <div class="filter-group-modern">
+                        <label>
+                            <span class="filter-icon">🎓</span>
+                            Lớp
+                        </label>
+                        <select id="gradeFilter" class="filter-select-modern">
                             <option value="">Tất cả lớp</option>
                             <option value="10">Lớp 10</option>
                             <option value="11">Lớp 11</option>
                             <option value="12">Lớp 12</option>
                         </select>
                     </div>
-                    <div class="filter-group">
-                        <label>Loại</label>
-                        <select id="priceFilter">
+                    <div class="filter-group-modern">
+                        <label>
+                            <span class="filter-icon">💰</span>
+                            Loại
+                        </label>
+                        <select id="priceFilter" class="filter-select-modern">
                             <option value="">Tất cả</option>
-                    <option value="free">Miễn phí</option>
-                    <option value="paid">Trả phí</option>
-                </select>
+                            <option value="free">Miễn phí</option>
+                            <option value="paid">Trả phí</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
+            <!-- Materials Grid -->
+            <div class="section-header-modern">
+                <div class="header-line"></div>
+                <h2>Tài liệu nổi bật</h2>
+                <div class="header-line"></div>
+            </div>
             <div class="materials-grid" id="materialsGrid"></div>
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <img src="assets/logo3.png" alt="Chưa có tài liệu" class="empty-state-image">
+                    <p class="empty-state-text">Chưa có tài liệu nào. Vui lòng quay lại sau!</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -93,15 +126,38 @@
                         <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
                     </div>
                 </div>
+                <div class="footer-center">
+                    <div class="footer-links">
+                        <a href="index.html" class="footer-link">Trang chủ</a>
+                        <a href="tai-lieu.html" class="footer-link">Kho tài liệu</a>
+                        <a href="luyen-thi.html" class="footer-link">Luyện thi</a>
+                        <a href="tao-de-thi.html" class="footer-link">Tạo đề thi</a>
+                    </div>
+                    <p>
+                        <a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a> | 
+                        <a href="hanh-trinh-edupass.html" class="footer-link">Hành trình EduPass</a>
+                    </p>
+                </div>
+                <div class="footer-contact-col">
+                    <h4>Liên hệ</h4>
+                    <p>📧 <a href="mailto:trcuong12112008@gmail.com">trcuong12112008@gmail.com</a></p>
+                    <p>📱 <a href="tel:0348908243">0348 908 243</a></p>
+                    <p>📱 <a href="tel:0876422788">0876 422 788</a></p>
+                </div>
                 <div class="footer-right">
                     <p>&copy; 2026 EduPass. All rights reserved.</p>
                     <p class="footer-tagline">Learn today. Pass tomorrow.</p>
-                    <p><a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a></p>
+                    <p class="footer-description-text">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
                 </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
+                <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script src="edupass-ai.js"></script>
 </body>
 </html>
