@@ -7,7 +7,7 @@ const materials = [
         subject: "van",
         grade: "12",
         price: 50000,
-        image: "50demh01.jpg",
+        image: "assets/logo3.png",
         downloadLink: "https://drive.google.com/file/d/1J4-0b2-WLqMP85Vdt3Vo8XzL7vhY4-R3/view?usp=sharing",
         downloadCode: "EdupassVan50demh",
         author: "Dung Vũ (Chủ biên) - Hà Thúy Linh - Cao Hằng",
@@ -1424,7 +1424,7 @@ function showPaymentModal(material) {
             
             <div class="payment-qr">
                 <h3>Quét mã QR để thanh toán</h3>
-                <img src="8e2cd9923b54b50aec45.jpg" 
+                <img src="ck.jpg" 
                      alt="QR Code Thanh Toán" class="qr-code">
                 <p class="bank-info">
                     <strong>Quét mã QR bên trên để thanh toán</strong><br>
@@ -1740,61 +1740,91 @@ function backToExams() {
     selectSubject(currentSubject);
 }
 
+// Google Apps Script URL for registration
+const REGISTER_GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgpq6pmb0vMdDwqwImuTgkxG8LzleWVxUo_vplQa2qBzp1F9TM8to4jbtfDPE_2wIkdw/exec';
+
 // Form đăng ký
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').onsubmit = function(e) {
         e.preventDefault();
         
-        // Clear previous errors
-        document.getElementById('emailError').textContent = '';
-        document.getElementById('passwordError').textContent = '';
-        document.getElementById('confirmPasswordError').textContent = '';
-        document.getElementById('errorMessage').style.display = 'none';
-        
         const fullname = document.getElementById('fullname').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
+        const phone = document.getElementById('phone')?.value || '';
+        const school = document.getElementById('school')?.value || '';
+        const grade = document.getElementById('grade')?.value || '';
         
         // Validation
-        let hasError = false;
-        
         if (!fullname || fullname.length < 3) {
-            document.getElementById('errorMessage').textContent = '❌ Họ tên phải có ít nhất 3 ký tự';
-            document.getElementById('errorMessage').style.display = 'block';
-            hasError = true;
+            alert('❌ Họ tên phải có ít nhất 3 ký tự');
+            return;
         }
         
         if (!email || !email.includes('@')) {
-            document.getElementById('emailError').textContent = 'Email không hợp lệ';
-            hasError = true;
+            alert('❌ Email không hợp lệ');
+            return;
         }
         
         if (!password || password.length < 6) {
-            document.getElementById('passwordError').textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
-            hasError = true;
+            alert('❌ Mật khẩu phải có ít nhất 6 ký tự');
+            return;
         }
         
         if (password !== confirmPassword) {
-            document.getElementById('confirmPasswordError').textContent = '❌ Mật khẩu xác nhận không khớp!';
-            hasError = true;
+            alert('❌ Mật khẩu xác nhận không khớp!');
+            return;
         }
         
-        if (hasError) return;
-        
-        // Show loading state
+        // Show loading
         const registerBtn = document.getElementById('registerBtn');
-        registerBtn.disabled = true;
-        registerBtn.querySelector('.btn-text').style.display = 'none';
-        registerBtn.querySelector('.btn-loader').style.display = 'flex';
+        if (registerBtn) {
+            registerBtn.disabled = true;
+            const btnText = registerBtn.querySelector('.btn-text');
+            const btnLoader = registerBtn.querySelector('.btn-loader');
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoader) btnLoader.style.display = 'flex';
+        }
         
-        // Simulate API call
+        // Gửi dữ liệu lên Google Sheets (không đợi response)
+        fetch(REGISTER_GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                school: school,
+                grade: grade
+            })
+        }).catch(error => console.log('Sent to Google Sheets'));
+        
+        // Lưu vào localStorage để có thể đăng nhập
+        localStorage.setItem('user', JSON.stringify({ 
+            fullname, 
+            email, 
+            phone,
+            school,
+            grade,
+            password 
+        }));
+        
+        // Hiển thị thông báo và chuyển trang
         setTimeout(() => {
-            // Lưu tài khoản
-            localStorage.setItem('user', JSON.stringify({ fullname, email, password }));
-            alert('✅ Đăng ký thành công!');
+            if (registerBtn) {
+                registerBtn.disabled = false;
+                const btnText = registerBtn.querySelector('.btn-text');
+                const btnLoader = registerBtn.querySelector('.btn-loader');
+                if (btnText) btnText.style.display = 'inline';
+                if (btnLoader) btnLoader.style.display = 'none';
+            }
+            alert('✅ Đăng ký thành công! Thông tin đã được ghi nhận.');
             window.location.href = 'dang-nhap.html';
-        }, 1500);
+        }, 500);
     };
 }
 
