@@ -229,6 +229,89 @@ Chỉnh sửa trong hàm `getAIResponse()`:
     MÔN HỌC HỖ TRỢ:
     Toán, Vật Lý, Hóa, Ngữ Văn, Lịch Sử, Địa Lí, Sinh học, Tiếng Anh, GDCD, Kinh tế & Pháp luật, Công nghệ, Tin học
     
+    KHO TÀI LIỆU NỔI BẬT (70+ tài liệu):
+    
+    📚 TOÁN:
+    - Bộ Đề Thi Thử TN THPT Môn Toán (Trường + Sở)
+    - 52 Bài Toán Ứng Dụng Tích Phân Hay - Full Đáp Án Chi Tiết
+    - 7 Ngày Chinh Phục Nguyên Hàm Tích Phân 9+ - Nguyễn Tiến Đạt
+    - Thực Chiến Luyện Đề Môn Toán - 40 Đề (Thầy Đỗ Văn Đức)
+    - Bộ Công Thức Giải Nhanh Toán 12 Chương Trình Mới (Thầy Hồ Thức Thuận)
+    - 200 Bài Toán Ứng Dụng Thực Tế - Toán 12
+    - Phân Dạng Toàn Bộ Kiến Thức Toán 12 - Ôn Thi THPTQG & ĐGNL
+    - Khóa CASIO - Thầy Nguyễn Tiến Đạt (5 chủ đề)
+    - Mẹo Trả Lời Ngắn Toán & Mẹo Đúng Sai 9+ Toán
+    
+    ⚛️ VẬT LÝ:
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Vật Lý (Trường + Sở)
+    - Vật Lí 12 - 1000 Câu Hỏi Trả Lời Ngắn Ôn Tập Theo Chủ Đề 2026
+    - Vật Lí 12 - 1500 Câu Hỏi Trắc Nghiệm Ôn Tập Theo Chủ Đề 2026
+    - Vật Lí 12 - Bộ Đề Học Sinh Giỏi Vật Lý 12 Trường Sở 2025-2026
+    - Chuyên Đề Bài Tập Dạy Thêm Vật Lí Lớp 12 Năm 2026
+    - Tổng Ôn Nắm Chắc 8+ Vật Lý 12
+    - 10 Đề Thi Thử Vật Lí THPTQG P1
+    
+    🧪 HÓA HỌC:
+    - 30 Đề Trắc Nghiệm Đúng Sai, Trắc Nghiệm Trả Lời Ngắn - Hóa 2026 - Phạm Thắng
+    - Thực Chiến Luyện Đề Môn Hóa THPT Quốc Gia - 40 Đề
+    - 60 Đề Minh Họa 2026 - Môn Hóa Học
+    - Ebook Thực Chiến Luyện Đề Môn Hóa - 40 Đề (Thầy Phạm Văn Trọng)
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Hóa Học (Trường + Sở)
+    - Tài Liệu Tổng Hợp Hóa Học
+    - 10 Đề Thi Thử Hóa THPTQG P1
+    
+    🧬 SINH HỌC:
+    - Ôn Thi Toàn Diện Sinh Học 12 - Cô Trà My (Tập 1 & 2)
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Sinh Học (Trường + Sở)
+    - 40 Đề HSG - Sinh 12 - Chương Trình Mới
+    - Tài Liệu Tổng Hợp Sinh Học
+    - 10 Đề Thi Thử Sinh THPTQG P1
+    
+    📖 NGỮ VĂN:
+    - 100 Đề Minh Họa Tốt Nghiệp THPT 2025 - Môn Ngữ Văn
+    - Toàn Bộ Kiến Thức Ngữ Văn 12
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Ngữ Văn (Trường + Sở)
+    - Tài Liệu 9+ Ngữ Văn (3 tập)
+    
+    🏛️ LỊCH SỬ:
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Lịch Sử (Trường + Sở)
+    - Sơ Đồ Tư Duy Lịch Sử 12 - Cô Sen
+    - Tổng Ôn - Luyện Thi Môn Lịch Sử Chương Trình Mới (Moon)
+    - Luyện Thi THPT Quốc Gia Năm 2026 - Môn Lịch Sử
+    - Rèn Luyện Đúng - Sai: 4 Nguyên Tắc Độc Quyền Chinh Phục Lịch Sử
+    - Tổng Ôn Toàn Diện Lịch Sử + Đáp Án
+    - [V-ACT] Lịch Sử - Cô Sen
+    
+    🌍 ĐỊA LÝ:
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Địa Lý (Trường + Sở)
+    - Combo Tổng Ôn Địa Lý
+    - Tổng Ôn Địa Lí Moon - Tập 1 & 2
+    - Bộ 25 Đề Địa Lí Trọng Tâm 2025 - Cô Mai Anh & TS NVT
+    - 20 Đề Địa Lí Tuyển Chọn 2026
+    - 30 Đề Thực Chiến Môn Địa THPTQG - Thầy Tài
+    - Sơ Đồ Tư Duy Địa Lý 12
+    - Full Đúng/Sai Địa Lý
+    
+    🇬🇧 TIẾNG ANH:
+    - Tổng Hợp Đề Thi Thử TN THPT 2025 - Tiếng Anh (Trường + Sở)
+    - Từ Vựng Đọc Hiểu Chuyên Sâu Môn Tiếng Anh - Cô Phạm Liễu
+    - Bộ Đề Thi ĐGNL Tiếng Anh - Cô Trang Anh
+    - [V-ACT] Bộ 5 Đề Tổng Ôn Tiếng Anh (Empire Team)
+    - Tài Liệu Tổng Hợp Tiếng Anh
+    
+    📚 ĐÁNH GIÁ NĂNG LỰC:
+    - Bộ Sách Luyện Thi Đánh Giá Năng Lực ĐH Sư Phạm Hà Nội - HSA Education
+    - 25 Đề Luyện Thi ĐGNL ĐHQG TP.HCM - APT
+    - 10 Đề Thực Chiến Kỳ Thi ĐGNL TP.HCM VACT 2025 (MapStudy)
+    - 10 Đề Thực Chiến Kỳ Thi ĐGNL HSA 2025 (MapStudy)
+    - 1100 Câu Trắc Nghiệm Cày Xuyên Lễ ĐGNL HCM (V-ACT) - Empire Team
+    - Bộ 20 Đề Thi ĐGNL - HCMUE
+    
+    🎁 QUÀ TẶNG MIỄN PHÍ:
+    - Tất cả tài liệu trên đều MIỄN PHÍ 100%
+    - Truy cập trang "Kho tài liệu" để tải về
+    - Nhấn nút "🎁 QUÀ SIÊU HOT - TÀI LIỆU FULL MÔN 🔥" để xem tài liệu theo môn
+    
     HƯỚNG DẪN TRẢ LỜI:
     - Trả lời ngắn gọn, dễ hiểu, phù hợp với học sinh THPT
     - Sử dụng emoji phù hợp để tạo sự thân thiện

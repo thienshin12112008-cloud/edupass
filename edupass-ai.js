@@ -527,6 +527,28 @@ TÍNH NĂNG CHÍNH:
 12 MÔN HỌC HỖ TRỢ:
 Toán, Vật Lý, Hóa, Ngữ Văn, Lịch Sử, Địa Lí, Sinh học, Tiếng Anh, GDCD, Kinh tế & Pháp luật, Công nghệ, Tin học
 
+KHO TÀI LIỆU NỔI BẬT (70+ tài liệu MIỄN PHÍ):
+
+📚 TOÁN: Bộ Đề Thi Thử TN THPT, 52 Bài Toán Tích Phân, 7 Ngày Chinh Phục Nguyên Hàm 9+ (Nguyễn Tiến Đạt), 40 Đề Thực Chiến (Đỗ Văn Đức), Công Thức Giải Nhanh (Hồ Thức Thuận), 200 Bài Toán Thực Tế, Khóa CASIO (5 chủ đề), Mẹo Trả Lời Ngắn & Đúng Sai 9+
+
+⚛️ VẬT LÝ: 1000 Câu Trả Lời Ngắn 2026, 1500 Câu Trắc Nghiệm 2026, Đề HSG Vật Lý 12, Chuyên Đề Dạy Thêm 2026, Tổng Ôn 8+, Đề Thi Thử 2025
+
+🧪 HÓA HỌC: 30 Đề Đúng Sai & Trả Lời Ngắn 2026 (Phạm Thắng), 40 Đề Thực Chiến (Phạm Văn Trọng), 60 Đề Minh Họa 2026, Đề Thi Thử 2025
+
+🧬 SINH HỌC: Ôn Thi Toàn Diện (Cô Trà My - 2 tập), 40 Đề HSG Sinh 12, Đề Thi Thử 2025
+
+📖 NGỮ VĂN: 100 Đề Minh Họa 2025, Toàn Bộ Kiến Thức Văn 12, Tài Liệu 9+ (3 tập), Đề Thi Thử 2025
+
+🏛️ LỊCH SỬ: Sơ Đồ Tư Duy (Cô Sen), Tổng Ôn Moon, 4 Nguyên Tắc Đúng-Sai, Luyện Thi 2026, [V-ACT] Lịch Sử
+
+🌍 ĐỊA LÝ: Tổng Ôn Moon (2 tập), 25 Đề Trọng Tâm 2025, 20 Đề 2026, 30 Đề Thực Chiến, Sơ Đồ Tư Duy, Full Đúng/Sai
+
+🇬🇧 TIẾNG ANH: Từ Vựng Đọc Hiểu (Cô Phạm Liễu), Đề ĐGNL (Cô Trang Anh), [V-ACT] 5 Đề, Đề Thi Thử 2025
+
+📚 ĐÁNH GIÁ NĂNG LỰC: ĐGNL ĐH Sư Phạm HN, 25 Đề ĐHQG HCM, 10 Đề VACT & HSA 2025, 1100 Câu Cày Xuyên Lễ, 20 Đề HCMUE
+
+🎁 TẤT CẢ MIỄN PHÍ! Truy cập "Kho tài liệu" hoặc nhấn "🎁 QUÀ SIÊU HOT" để tải!
+
 CÁC TRANG WEBSITE:
 - Trang chủ: index.html
 - Kho tài liệu: tai-lieu.html
@@ -542,6 +564,7 @@ LIÊN HỆ:
 
 NHIỆM VỤ CỦA BẠN:
 - Trả lời câu hỏi về học tập, tài liệu, đề thi
+- GỢI Ý TÀI LIỆU PHÙ HỢP khi học sinh hỏi về môn học
 - Hướng dẫn sử dụng các tính năng của EduPass
 - Tư vấn phương pháp học tập hiệu quả
 - Giải đáp thắc mắc về môn học
@@ -649,6 +672,28 @@ TÍNH NĂNG CHÍNH:
 12 MÔN HỌC HỖ TRỢ:
 Toán, Vật Lý, Hóa, Ngữ Văn, Lịch Sử, Địa Lí, Sinh học, Tiếng Anh, GDCD, Kinh tế & Pháp luật, Công nghệ, Tin học
 
+KHO TÀI LIỆU NỔI BẬT (70+ tài liệu MIỄN PHÍ):
+
+📚 TOÁN: Bộ Đề Thi Thử TN THPT, 52 Bài Toán Tích Phân, 7 Ngày Chinh Phục Nguyên Hàm 9+ (Nguyễn Tiến Đạt), 40 Đề Thực Chiến (Đỗ Văn Đức), Công Thức Giải Nhanh (Hồ Thức Thuận), 200 Bài Toán Thực Tế, Khóa CASIO (5 chủ đề), Mẹo Trả Lời Ngắn & Đúng Sai 9+
+
+⚛️ VẬT LÝ: 1000 Câu Trả Lời Ngắn 2026, 1500 Câu Trắc Nghiệm 2026, Đề HSG Vật Lý 12, Chuyên Đề Dạy Thêm 2026, Tổng Ôn 8+, Đề Thi Thử 2025
+
+🧪 HÓA HỌC: 30 Đề Đúng Sai & Trả Lời Ngắn 2026 (Phạm Thắng), 40 Đề Thực Chiến (Phạm Văn Trọng), 60 Đề Minh Họa 2026, Đề Thi Thử 2025
+
+🧬 SINH HỌC: Ôn Thi Toàn Diện (Cô Trà My - 2 tập), 40 Đề HSG Sinh 12, Đề Thi Thử 2025
+
+📖 NGỮ VĂN: 100 Đề Minh Họa 2025, Toàn Bộ Kiến Thức Văn 12, Tài Liệu 9+ (3 tập), Đề Thi Thử 2025
+
+🏛️ LỊCH SỬ: Sơ Đồ Tư Duy (Cô Sen), Tổng Ôn Moon, 4 Nguyên Tắc Đúng-Sai, Luyện Thi 2026, [V-ACT] Lịch Sử
+
+🌍 ĐỊA LÝ: Tổng Ôn Moon (2 tập), 25 Đề Trọng Tâm 2025, 20 Đề 2026, 30 Đề Thực Chiến, Sơ Đồ Tư Duy, Full Đúng/Sai
+
+🇬🇧 TIẾNG ANH: Từ Vựng Đọc Hiểu (Cô Phạm Liễu), Đề ĐGNL (Cô Trang Anh), [V-ACT] 5 Đề, Đề Thi Thử 2025
+
+📚 ĐÁNH GIÁ NĂNG LỰC: ĐGNL ĐH Sư Phạm HN, 25 Đề ĐHQG HCM, 10 Đề VACT & HSA 2025, 1100 Câu Cày Xuyên Lễ, 20 Đề HCMUE
+
+🎁 TẤT CẢ MIỄN PHÍ! Truy cập "Kho tài liệu" hoặc nhấn "🎁 QUÀ SIÊU HOT" để tải!
+
 CÁC TRANG WEBSITE:
 - Trang chủ: index.html
 - Kho tài liệu: tai-lieu.html
@@ -664,6 +709,7 @@ LIÊN HỆ:
 
 NHIỆM VỤ CỦA BẠN:
 - Trả lời câu hỏi về học tập, tài liệu, đề thi
+- GỢI Ý TÀI LIỆU PHÙ HỢP khi học sinh hỏi về môn học
 - Hướng dẫn sử dụng các tính năng của EduPass
 - Tư vấn phương pháp học tập hiệu quả
 - Giải đáp thắc mắc về môn học

@@ -55,39 +55,6 @@
                     </div>
                     <div class="filter-group-modern">
                         <label>
-                            <span class="filter-icon">📖</span>
-                            Môn học
-                        </label>
-                        <select id="subjectFilter" class="filter-select-modern">
-                            <option value="">Tất cả môn học</option>
-                            <option value="toan">Toán</option>
-                            <option value="ly">Vật Lý</option>
-                            <option value="hoa">Hóa</option>
-                            <option value="van">Ngữ Văn</option>
-                            <option value="su">Lịch Sử</option>
-                            <option value="dia">Địa Lí</option>
-                            <option value="sinh">Sinh học</option>
-                            <option value="anh">Tiếng Anh</option>
-                            <option value="gdcd">Giáo dục công dân</option>
-                            <option value="ktpl">Kinh tế & Pháp luật</option>
-                            <option value="congnghe">Công nghệ</option>
-                            <option value="tinhoc">Tin học</option>
-                        </select>
-                    </div>
-                    <div class="filter-group-modern">
-                        <label>
-                            <span class="filter-icon">🎓</span>
-                            Lớp
-                        </label>
-                        <select id="gradeFilter" class="filter-select-modern">
-                            <option value="">Tất cả lớp</option>
-                            <option value="10">Lớp 10</option>
-                            <option value="11">Lớp 11</option>
-                            <option value="12">Lớp 12</option>
-                        </select>
-                    </div>
-                    <div class="filter-group-modern">
-                        <label>
                             <span class="filter-icon">💰</span>
                             Loại
                         </label>
@@ -98,6 +65,13 @@
                         </select>
                     </div>
                 </div>
+            </div>
+
+            <!-- Gift Button -->
+            <div class="gift-button-container">
+                <button class="btn-gift" onclick="showGiftModal()">
+                    🎁 QUÀ SIÊU HOT - TÀI LIỆU FULL MÔN 🔥
+                </button>
             </div>
 
             <!-- Materials Grid -->
@@ -150,6 +124,62 @@
             </div>
         </div>
     </footer>
+
+    <!-- Gift Modal -->
+    <div id="giftModal" class="gift-modal">
+        <div class="gift-modal-content">
+            <span class="close-modal" onclick="closeGiftModal()">&times;</span>
+            <div class="gift-modal-header">
+                <h2>🎁 QUÀ SIÊU HOT - TÀI LIỆU FULL MÔN 🔥</h2>
+                <p>Chọn môn học bạn muốn tải tài liệu miễn phí!</p>
+            </div>
+            <div class="gift-links-grid">
+                <a href="https://drive.google.com/file/d/1RiT3muRQ3V13a0JQ3HEhGIEZv_o_7AuT/view?usp=sharing" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">📖</div>
+                    <div class="gift-subject">Ngữ Văn</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1-JRpMi9ghHs-2sGJT9xsPHVSup4iPP7K" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">🔢</div>
+                    <div class="gift-subject">Toán</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1TFEeYqg4JO8YmBI_M3NhHJkOT1YXWMbz" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">🇬🇧</div>
+                    <div class="gift-subject">Tiếng Anh</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/file/d/1mGFAkLXfHxT2xXyrCfdkYgnZHmtHA-m0/view?usp=drive_link" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">⚛️</div>
+                    <div class="gift-subject">Vật Lý</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/file/d/1zGSUDWGwrBE_YV2cnht23oOJuFK9DeGn/view?usp=drive_link" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">🧪</div>
+                    <div class="gift-subject">Hóa Học</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/162vljNxilJKqcOHXWI27rn9FxnqptvOf?usp=sharing" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">🧬</div>
+                    <div class="gift-subject">Sinh Học</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/file/d/1F0zCru894tki6pJG_PBIKYFljdw4Irlu/view?usp=drive_link" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">🏛️</div>
+                    <div class="gift-subject">Lịch Sử</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1iji2quXHvuSphA7ZBq2VBzt6o8EqLfht" target="_blank" class="gift-link-card">
+                    <div class="gift-icon">🌍</div>
+                    <div class="gift-subject">Địa Lý</div>
+                    <div class="gift-badge">✨ Miễn phí</div>
+                </a>
+            </div>
+            <div class="gift-modal-footer">
+                <p>💡 Nhấn vào môn học để mở Google Drive và tải tài liệu</p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
     <script src="edupass-ai.js"></script>
