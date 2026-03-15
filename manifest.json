@@ -1,0 +1,55 @@
+{
+  "name": "EduPass - Nền tảng học tập thông minh",
+  "short_name": "EduPass",
+  "description": "Nền tảng học tập trực tuyến cho học sinh THPT - Learn today. Pass tomorrow.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0288d1",
+  "orientation": "portrait-primary",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "images/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["education"],
+  "shortcuts": [
+    {
+      "name": "Kho tài liệu",
+      "short_name": "Tài liệu",
+      "description": "Xem kho tài liệu học tập",
+      "url": "/tai-lieu.html",
+      "icons": [{ "src": "logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Luyện thi",
+      "short_name": "Luyện thi",
+      "description": "Luyện thi trực tuyến",
+      "url": "/luyen-thi.html",
+      "icons": [{ "src": "logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tạo đề thi",
+      "short_name": "Tạo đề",
+      "description": "Tạo đề thi tùy chỉnh",
+      "url": "/tao-de-thi.html",
+      "icons": [{ "src": "logo.png", "sizes": "192x192" }]
+    }
+  ]
+}
