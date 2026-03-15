@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Làm bài thi - EduPass</title>
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0288d1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="EduPass">
+    <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="tao-de-thi.css">
     <style>
@@ -186,6 +192,28 @@
             margin-top: 2rem;
         }
     </style>
+    <script>
+    // EduPass brand typography: E và P in hoa lớn
+    (function(){
+        function wrapEduPass(node) {
+            if (node.nodeType === 3) { // text node
+                var text = node.nodeValue;
+                if (text.indexOf('EduPass') === -1) return;
+                var span = document.createElement('span');
+                span.innerHTML = text.replace(/EduPass/g,
+                    '<span class="ep-brand"><span class="ep-cap">E</span>du<span class="ep-cap">P</span>ass</span>');
+                node.parentNode.replaceChild(span, node);
+            } else if (node.nodeType === 1) {
+                var skip = ['SCRIPT','STYLE','TEXTAREA','INPUT','CODE','PRE','TITLE','META'];
+                if (skip.indexOf(node.tagName) !== -1) return;
+                Array.from(node.childNodes).forEach(wrapEduPass);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+            wrapEduPass(document.body);
+        });
+    })();
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-solid">
@@ -194,7 +222,7 @@
                 <img src="logo.png" alt="EduPass Logo" class="logo-img">
                 <span class="logo-text">EduPass</span>
             </a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">🏠 Trang chủ</a></li>
                 <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
                 <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
@@ -202,6 +230,7 @@
             <div class="nav-actions">
                 <a href="tao-de-thi.html" class="btn-nav-login">← Quay lại</a>
             </div>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Mo menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
@@ -260,6 +289,14 @@
         </div>
     </div>
 
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.log('SW error:', err));
+            });
+        }
+    </script>
     <script>
         let startTime = Date.now();
         let timerInterval;
@@ -418,6 +455,34 @@
                 localStorage.setItem('accountData', JSON.stringify(accountData));
             }
         }
+    </script>
+    <script>
+    // Hamburger menu
+    (function(){
+        var btn = document.getElementById('navHamburger');
+        var menu = document.getElementById('navMenu');
+        var nav = document.querySelector('.navbar');
+        if(!btn || !menu) return;
+        btn.addEventListener('click', function(){
+            var open = menu.classList.toggle('open');
+            btn.classList.toggle('open', open);
+            btn.setAttribute('aria-expanded', open);
+        });
+        menu.querySelectorAll('a').forEach(function(a){
+            a.addEventListener('click', function(){
+                menu.classList.remove('open');
+                btn.classList.remove('open');
+                btn.setAttribute('aria-expanded','false');
+            });
+        });
+        document.addEventListener('click', function(e){
+            if(nav && !nav.contains(e.target)){
+                menu.classList.remove('open');
+                btn.classList.remove('open');
+                btn.setAttribute('aria-expanded','false');
+            }
+        });
+    })();
     </script>
 </body>
 </html>

@@ -5,9 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo đề thi tự luyện - EduPass</title>
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0288d1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="EduPass">
+    <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="tao-de-thi.css">
     <link rel="stylesheet" href="edupass-ai.css">
+    <script>
+    // EduPass brand typography: E và P in hoa lớn
+    (function(){
+        function wrapEduPass(node) {
+            if (node.nodeType === 3) { // text node
+                var text = node.nodeValue;
+                if (text.indexOf('EduPass') === -1) return;
+                var span = document.createElement('span');
+                span.innerHTML = text.replace(/EduPass/g,
+                    '<span class="ep-brand"><span class="ep-cap">E</span>du<span class="ep-cap">P</span>ass</span>');
+                node.parentNode.replaceChild(span, node);
+            } else if (node.nodeType === 1) {
+                var skip = ['SCRIPT','STYLE','TEXTAREA','INPUT','CODE','PRE','TITLE','META'];
+                if (skip.indexOf(node.tagName) !== -1) return;
+                Array.from(node.childNodes).forEach(wrapEduPass);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+            wrapEduPass(document.body);
+        });
+    })();
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-solid">
@@ -16,7 +44,7 @@
                 <img src="logo.png" alt="EduPass Logo" class="logo-img">
                 <span class="logo-text">EduPass</span>
             </a>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">🏠 Trang chủ</a></li>
                 <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
                 <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
@@ -26,6 +54,7 @@
                 <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
                 <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
             </div>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Mo menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
@@ -417,41 +446,66 @@
         </div>
     </div>
 
-    <footer>
+    <!-- Mobile floating action bar -->
+    <div class="mobile-action-bar">
+        <button class="btn-action btn-preview" onclick="previewExam()">👁️ Xem trước</button>
+        <button class="btn-action btn-save" onclick="saveExam()">💾 Lưu đề</button>
+        <button class="btn-action btn-start" onclick="startExam()">▶️ Làm bài</button>
+    </div>
+
+    <footer class="site-footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-left">
-                    <img src="logo.png" alt="EduPass Logo" class="footer-logo">
-                    <div class="footer-description">
-                        <h4>EduPass</h4>
-                        <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú.</p>
-                    </div>
+            <div class="footer-grid">
+                <!-- Brand -->
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo-wrap"><img src="logo.png" alt="EduPass" class="footer-logo"></a>
+                    <p class="footer-desc">Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                    <p class="footer-tagline-new">✨ Learn today. Pass tomorrow.</p>
                 </div>
-                <div class="footer-center">
-                    <div class="footer-links">
-                        <a href="index.html" class="footer-link">Trang chủ</a>
-                        <a href="tai-lieu.html" class="footer-link">Kho tài liệu</a>
-                        <a href="luyen-thi.html" class="footer-link">Luyện thi</a>
-                        <a href="tao-de-thi.html" class="footer-link">Tạo đề thi</a>
-                    </div>
-                    <p>
-                        <a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a> | 
-                        <a href="hanh-trinh-edupass.html" class="footer-link">Hành trình EduPass</a>
-                    </p>
+
+                <!-- Nav links -->
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Khám phá</h5>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">🏠 Trang chủ</a></li>
+                        <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
+                    </ul>
                 </div>
-                <div class="footer-contact-col">
-                    <h4>Liên hệ</h4>
-                    <p>📧 <a href="mailto:edupasshotro@gmail.com">edupasshotro@gmail.com</a></p>
-                    <p>📱 <a href="tel:0348908243">0348 908 243</a></p>
-                    <p>📱 <a href="tel:0876422788">0876 422 788</a></p>
+
+                <!-- About links -->
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Về EduPass</h5>
+                    <ul class="footer-nav">
+                        <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                        <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
+                        <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
+                        <li><a href="dang-nhap.html">🔑 Đăng nhập</a></li>
+                    </ul>
                 </div>
-                <div class="footer-right">
-                    <p>&copy; 2026 EduPass. All rights reserved.</p>
-                    <p class="footer-tagline">Learn today. Pass tomorrow.</p>
-                    <p class="footer-description-text">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Liên hệ</h5>
+                    <ul class="footer-contact-list">
+                        <li><a href="mailto:edupasshotro@gmail.com">📧 edupasshotro@gmail.com</a></li>
+                        <li><a href="tel:0348908243">📱 0348 908 243</a></li>
+                        <li><a href="tel:0876422788">📱 0876 422 788</a></li>
+                    </ul>
+                </div>
+
+                <!-- Copyright & Tagline -->
+                <div class="footer-col footer-col-brand">
+                    <h5 class="footer-col-title">EduPass</h5>
+                    <p class="footer-copy">© 2026 EduPass.<br>All rights reserved.</p>
+                    <p class="footer-slogan">Learn today.<br>Pass tomorrow.</p>
+                    <p class="footer-slogan-vi">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
+                    <p class="footer-slogan-vi2">🎓 Học hôm nay · Đỗ ngày mai</p>
                 </div>
             </div>
-            <div class="footer-bottom">
+
+            <div class="footer-bottom-new">
                 <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
                 <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
             </div>
@@ -461,5 +515,41 @@
     <script src="script.js"></script>
     <script src="tao-de-thi.js"></script>
     <script src="edupass-ai.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.log('SW error:', err));
+            });
+        }
+    </script>
+    <script>
+    // Hamburger menu
+    (function(){
+        var btn = document.getElementById('navHamburger');
+        var menu = document.getElementById('navMenu');
+        var nav = document.querySelector('.navbar');
+        if(!btn || !menu) return;
+        btn.addEventListener('click', function(){
+            var open = menu.classList.toggle('open');
+            btn.classList.toggle('open', open);
+            btn.setAttribute('aria-expanded', open);
+        });
+        menu.querySelectorAll('a').forEach(function(a){
+            a.addEventListener('click', function(){
+                menu.classList.remove('open');
+                btn.classList.remove('open');
+                btn.setAttribute('aria-expanded','false');
+            });
+        });
+        document.addEventListener('click', function(e){
+            if(nav && !nav.contains(e.target)){
+                menu.classList.remove('open');
+                btn.classList.remove('open');
+                btn.setAttribute('aria-expanded','false');
+            }
+        });
+    })();
+    </script>
 </body>
 </html>

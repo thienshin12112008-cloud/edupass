@@ -1228,3 +1228,202 @@
     color: #95a5a6;
     margin-top: 0.5rem;
 }
+
+/* ============================================
+   MOBILE OPTIMIZATION — tao-de-thi.css
+   ============================================ */
+
+/* ≤ 768px — đã có một số rules, bổ sung thêm */
+@media (max-width: 768px) {
+    .create-exam-page { padding: 1.5rem 0 3rem; }
+
+    .page-title { margin-bottom: 1.5rem; }
+    .page-title h1 { font-size: 1.6rem; }
+    .page-title p { font-size: 0.95rem; }
+
+    /* Card body padding nhỏ hơn */
+    .card-body { padding: 1.2rem; }
+    .card-header { padding: 1rem 1.2rem; }
+    .card-header h2 { font-size: 1.15rem; }
+    .card-icon { font-size: 1.4rem; }
+
+    /* Sidebar action card: không sticky, hiển thị dưới form */
+    .creator-sidebar { order: 2; } /* Giữ dưới form */
+    .action-card { padding: 1.2rem; }
+    .action-card h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    /* Action buttons ngang hàng trên mobile */
+    .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.6rem;
+        margin-bottom: 1.2rem;
+    }
+    .btn-action { padding: 0.7rem 0.5rem; font-size: 0.82rem; min-height: 44px; }
+
+    /* Summary compact */
+    .exam-summary { padding-top: 1rem; }
+    .exam-summary h4 { font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .summary-item { padding: 0.5rem 0; font-size: 0.9rem; }
+
+    /* Quick tips ẩn trên mobile để tiết kiệm không gian */
+    .quick-tips { display: none; }
+
+    /* Tabs */
+    .tab-btn { padding: 0.7rem 0.6rem; font-size: 0.88rem; min-height: 44px; }
+
+    /* Add question button */
+    .btn-add-question { padding: 0.8rem; font-size: 0.95rem; min-height: 44px; }
+
+    /* Question card */
+    .question-card { padding: 1.2rem 1rem; }
+    .btn-edit, .btn-delete { padding: 0.5rem 0.8rem; min-height: 36px; font-size: 0.82rem; }
+
+    /* Radio group 2 cột trên mobile */
+    .radio-group { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .radio-label { padding: 0.6rem; font-size: 0.88rem; }
+
+    /* Toggle items */
+    .toggle-item { padding: 0.8rem; }
+    .toggle-text { font-size: 0.9rem; }
+
+    /* Saved exams grid */
+    .saved-exams-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .saved-exams-section { padding: 1.2rem; }
+
+    /* Modal */
+    .modal-container {
+        width: 100%;
+        max-width: 100%;
+        max-height: 95dvh;
+        border-radius: 20px 20px 0 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+    }
+    .modal-overlay { align-items: flex-end; }
+    .modal-header { padding: 1rem 1.2rem; }
+    .modal-header h3 { font-size: 1.1rem; }
+    .modal-body { padding: 1.2rem; }
+    .modal-footer {
+        padding: 1rem 1.2rem;
+        flex-direction: row;
+        gap: 0.8rem;
+    }
+    .btn-cancel, .btn-confirm {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        min-height: 44px;
+    }
+
+    /* Answer items trong modal */
+    .answer-item {
+        grid-template-columns: 28px 28px 1fr;
+        gap: 0.4rem;
+        margin-bottom: 0.8rem;
+    }
+    .answer-input { padding: 0.65rem 0.8rem; font-size: 0.95rem; }
+
+    /* AI paste area */
+    .ai-paste-area { padding: 1.2rem; }
+    .json-input { font-size: 0.82rem; rows: 10; }
+    .btn-validate { font-size: 0.95rem; padding: 0.8rem; min-height: 44px; }
+    .btn-clear-json { padding: 0.8rem 1rem; min-height: 44px; }
+
+    /* Guide section */
+    .guide-toggle { font-size: 0.95rem; padding: 1rem 1.2rem; min-height: 52px; }
+}
+
+/* ≤ 480px — Small phones */
+@media (max-width: 480px) {
+    .create-exam-page { padding: 1rem 0 2.5rem; }
+
+    .page-title h1 { font-size: 1.35rem; }
+    .page-title p { font-size: 0.88rem; }
+
+    /* Action buttons stack dọc trên màn hình rất nhỏ */
+    .action-buttons {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    .btn-action { font-size: 0.9rem; }
+
+    /* Form inputs */
+    .form-input, .form-select, .form-textarea {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.95rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { font-size: 0.88rem; }
+
+    /* Radio group 1 cột */
+    .radio-group { grid-template-columns: 1fr; gap: 0.5rem; }
+
+    /* Prompt box */
+    .prompt-box pre { font-size: 0.75rem; }
+
+    /* Saved exam card */
+    .saved-exam-card { padding: 1rem; }
+    .saved-exam-title { font-size: 1rem; }
+    .saved-exam-actions { flex-direction: column; }
+    .btn-start-saved, .btn-delete-saved { min-height: 44px; }
+
+    /* Guide step */
+    .guide-step { padding: 1rem; }
+    .step-content h4 { font-size: 1rem; }
+    .step-content p, .step-content li { font-size: 0.88rem; }
+}
+
+/* ≤ 360px — Very small */
+@media (max-width: 360px) {
+    .page-title h1 { font-size: 1.2rem; }
+    .card-header h2 { font-size: 1rem; }
+    .tab-btn { font-size: 0.8rem; padding: 0.6rem 0.4rem; }
+    .answer-item { grid-template-columns: 24px 24px 1fr; }
+}
+
+/* ============================================
+   FLOATING ACTION BAR — mobile bottom
+   ============================================ */
+.mobile-action-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    /* Ẩn sidebar action card trên mobile, dùng floating bar thay */
+    .creator-sidebar { display: none; }
+
+    .mobile-action-bar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        background: rgba(255,255,255,0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+        gap: 0.6rem;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    }
+    .mobile-action-bar .btn-action {
+        flex: 1;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.82rem;
+        min-height: 44px;
+        border-radius: 10px;
+    }
+
+    /* Thêm padding bottom cho page để không bị che bởi bar */
+    .create-exam-page { padding-bottom: 90px; }
+}
+
+@media (max-width: 480px) {
+    .mobile-action-bar { gap: 0.4rem; padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom)); }
+    .mobile-action-bar .btn-action { font-size: 0.78rem; padding: 0.65rem 0.3rem; }
+}

@@ -4,9 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduPass - Learn today. Pass tomorrow</title>
-    <link rel="icon" type="image/png" href="logo.png.png">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0288d1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="EduPass">
+    <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="edupass-ai.css">
+    <script>
+    // EduPass brand typography: E và P in hoa lớn
+    (function(){
+        function wrapEduPass(node) {
+            if (node.nodeType === 3) { // text node
+                var text = node.nodeValue;
+                if (text.indexOf('EduPass') === -1) return;
+                var span = document.createElement('span');
+                span.innerHTML = text.replace(/EduPass/g,
+                    '<span class="ep-brand"><span class="ep-cap">E</span>du<span class="ep-cap">P</span>ass</span>');
+                node.parentNode.replaceChild(span, node);
+            } else if (node.nodeType === 1) {
+                var skip = ['SCRIPT','STYLE','TEXTAREA','INPUT','CODE','PRE','TITLE','META'];
+                if (skip.indexOf(node.tagName) !== -1) return;
+                Array.from(node.childNodes).forEach(wrapEduPass);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+            wrapEduPass(document.body);
+        });
+    })();
+    </script>
 </head>
 <body>
     <section class="hero">
@@ -16,16 +44,22 @@
                     <img src="logo.png" alt="EduPass Logo" class="logo-img">
                     <span class="logo-text" id="logoText"></span>
                 </a>
-                <ul class="nav-menu">
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html">Trang chủ</a></li>
                     <li><a href="tai-lieu.html">Kho tài liệu</a></li>
                     <li><a href="luyen-thi.html">Luyện thi</a></li>
                     <li><a href="tao-de-thi.html">Tạo đề thi</a></li>
+                    <!-- Mobile only links -->
+                    <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+                    <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
                 </ul>
                 <div class="nav-actions">
                     <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
                     <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
                 </div>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
             <div class="navbar-search-bar">
                 <div class="hero-search" id="heroSearchBox">
@@ -349,28 +383,53 @@
     <section class="about-edupass">
         <div class="container">
             <div class="about-header">
-                <h2>Về EduPass</h2>
-                <div class="header-underline"></div>
+                <div class="about-badge">💡 Về chúng tôi</div>
+                <h2>Về <span class="about-title-brand">EduPass</span></h2>
+                <p class="about-header-sub">Được tạo ra bởi học sinh, dành cho học sinh — với khát vọng giúp mọi bạn trẻ chinh phục kỳ thi theo cách thông minh nhất.</p>
             </div>
             <div class="about-content">
                 <div class="about-image">
                     <div class="image-wrapper">
+                        <div class="about-stat-badge">
+                            <span class="badge-icon">📚</span>
+                            <span>83+ tài liệu</span>
+                        </div>
                         <img src="assets/logo 3.png" alt="EduPass Mascot">
+                        <div class="about-stat-badge">
+                            <span class="badge-icon">🎯</span>
+                            <span class="badge-num">12</span>
+                            <span>môn học</span>
+                        </div>
+                        <div class="about-stat-badge about-stat-badge--bottom">
+                            <span class="badge-icon">⭐</span>
+                            <span>Hàng trăm đánh giá tích cực</span>
+                        </div>
                     </div>
                 </div>
                 <div class="about-text">
                     <div class="about-card">
                         <div class="card-icon">🎯</div>
-                        <h3>Khát vọng của chúng tôi</h3>
-                        <p>EduPass được tạo ra từ khát vọng giúp học sinh Việt Nam tiếp cận tri thức theo cách thông minh, chủ động và hiệu quả hơn. Chúng tôi tin rằng việc học không chỉ là ghi nhớ kiến thức, mà còn là hành trình khám phá bản thân và từng bước tiến gần hơn tới ước mơ tương lai.</p>
+                        <div class="about-card-body">
+                            <h3>Khát vọng của chúng tôi</h3>
+                            <p>EduPass được tạo ra từ khát vọng giúp học sinh Việt Nam tiếp cận tri thức theo cách thông minh, chủ động và hiệu quả hơn. Chúng tôi tin rằng việc học không chỉ là ghi nhớ kiến thức, mà còn là hành trình khám phá bản thân và từng bước tiến gần hơn tới ước mơ tương lai.</p>
+                        </div>
                     </div>
                     <div class="about-card">
                         <div class="card-icon">💪</div>
-                        <h3>Cam kết của chúng tôi</h3>
-                        <p>Với tinh thần đó, EduPass vẫn đang nỗ lực mỗi ngày để hoàn thiện nền tảng, chọn lọc tài liệu chất lượng và xây dựng môi trường học tập trực tuyến đơn giản nhưng thực sự hữu ích. Mỗi cải tiến nhỏ đều xuất phát từ mong muốn mang lại giá trị thực chất, giúp học sinh học tốt hơn hôm nay và tự tin hơn trước những kỳ thi quan trọng phía trước.</p>
+                        <div class="about-card-body">
+                            <h3>Cam kết của chúng tôi</h3>
+                            <p>EduPass vẫn đang nỗ lực mỗi ngày để hoàn thiện nền tảng, chọn lọc tài liệu chất lượng và xây dựng môi trường học tập trực tuyến thực sự hữu ích. Mỗi cải tiến nhỏ đều xuất phát từ mong muốn mang lại giá trị thực chất cho học sinh.</p>
+                        </div>
                     </div>
-                    <a href="cau-chuyen.html" class="btn-primary btn-story">
-                        📖 Đọc thêm câu chuyện của chúng tôi
+                    <div class="about-card">
+                        <div class="card-icon">🏫</div>
+                        <div class="about-card-body">
+                            <h3>Sản phẩm của học sinh</h3>
+                            <p>EduPass là sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện — chứng minh rằng đam mê và nỗ lực có thể tạo ra những điều ý nghĩa ngay từ khi còn ngồi trên ghế nhà trường.</p>
+                        </div>
+                    </div>
+                    <a href="cau-chuyen.html" class="btn-story">
+                        📖 Đọc câu chuyện của chúng tôi →
                     </a>
                 </div>
             </div>
@@ -471,11 +530,86 @@
     </section>
 
     <!-- Thank You & Support Section -->
+    <!-- CTA Đăng Ký -->
+    <section class="cta-register-section">
+        <div class="cta-register-bg-circle cta-circle-1"></div>
+        <div class="cta-register-bg-circle cta-circle-2"></div>
+        <div class="container">
+            <div class="cta-register-inner">
+                <div class="cta-register-left">
+                    <div class="cta-register-badge">🎓 Đăng ký ngay</div>
+                    <h2 class="cta-register-title">Đăng ký ngay hôm nay<br>để trải nghiệm <span class="cta-brand">EduPass</span> tốt nhất!</h2>
+                    <p class="cta-register-desc">Tham gia cùng hàng trăm học sinh đang học thông minh hơn mỗi ngày. Kho tài liệu, đề thi và AI hỗ trợ — luôn sẵn sàng cho bạn.</p>
+                    <div class="cta-register-perks">
+                        <span>✅ 100+ tài liệu chọn lọc</span>
+                        <span>✅ Tạo đề thi không giới hạn</span>
+                        <span>✅ AI hỗ trợ 24/7</span>
+                    </div>
+                    <div class="cta-register-btns">
+                        <a href="dang-ky.html" class="cta-btn-main">🚀 Đăng ký ngay</a>
+                        <a href="dang-nhap.html" class="cta-btn-sub">Đã có tài khoản →</a>
+                    </div>
+                </div>
+                <div class="cta-register-right">
+                    <div class="cta-register-card">
+                        <div class="cta-card-icon">📚</div>
+                        <div class="cta-card-stat">100+</div>
+                        <div class="cta-card-label">Tài liệu</div>
+                    </div>
+                    <div class="cta-register-card">
+                        <div class="cta-card-icon">⭐</div>
+                        <div class="cta-card-stat">100+</div>
+                        <div class="cta-card-label">Đánh giá tích cực</div>
+                    </div>
+                    <div class="cta-register-card">
+                        <div class="cta-card-icon">🤖</div>
+                        <div class="cta-card-stat">24/7</div>
+                        <div class="cta-card-label">AI hỗ trợ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="support-section">
         <div class="container">
             <div class="support-wrapper">
+                <!-- Left: text content -->
+                <div class="support-right">
+                    <div class="support-thank-badge">💝 Lời cảm ơn</div>
+                    <h2>Cảm ơn bạn đã<br>tin tưởng <span class="support-brand">EduPass</span></h2>
+                    <p class="support-description">
+                        Chúng tôi chân thành cảm ơn bạn đã tin tưởng và đồng hành cùng EduPass.
+                        Trải nghiệm của bạn chính là mục tiêu và nguồn động lực để chúng tôi không ngừng hoàn thiện mỗi ngày.
+                    </p>
+                    <p class="support-description">
+                        Nếu EduPass đã giúp ích cho hành trình học tập của bạn, sự ủng hộ nhỏ của bạn sẽ là nguồn động viên quý giá để chúng tôi duy trì và phát triển nền tảng tốt hơn.
+                    </p>
+                    <div class="support-highlight">
+                        💛 Mỗi sự đồng hành của bạn đều góp phần tạo nên giá trị cho cộng đồng học sinh.
+                    </div>
+                    <div class="support-stats-row">
+                        <div class="support-stat">
+                            <span class="support-stat-num">100+</span>
+                            <span class="support-stat-label">Học sinh tin dùng</span>
+                        </div>
+                        <div class="support-stat-divider"></div>
+                        <div class="support-stat">
+                            <span class="support-stat-num">100+</span>
+                            <span class="support-stat-label">Tài liệu chọn lọc</span>
+                        </div>
+                        <div class="support-stat-divider"></div>
+                        <div class="support-stat">
+                            <span class="support-stat-num">12</span>
+                            <span class="support-stat-label">Môn học</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: QR -->
                 <div class="support-left">
                     <div class="qr-container">
+                        <div class="qr-label-top">Ủng hộ EduPass ☕</div>
                         <div class="qr-box">
                             <img src="ck.jpg" alt="QR Code Ủng Hộ" class="qr-image">
                             <div class="qr-scan-line"></div>
@@ -487,63 +621,100 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="support-right">
-                    <div class="support-icon">💝</div>
-                    <h2>Cảm ơn bạn đã tin tưởng EduPass</h2>
-                    <p class="support-description">
-                        Chúng tôi chân thành cảm ơn bạn đã tin tưởng và sử dụng EduPass. 
-                        Trải nghiệm của bạn chính là mục tiêu và nguồn động lực để chúng tôi không ngừng hoàn thiện mỗi ngày.
-                    </p>
-                    <p class="support-description">
-                        Nếu bạn cảm thấy EduPass hữu ích trong quá trình học tập và ôn luyện, 
-                        sự ủng hộ của bạn sẽ là nguồn động viên quý giá giúp chúng tôi duy trì, 
-                        nâng cấp và phát triển nền tảng tốt hơn trong tương lai.
-                    </p>
-                    <p class="support-highlight">
-                        💛 Mỗi sự đồng hành của bạn đều góp phần tạo nên giá trị cho cộng đồng học sinh.
-                    </p>
-                </div>
             </div>
         </div>
     </section>
 
 
-    <footer>
+    <!-- Chia sẻ trải nghiệm -->
+    <section class="review-section">
+        <div class="review-bg-blob review-blob-1"></div>
+        <div class="review-bg-blob review-blob-2"></div>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-left">
-                    <img src="logo.png" alt="EduPass Logo" class="footer-logo">
-                    <div class="footer-description">
-                        <h4>EduPass</h4>
-                        <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
-                    </div>
-                </div>
-                <div class="footer-center">
-                    <div class="footer-links">
-                        <a href="index.html" class="footer-link">Trang chủ</a>
-                        <a href="tai-lieu.html" class="footer-link">Kho tài liệu</a>
-                        <a href="luyen-thi.html" class="footer-link">Luyện thi</a>
-                        <a href="tao-de-thi.html" class="footer-link">Tạo đề thi</a>
-                    </div>
-                    <p>
-                        <a href="cau-chuyen.html" class="footer-link">Câu chuyện EduPass</a> | 
-                        <a href="hanh-trinh-edupass.html" class="footer-link">Hành trình EduPass</a>
-                    </p>
-                </div>
-                <div class="footer-contact-col">
-                    <h4>Liên hệ</h4>
-                    <p>📧 <a href="mailto:edupasshotro@gmail.com">edupasshotro@gmail.com</a></p>
-                    <p>📱 <a href="tel:0348908243">0348 908 243</a></p>
-                    <p>📱 <a href="tel:0876422788">0876 422 788</a></p>
-                </div>
-                <div class="footer-right">
-                    <p>&copy; 2026 EduPass. All rights reserved.</p>
-                    <p class="footer-tagline">Learn today. Pass tomorrow.</p>
-                    <p class="footer-description-text">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
+            <div class="review-header">
+                <div class="review-badge">💬 Phản hồi của bạn</div>
+                <h2 class="review-title">Chia sẻ trải nghiệm</h2>
+                <p class="review-subtitle">Ý kiến của bạn giúp chúng tôi phát triển tốt hơn mỗi ngày.</p>
+                <div class="review-trust-bar">
+                    <span>🔒 Bảo mật tuyệt đối</span>
+                    <span class="review-trust-dot">•</span>
+                    <span>⚖️ Công tâm</span>
+                    <span class="review-trust-dot">•</span>
+                    <span>🔍 Minh bạch</span>
                 </div>
             </div>
-            <div class="footer-bottom">
+            <div class="review-inner">
+                <div class="review-form-wrap">
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfDCOxBL6StHxEIoTAJbgneJh5txpmWUutUBCnP2J5eW0kNYA/viewform?embedded=true"
+                        width="100%" height="820"
+                        frameborder="0" marginheight="0" marginwidth="0"
+                        loading="lazy"
+                        title="Form chia sẻ trải nghiệm EduPass">
+                        Đang tải…
+                    </iframe>
+                    <div class="review-consent">
+                        <span class="review-consent-icon">🛡️</span>
+                        <p>Tôi đồng ý cho EduPass sử dụng và hiển thị nội dung chia sẻ của tôi nhằm cải thiện và phát triển nền tảng.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand -->
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo-wrap"><img src="logo.png" alt="EduPass" class="footer-logo"></a>
+                    <p class="footer-desc">Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                    <p class="footer-tagline-new">✨ Learn today. Pass tomorrow.</p>
+                </div>
+
+                <!-- Nav links -->
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Khám phá</h5>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">🏠 Trang chủ</a></li>
+                        <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
+                    </ul>
+                </div>
+
+                <!-- About links -->
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Về EduPass</h5>
+                    <ul class="footer-nav">
+                        <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                        <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
+                        <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
+                        <li><a href="dang-nhap.html">🔑 Đăng nhập</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Liên hệ</h5>
+                    <ul class="footer-contact-list">
+                        <li><a href="mailto:edupasshotro@gmail.com">📧 edupasshotro@gmail.com</a></li>
+                        <li><a href="tel:0348908243">📱 0348 908 243</a></li>
+                        <li><a href="tel:0876422788">📱 0876 422 788</a></li>
+                    </ul>
+                </div>
+
+                <!-- Copyright & Tagline -->
+                <div class="footer-col footer-col-brand">
+                    <h5 class="footer-col-title">EduPass</h5>
+                    <p class="footer-copy">© 2026 EduPass.<br>All rights reserved.</p>
+                    <p class="footer-slogan">Learn today.<br>Pass tomorrow.</p>
+                    <p class="footer-slogan-vi">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
+                    <p class="footer-slogan-vi2">🎓 Học hôm nay · Đỗ ngày mai</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom-new">
                 <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
                 <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
             </div>
@@ -591,6 +762,33 @@
                 navbar.classList.remove('navbar-scrolled');
             }
         });
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('navHamburger');
+        const navMenu = document.getElementById('navMenu');
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                const isOpen = navMenu.classList.toggle('open');
+                hamburger.classList.toggle('open', isOpen);
+                hamburger.setAttribute('aria-expanded', isOpen);
+            });
+            // Đóng menu khi click link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('open');
+                    hamburger.classList.remove('open');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                });
+            });
+            // Đóng menu khi click ngoài
+            document.addEventListener('click', (e) => {
+                if (!navbar.contains(e.target)) {
+                    navMenu.classList.remove('open');
+                    hamburger.classList.remove('open');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
 
         // Typewriter effect
         const typewriterEl = document.getElementById('typewriterText');
@@ -705,6 +903,15 @@
             this.style.display = 'none';
             document.getElementById('contactThankyou').style.display = 'flex';
         });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('EduPass SW registered:', reg.scope))
+                    .catch(err => console.log('SW error:', err));
+            });
+        }
     </script>
 </body>
 </html>
