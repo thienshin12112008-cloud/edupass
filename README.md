@@ -135,14 +135,20 @@ Mở file `index.html` trong trình duyệt để xem website.
 - Chủ tài khoản: NGUYEN VAN A
 
 ### Thông tin liên hệ
-- Email: trcuong12112008@gmail.com
+- Email: edupasshotro@gmail.com
 - Phone: 0348908243
 
 ## 👥 Đội ngũ
 
 - **Trần Nguyễn Chí Cường** - Founder & Operator
-  - Email: trcuong12112008@gmail.com
-- **Nguyễn Nhật Trường** - Co-Founder
+  - Email: edupasshotro@gmail.com
+- **Phạm Như Anh** - Co-Founder
+- **Lê Hoàng Gia Huy** - Co-Founder
+- **Lê Hoàng Khang** - Co-Founder
+- **Nguyễn Gia Hòa** - Co-Founder
+- **Nguyễn Minh Tiến** - Co-Founder
+- **Lê Nhất Duy** - Co-Founder
+- **Hồ Nguyễn Trúc Ngân** - Co-Founder
 
 ## 🎯 Tính năng mở rộng (trong tương lai)
 

@@ -9,131 +9,227 @@
     <link rel="stylesheet" href="edupass-ai.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="logo.png" alt="EduPass Logo" class="logo-img">
-                <span class="logo-text">EduPass</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="index.html">Trang chủ</a></li>
-                <li><a href="tai-lieu.html">Kho tài liệu</a></li>
-                <li><a href="luyen-thi.html">Luyện thi</a></li>
-                <li><a href="tao-de-thi.html">Tạo đề thi</a></li>
-                <li><a href="dang-nhap.html">Đăng nhập</a></li>
-                <li><a href="dang-ky.html" class="btn-primary">Đăng ký</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>EduPass – Learn today. Pass tomorrow</h1>
-                    <p>Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú</p>
-                    <div class="cta-buttons">
-                        <a href="luyen-thi.html" class="btn-cta btn-cta-primary">
-                            <span class="btn-icon">📝</span>
-                            <span class="btn-content">
-                                <span class="btn-title">Bắt đầu luyện thi</span>
-                                <span class="btn-subtitle">Làm đề thi trực tuyến ngay</span>
-                            </span>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="EduPass Logo" class="logo-img">
+                    <span class="logo-text" id="logoText"></span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="tai-lieu.html">Kho tài liệu</a></li>
+                    <li><a href="luyen-thi.html">Luyện thi</a></li>
+                    <li><a href="tao-de-thi.html">Tạo đề thi</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
+                    <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
+                </div>
+            </div>
+            <div class="navbar-search-bar">
+                <div class="hero-search" id="heroSearchBox">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="heroSearchInput" placeholder="Tìm kiếm môn học, đề thi..." autocomplete="off">
+                    <button class="search-btn" id="heroSearchBtn" onclick="toggleSearchDropdown()">🔎</button>
+                </div>
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-dropdown-section">
+                        <div class="search-dropdown-label">🔥 Tìm kiếm phổ biến</div>
+                        <div class="search-chips">
+                            <a href="tai-lieu.html" class="search-chip">📐 Toán</a>
+                            <a href="tai-lieu.html" class="search-chip">⚛️ Vật Lý</a>
+                            <a href="tai-lieu.html" class="search-chip">🧪 Hóa học</a>
+                            <a href="tai-lieu.html" class="search-chip">📖 Ngữ Văn</a>
+                            <a href="tai-lieu.html" class="search-chip">�🇧 Tiếng Anh</a>
+                            <a href="tai-lieu.html" class="search-chip">🧬 Sinh học</a>
+                            <a href="tai-lieu.html" class="search-chip">🏛️ Lịch Sử</a>
+                            <a href="tai-lieu.html" class="search-chip">🌍 Địa Lý</a>
+                        </div>
+                    </div>
+                    <div class="search-dropdown-section">
+                        <div class="search-dropdown-label">⚡ Truy cập nhanh</div>
+                        <a href="luyen-thi.html" class="search-item">
+                            <div class="search-item-icon blue">✏️</div>
+                            <div class="search-item-text">
+                                <strong>Luyện thi trực tuyến</strong>
+                                <span>Hàng ngàn đề thi, chấm điểm tự động</span>
+                            </div>
+                            <span class="search-item-arrow">→</span>
                         </a>
-                        <a href="tai-lieu.html" class="btn-cta btn-cta-secondary">
-                            <span class="btn-icon">📚</span>
-                            <span class="btn-content">
-                                <span class="btn-title">Xem kho tài liệu</span>
-                                <span class="btn-subtitle">Tải tài liệu học tập </span>
-                            </span>
+                        <a href="tao-de-thi.html" class="search-item">
+                            <div class="search-item-icon orange">🛠️</div>
+                            <div class="search-item-text">
+                                <strong>Tạo đề thi</strong>
+                                <span>Tự tạo đề theo môn và độ khó</span>
+                            </div>
+                            <span class="search-item-arrow">→</span>
+                        </a>
+                        <a href="tai-lieu.html" class="search-item">
+                            <div class="search-item-icon green">📚</div>
+                            <div class="search-item-text">
+                                <strong>Kho tài liệu miễn phí</strong>
+                                <span>70+ tài liệu chọn lọc bám sát THPT</span>
+                            </div>
+                            <span class="search-item-arrow">→</span>
                         </a>
                     </div>
+                    <div class="search-dropdown-footer">
+                        <span>⌨️</span> Nhấn <kbd style="background:#eee;padding:1px 6px;border-radius:4px;font-size:0.78rem">Enter</kbd> để tìm kiếm
+                    </div>
                 </div>
-                <div class="hero-mascot">
-                    <img src="assets/logo2.png" alt="EduPass Mascot" class="mascot-img">
-                </div>
+            </div>
+        </nav>
+
+        <div class="hero-inner">
+            <div class="hero-badge">🎓 Nền tảng học tập số 1 cho học sinh THPT</div>
+            <h1 class="hero-title">
+                <span class="hero-title-top">Nền tảng luyện thi</span><br>
+                <span id="typewriterText"></span><span class="typewriter-cursor">|</span>
+            </h1>
+            <p class="hero-subtitle">Học thông minh hơn, ôn luyện hiệu quả hơn cùng <span class="subtitle-brand">EduPass</span></p>
+        </div>
+
+        <div class="hero-features">
+            <div class="hero-feature-item">
+                <span>📖</span>
+                <span>Bài Giảng</span>
+            </div>
+            <div class="hero-feature-item">
+                <span>✏️</span>
+                <span>Luyện Đề</span>
+            </div>
+            <div class="hero-feature-item">
+                <span>📊</span>
+                <span>Thống Kê</span>
+            </div>
+            <div class="hero-feature-item">
+                <span>💬</span>
+                <span>Hỗ Trợ Trực Tuyến</span>
             </div>
         </div>
     </section>
 
     <section class="ecosystem-section">
-        <div class="container">
-            <div class="ecosystem-header">
-                <h2>HỆ SINH THÁI EDUPASS</h2>
-                <p class="ecosystem-subtitle">Giải pháp học tập toàn diện</p>
+        <div class="eco-sticky-wrap">
+            <div class="eco-header-sticky">
+                <div class="eco-badge">✨ Hệ sinh thái học tập</div>
+                <h2>HỆ SINH THÁI <span class="eco-title-brand">EDUPASS</span></h2>
+                <p class="ecosystem-subtitle">Mọi công cụ bạn cần để chinh phục kỳ thi — trong một nền tảng</p>
             </div>
-            <div class="ecosystem-content">
-                <div class="ecosystem-text">
-                    <p class="ecosystem-description">
-                        Từ luyện thi THPT Quốc gia, ôn tập học kỳ đến phát triển tư duy và kỹ năng học tập hiện đại, 
-                        EduPass xây dựng một hệ sinh thái công cụ học tập ứng dụng AI nhằm hỗ trợ bạn tối ưu hóa 
-                        quá trình ôn luyện và nâng cao hiệu quả tiếp thu kiến thức.
-                    </p>
-                    <p class="ecosystem-highlight">
-                        Chúng tôi không chỉ cung cấp tài liệu và đề thi, mà còn mang đến giải pháp học tập có chiến lược, 
-                        giúp bạn tự tin chinh phục các kỳ thi quan trọng và từng bước tiến gần hơn tới cánh cửa đại học.
-                    </p>
-                    <div class="ecosystem-features">
-                        <div class="eco-feature">
-                            <div class="eco-icon">🎯</div>
-                            <div class="eco-text">
-                                <h4>Học có chiến lược</h4>
-                                <p>Lộ trình cá nhân hóa theo năng lực</p>
+            <div class="eco-stack-container">
+                <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-blue">
+                        <div class="eco-card-bg-icon">📚</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">📚</div>
+                            <div class="eco-card-text">
+                                <h3>Kho Tài Liệu</h3>
+                                <p>70+ tài liệu chọn lọc, bám sát chương trình THPT. Miễn phí 100%.</p>
                             </div>
+                            <a href="tai-lieu.html" class="eco-card-link">Khám phá →</a>
                         </div>
-                        <div class="eco-feature">
-                            <div class="eco-icon">🤖</div>
-                            <div class="eco-text">
-                                <h4>Ứng dụng AI</h4>
-                                <p>Trợ lý AI hỗ trợ 24/7</p>
+                    </div>
+                </div>
+                <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-purple">
+                        <div class="eco-card-bg-icon">✏️</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">✏️</div>
+                            <div class="eco-card-text">
+                                <h3>Luyện Thi</h3>
+                                <p>Hàng ngàn đề thi với chấm điểm tự động tức thì.</p>
                             </div>
+                            <a href="luyen-thi.html" class="eco-card-link">Luyện ngay →</a>
                         </div>
-                        <div class="eco-feature">
-                            <div class="eco-icon">📊</div>
-                            <div class="eco-text">
-                                <h4>Theo dõi tiến độ</h4>
-                                <p>Phân tích chi tiết điểm mạnh/yếu</p>
+                    </div>
+                </div>
+                <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-orange">
+                        <div class="eco-card-bg-icon">🛠️</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">🛠️</div>
+                            <div class="eco-card-text">
+                                <h3>Tạo Đề Thi</h3>
+                                <p>Tự tạo đề thi cá nhân hóa theo môn, lớp và độ khó.</p>
                             </div>
+                            <a href="tao-de-thi.html" class="eco-card-link">Tạo ngay →</a>
                         </div>
-                        <div class="eco-feature">
-                            <div class="eco-icon">🎓</div>
-                            <div class="eco-text">
-                                <h4>Chuẩn đại học</h4>
-                                <p>Đề thi chuẩn THPT Quốc gia</p>
+                    </div>
+                </div>
+                <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-green">
+                        <div class="eco-card-bg-icon">🤖</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">🤖</div>
+                            <div class="eco-card-text">
+                                <h3>EduPass AI</h3>
+                                <p>Trợ lý AI thông minh hỗ trợ học tập và giải đáp 24/7.</p>
                             </div>
+                            <div class="eco-card-link" style="cursor:pointer" onclick="window.edupassAI&&window.edupassAI.toggleChat()">Chat ngay →</div>
                         </div>
-                        <div class="eco-feature eco-feature-coming-soon">
-                            <div class="eco-icon">🏫</div>
-                            <div class="eco-text">
-                                <h4>Phòng luyện thi ảo</h4>
-                                <p>Mô phỏng môi trường thi thật</p>
-                                <span class="coming-soon-badge">Sắp ra mắt</span>
+                    </div>
+                </div>
+                <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-teal">
+                        <div class="eco-card-bg-icon">📊</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">📊</div>
+                            <div class="eco-card-text">
+                                <h3>Thống Kê</h3>
+                                <p>Theo dõi tiến độ, phân tích điểm mạnh yếu chi tiết.</p>
                             </div>
+                            <a href="tai-khoan.html" class="eco-card-link">Xem ngay →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-navy">
+                        <div class="eco-card-bg-icon">🏫</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">🏫</div>
+                            <div class="eco-card-text">
+                                <h3>Phòng Thi Ảo</h3>
+                                <p>Mô phỏng môi trường thi thật, luyện phản xạ áp lực.</p>
+                            </div>
+                            <span class="coming-soon-badge">Sắp ra mắt</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
     <section class="benefits">
         <div class="container">
-            <h2>Lợi ích khi học cùng EduPass</h2>
+            <div class="benefits-header">
+                <span class="benefits-badge">🚀 Tại sao chọn EduPass?</span>
+                <h2>Lợi ích khi học cùng <span class="benefits-brand">EduPass</span></h2>
+            </div>
             <div class="benefit-grid">
                 <div class="benefit-card">
-                    <div class="icon">📚</div>
-                    <h3>Kho đề đa dạng</h3>
-                    <p>Hàng ngàn đề thi từ cơ bản đến nâng cao</p>
+                    <div class="benefit-icon-wrap">📚</div>
+                    <h3>Kho đề thi khổng lồ</h3>
+                    <p>Hàng ngàn đề thi được tuyển chọn từ cơ bản đến nâng cao, bám sát cấu trúc kỳ thi THPT giúp bạn luyện tập hiệu quả.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="icon">📖</div>
-                    <h3>Tài liệu chọn lọc</h3>
-                    <p>Tài liệu chất lượng cao được biên soạn bởi giáo viên</p>
+                    <div class="benefit-icon-wrap">📖</div>
+                    <h3>Tài liệu học tập chất lượng</h3>
+                    <p>Nguồn tài liệu được chọn lọc kỹ lưỡng, tổng hợp kiến thức trọng tâm giúp bạn ôn tập nhanh và dễ hiểu.</p>
                 </div>
                 <div class="benefit-card">
-                    <div class="icon">✅</div>
+                    <div class="benefit-icon-wrap">⚡</div>
                     <h3>Chấm điểm tự động</h3>
-                    <p>Hệ thống chấm điểm nhanh chóng và chính xác</p>
+                    <p>Hệ thống chấm điểm thông minh, trả kết quả ngay sau khi hoàn thành bài làm.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon-wrap">📊</div>
+                    <h3>Theo dõi tiến độ học tập</h3>
+                    <p>Phân tích kết quả chi tiết giúp bạn nhận ra điểm mạnh và cải thiện điểm yếu.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon-wrap">⏱️</div>
+                    <h3>Luyện đề như thi thật</h3>
+                    <p>Mô phỏng thời gian thi thực tế giúp bạn làm quen áp lực và nâng cao tốc độ làm bài.</p>
                 </div>
             </div>
         </div>
@@ -142,55 +238,34 @@
     <section class="subjects">
         <div class="container">
             <h2>Môn học nổi bật</h2>
-            <div class="subject-grid">
-                <div class="subject-card">
-                    <div class="subject-icon">📐</div>
-                    <span>Toán</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">⚡</div>
-                    <span>Vật Lý</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">🧪</div>
-                    <span>Hóa</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">📖</div>
-                    <span>Ngữ Văn</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">🏛️</div>
-                    <span>Lịch Sử</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">🌍</div>
-                    <span>Địa Lí</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">🧬</div>
-                    <span>Sinh học</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">🇬🇧</div>
-                    <span>Tiếng Anh</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">👥</div>
-                    <span>Giáo dục công dân</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">💼</div>
-                    <span>Kinh tế & Pháp luật</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">🔧</div>
-                    <span>Công nghệ</span>
-                </div>
-                <div class="subject-card">
-                    <div class="subject-icon">💻</div>
-                    <span>Tin học</span>
-                </div>
+        </div>
+        <div class="subjects-marquee-wrap">
+            <div class="subjects-marquee">
+                <div class="subject-card"><div class="subject-icon">📐</div><span>Toán</span></div>
+                <div class="subject-card"><div class="subject-icon">⚡</div><span>Vật Lý</span></div>
+                <div class="subject-card"><div class="subject-icon">🧪</div><span>Hóa</span></div>
+                <div class="subject-card"><div class="subject-icon">📖</div><span>Ngữ Văn</span></div>
+                <div class="subject-card"><div class="subject-icon">🏛️</div><span>Lịch Sử</span></div>
+                <div class="subject-card"><div class="subject-icon">🌍</div><span>Địa Lí</span></div>
+                <div class="subject-card"><div class="subject-icon">🧬</div><span>Sinh học</span></div>
+                <div class="subject-card"><div class="subject-icon">🇬🇧</div><span>Tiếng Anh</span></div>
+                <div class="subject-card"><div class="subject-icon">👥</div><span>GDCD</span></div>
+                <div class="subject-card"><div class="subject-icon">💼</div><span>Kinh tế & Pháp luật</span></div>
+                <div class="subject-card"><div class="subject-icon">🔧</div><span>Công nghệ</span></div>
+                <div class="subject-card"><div class="subject-icon">�</div><span>Tin học</span></div>
+                <!-- duplicate for seamless loop -->
+                <div class="subject-card"><div class="subject-icon">📐</div><span>Toán</span></div>
+                <div class="subject-card"><div class="subject-icon">⚡</div><span>Vật Lý</span></div>
+                <div class="subject-card"><div class="subject-icon">🧪</div><span>Hóa</span></div>
+                <div class="subject-card"><div class="subject-icon">📖</div><span>Ngữ Văn</span></div>
+                <div class="subject-card"><div class="subject-icon">🏛️</div><span>Lịch Sử</span></div>
+                <div class="subject-card"><div class="subject-icon">🌍</div><span>Địa Lí</span></div>
+                <div class="subject-card"><div class="subject-icon">🧬</div><span>Sinh học</span></div>
+                <div class="subject-card"><div class="subject-icon">🇬🇧</div><span>Tiếng Anh</span></div>
+                <div class="subject-card"><div class="subject-icon">👥</div><span>GDCD</span></div>
+                <div class="subject-card"><div class="subject-icon">💼</div><span>Kinh tế & Pháp luật</span></div>
+                <div class="subject-card"><div class="subject-icon">🔧</div><span>Công nghệ</span></div>
+                <div class="subject-card"><div class="subject-icon">💻</div><span>Tin học</span></div>
             </div>
         </div>
     </section>
@@ -199,42 +274,74 @@
         <div class="container">
             <h2>Đánh giá từ học viên</h2>
             <p class="section-subtitle">Những chia sẻ chân thực từ học sinh đang sử dụng EduPass</p>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <div class="student-avatar">👨‍🎓</div>
-                        <div class="student-info">
-                            <h4>Nguyễn Văn An</h4>
-                            <p>Học sinh lớp 12A1</p>
-                        </div>
-                    </div>
-                    <div class="rating">⭐⭐⭐⭐⭐</div>
-                    <p class="testimonial-text">"EduPass giúp mình ôn thi hiệu quả hơn rất nhiều. Đề thi đa dạng, tài liệu chất lượng và giao diện dễ sử dụng. Mình đã tự tin hơn trước các kỳ thi!"</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <div class="student-avatar">👩‍🎓</div>
-                        <div class="student-info">
-                            <h4>Trần Thị Bình</h4>
-                            <p>Học sinh lớp 11A2</p>
-                        </div>
-                    </div>
-                    <div class="rating">⭐⭐⭐⭐⭐</div>
-                    <p class="testimonial-text">"Kho tài liệu của EduPass rất phong phú và được cập nhật thường xuyên. Mình không còn phải mất thời gian tìm kiếm tài liệu rời rạc nữa. Cảm ơn EduPass!"</p>
-                </div>
-
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <div class="student-avatar">👨‍🎓</div>
-                        <div class="student-info">
-                            <h4>Lê Minh Cường</h4>
-                            <p>Học sinh lớp 12A3</p>
-                        </div>
-                    </div>
-                    <div class="rating">⭐⭐⭐⭐⭐</div>
-                    <p class="testimonial-text">"Chức năng luyện thi trực tuyến rất tiện lợi. Mình có thể làm bài mọi lúc mọi nơi và nhận kết quả ngay lập tức. Điểm số của mình đã cải thiện đáng kể!"</p>
-                </div>
+        </div>
+        <!-- Hàng 1: chạy trái → phải -->
+        <div class="testi-marquee-wrap">
+            <div class="testi-marquee testi-row1">
+                <div class="testi-card"><div class="testi-name">Nguyễn Minh Khang <span>Lớp 12A1</span></div><p>"EduPass giúp mình luyện đề mỗi ngày nên điểm Toán tăng rõ rệt."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Hoàng Phúc <span>Lớp 12A3</span></div><p>"Kho đề rất sát với đề thi thật, luyện rất hiệu quả."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Nhật Duy <span>Lớp 11A2</span></div><p>"Giao diện dễ dùng, học trên máy tính rất tiện."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Gia Huy <span>Lớp 12A4</span></div><p>"Phần thống kê điểm giúp mình biết mình yếu chỗ nào."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Thanh Tâm <span>Lớp 11A5</span></div><p>"Trang web rất hữu ích cho học sinh chuẩn bị thi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Khánh Linh <span>Lớp 12A2</span></div><p>"Mình thích nhất là phần luyện đề theo thời gian thật."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Đặng Quỳnh Anh <span>Lớp 11A3</span></div><p>"Bài giảng rõ ràng và dễ hiểu."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Đức Anh <span>Lớp 12A6</span></div><p>"EduPass giúp mình học tập có kế hoạch hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Hữu Phát <span>Lớp 11A1</span></div><p>"Nhiều đề thi đa dạng từ dễ đến khó."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Võ Minh Tài <span>Lớp 12A7</span></div><p>"Luyện đề thường xuyên giúp mình tự tin hơn khi thi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Tuấn Kiệt <span>Lớp 11A4</span></div><p>"Trang web giúp mình ôn tập nhanh và hiệu quả."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Gia Bảo <span>Lớp 12A5</span></div><p>"Mình cải thiện điểm Vật Lý nhờ luyện đề ở đây."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Minh Trí <span>Lớp 12A3</span></div><p>"Đề thi rất sát chương trình học."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Hoàng Nam <span>Lớp 11A6</span></div><p>"Thi thử trên web giống thi thật nên luyện rất tốt."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Khánh Vy <span>Lớp 12A1</span></div><p>"Nhờ EduPass mình ôn thi có hệ thống hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Hải Đăng <span>Lớp 11A7</span></div><p>"Trang web chạy nhanh và dễ sử dụng."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Thanh Tùng <span>Lớp 12A2</span></div><p>"Kho tài liệu rất phong phú."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Ngọc Anh <span>Lớp 11A8</span></div><p>"Có nhiều đề thi thử rất hay."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Đức Duy <span>Lớp 12A4</span></div><p>"Luyện đề ở đây giúp mình quen dạng đề."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Quốc Bảo <span>Lớp 11A9</span></div><p>"Trang web giúp mình học tập chăm chỉ hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <!-- duplicate for loop -->
+                <div class="testi-card"><div class="testi-name">Nguyễn Minh Khang <span>Lớp 12A1</span></div><p>"EduPass giúp mình luyện đề mỗi ngày nên điểm Toán tăng rõ rệt."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Hoàng Phúc <span>Lớp 12A3</span></div><p>"Kho đề rất sát với đề thi thật, luyện rất hiệu quả."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Nhật Duy <span>Lớp 11A2</span></div><p>"Giao diện dễ dùng, học trên máy tính rất tiện."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Gia Huy <span>Lớp 12A4</span></div><p>"Phần thống kê điểm giúp mình biết mình yếu chỗ nào."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Thanh Tâm <span>Lớp 11A5</span></div><p>"Trang web rất hữu ích cho học sinh chuẩn bị thi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Khánh Linh <span>Lớp 12A2</span></div><p>"Mình thích nhất là phần luyện đề theo thời gian thật."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Đặng Quỳnh Anh <span>Lớp 11A3</span></div><p>"Bài giảng rõ ràng và dễ hiểu."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Đức Anh <span>Lớp 12A6</span></div><p>"EduPass giúp mình học tập có kế hoạch hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Hữu Phát <span>Lớp 11A1</span></div><p>"Nhiều đề thi đa dạng từ dễ đến khó."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Võ Minh Tài <span>Lớp 12A7</span></div><p>"Luyện đề thường xuyên giúp mình tự tin hơn khi thi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+            </div>
+        </div>
+        <!-- Hàng 2: chạy phải → trái (ngược) -->
+        <div class="testi-marquee-wrap">
+            <div class="testi-marquee testi-row2">
+                <div class="testi-card"><div class="testi-name">Nguyễn Văn Hòa <span>Lớp 12A6</span></div><p>"EduPass giúp mình cải thiện kỹ năng làm bài nhanh."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Hoàng Long <span>Lớp 11A2</span></div><p>"Mình rất thích giao diện của trang web."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Minh Tân <span>Lớp 12A7</span></div><p>"Thi thử giúp mình quản lý thời gian tốt hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Thanh Bình <span>Lớp 11A3</span></div><p>"Đề thi rất giống đề minh họa của Bộ."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Gia Hưng <span>Lớp 12A1</span></div><p>"Trang web rất hữu ích cho học sinh lớp 12."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Quốc Khánh <span>Lớp 11A5</span></div><p>"Mình luyện đề mỗi ngày nên tiến bộ nhanh."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Tuấn Anh <span>Lớp 12A2</span></div><p>"Hệ thống rất phù hợp để tự học."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Đức Thịnh <span>Lớp 11A6</span></div><p>"Tài liệu và đề thi đều rất chất lượng."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Minh Đức <span>Lớp 12A4</span></div><p>"Nhờ luyện đề nên mình tự tin hơn khi làm bài."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Hải Nam <span>Lớp 11A7</span></div><p>"Trang web giúp mình học tập hiệu quả hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Quốc Huy <span>Lớp 12A3</span></div><p>"Đề thi phong phú và cập nhật thường xuyên."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Thanh Phong <span>Lớp 11A1</span></div><p>"Hệ thống luyện thi rất tiện lợi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Đức Anh <span>Lớp 12A5</span></div><p>"Nhờ EduPass mình tiến bộ rõ rệt."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Minh Hoàng <span>Lớp 11A4</span></div><p>"Mình học được nhiều kiến thức mới."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Văn Thành <span>Lớp 12A6</span></div><p>"Trang web giúp mình học tập có động lực hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Nhật Quang <span>Lớp 11A2</span></div><p>"Kho đề thi rất đa dạng."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Minh Khôi <span>Lớp 12A7</span></div><p>"Rất hữu ích cho việc ôn thi THPT."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Thanh Tuấn <span>Lớp 11A3</span></div><p>"Trang web dễ sử dụng và tiện lợi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Hoàng Vũ <span>Lớp 12A2</span></div><p>"EduPass giúp mình học tập hiệu quả hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Quốc Hưng <span>Lớp 11A6</span></div><p>"Thi thử giúp mình quen áp lực thời gian."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <!-- duplicate for loop -->
+                <div class="testi-card"><div class="testi-name">Nguyễn Văn Hòa <span>Lớp 12A6</span></div><p>"EduPass giúp mình cải thiện kỹ năng làm bài nhanh."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Hoàng Long <span>Lớp 11A2</span></div><p>"Mình rất thích giao diện của trang web."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Trần Minh Tân <span>Lớp 12A7</span></div><p>"Thi thử giúp mình quản lý thời gian tốt hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Phạm Thanh Bình <span>Lớp 11A3</span></div><p>"Đề thi rất giống đề minh họa của Bộ."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Gia Hưng <span>Lớp 12A1</span></div><p>"Trang web rất hữu ích cho học sinh lớp 12."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Lê Đức Khánh <span>Lớp 12A1</span></div><p>"Mình rất thích luyện đề trên trang này."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Quang Huy <span>Lớp 11A8</span></div><p>"EduPass là một nền tảng học tập rất tốt."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
             </div>
         </div>
     </section>
@@ -273,80 +380,92 @@
     <section class="contact-section">
         <div class="container">
             <div class="contact-header">
+                <div class="contact-emoji-row"><img src="logo.png" alt="EduPass" style="height:110px;width:auto;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(2,136,209,0.25))"></div>
                 <h2>Bạn còn câu hỏi khác?</h2>
-                <p>Để lại thông tin, <span class="highlight-text">EduPass</span> sẽ chủ động liên hệ và hỗ trợ bạn trong thời gian sớm nhất.</p>
-                <p class="contact-description">Chúng tôi sẵn sàng giải đáp về lộ trình học tập, tài liệu ôn luyện, phương pháp luyện thi khoa học cũng như các vấn đề liên quan đến quá trình sử dụng nền tảng <span class="highlight-text">EduPass</span>, giúp bạn học tập hiệu quả và tự tin hơn trên hành trình chinh phục kỳ thi.</p>
+                <p>Để lại thông tin, EduPass sẽ chủ động liên hệ và hỗ trợ bạn sớm nhất.</p>
+                <p>Chúng tôi luôn sẵn sàng tư vấn lộ trình học tập và tài liệu ôn luyện.</p>
+                <p>Đồng hành cùng bạn trên hành trình chinh phục kỳ thi với phương pháp hiệu quả nhất.</p>
             </div>
-            <div class="contact-content">
-                <div class="contact-form-wrapper">
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="contactName">Họ và tên</label>
-                                <input type="text" id="contactName" placeholder="Nguyễn Văn A" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contactEmail">Email</label>
-                                <input type="email" id="contactEmail" placeholder="example@gmail.com" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactPhone">Số điện thoại</label>
-                            <input type="tel" id="contactPhone" placeholder="0123456789" pattern="[0-9]{10,11}" title="Vui lòng nhập số điện thoại hợp lệ (10-11 số)" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactSubject">Tiêu đề</label>
-                            <input type="text" id="contactSubject" placeholder="Nhập tiêu đề câu hỏi" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactMessage">Nội dung câu hỏi</label>
-                            <textarea id="contactMessage" rows="5" placeholder="Nhập nội dung câu hỏi của bạn..." required></textarea>
-                        </div>
-                        <p class="privacy-notice">Bằng việc gửi thông tin, bạn đồng ý với Chính sách bảo mật của EduPass.</p>
-                        <button type="submit" class="btn-primary btn-full">
-                            📧 Gửi câu hỏi
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+            <div class="contact-layout">
+                <!-- Cột trái: thông tin liên hệ -->
+                <div class="contact-side-info">
+                    <div class="csi-title">Liên hệ trực tiếp 👋</div>
+                    <p class="csi-desc">Tụi mình luôn online và sẵn sàng hỗ trợ bạn!</p>
 
-    <!-- Technical Support Section -->
-    <section class="tech-support-section">
-        <div class="container">
-            <div class="tech-support-box">
-                <div class="support-header">
-                    <div class="support-icon-large">🛠️</div>
-                    <h2>Hỗ trợ kỹ thuật</h2>
-                    <p class="support-intro">
-                        EduPass luôn nỗ lực mang đến cho bạn trải nghiệm học tập trọn vẹn và thuận tiện nhất. 
-                        Nếu trong quá trình sử dụng bạn gặp bất kỳ khó khăn hay sự cố nào, đội ngũ hỗ trợ kỹ thuật 
-                        của chúng tôi luôn sẵn sàng lắng nghe và đồng hành cùng bạn.
-                    </p>
+                    <div class="csi-card csi-gmail">
+                        <div class="csi-icon">📧</div>
+                        <div>
+                            <div class="csi-label">Gmail</div>
+                            <a href="mailto:edupasshotro@gmail.com" class="csi-value">edupasshotro@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="csi-card csi-hotline">
+                        <div class="csi-icon">📱</div>
+                        <div>
+                            <div class="csi-label">Hotline</div>
+                            <a href="tel:0348908243" class="csi-value">0348 908 243</a>
+                        </div>
+                    </div>
+                    <div class="csi-card csi-zalo">
+                        <div class="csi-icon">💬</div>
+                        <div>
+                            <div class="csi-label">Zalo</div>
+                            <a href="tel:0876422788" class="csi-value">0876 422 788</a>
+                        </div>
+                    </div>
+
+                    <div class="csi-note">⏰ Phản hồi trong <strong>24 giờ</strong> nha!</div>
                 </div>
-                
-                <div class="support-contacts">
-                    <div class="support-contact-card">
-                        <div class="contact-icon">📞</div>
-                        <h3>Hotline hỗ trợ</h3>
-                        <a href="tel:0348908243" class="contact-link">0348 908 243</a>
-                    </div>
-                    
-                    <div class="support-contact-card">
-                        <div class="contact-icon">💬</div>
-                        <h3>Zalo/Điện thoại</h3>
-                        <a href="tel:0876422788" class="contact-link">0876 422 788</a>
-                    </div>
-                    
-                    <div class="support-contact-card">
-                        <div class="contact-icon">✉️</div>
-                        <h3>Email</h3>
-                        <a href="mailto:trcuong12112008@gmail.com" class="contact-link">trcuong12112008@gmail.com</a>
+
+                <!-- Cột phải: form -->
+                <div class="contact-form-outer">
+                    <div class="contact-form-inner">
+                        <form id="contactForm" class="contact-form">
+                            <div class="cf-row-2">
+                                <div class="cf-group">
+                                    <label>Họ và tên</label>
+                                    <input type="text" id="contactName" placeholder="Nguyễn Văn A" required>
+                                </div>
+                                <div class="cf-group">
+                                    <label>Số điện thoại</label>
+                                    <input type="tel" id="contactPhone" placeholder="0123 456 789" pattern="[0-9]{10,11}" required>
+                                </div>
+                            </div>
+                            <div class="cf-row-2">
+                                <div class="cf-group">
+                                    <label>Email</label>
+                                    <input type="email" id="contactEmail" placeholder="example@gmail.com" required>
+                                </div>
+                                <div class="cf-group">
+                                    <label>Dịch vụ quan tâm</label>
+                                    <select id="contactService">
+                                        <option value="">-- Chọn --</option>
+                                        <option>Luyện thi</option>
+                                        <option>Kho tài liệu</option>
+                                        <option>Tạo đề thi</option>
+                                        <option>EduPass AI</option>
+                                        <option>Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cf-group">
+                                <label>Nội dung</label>
+                                <textarea id="contactMessage" rows="4" placeholder="Kể cho tụi mình nghe nha..." required></textarea>
+                            </div>
+                            <div class="cf-privacy">
+                                Bằng việc gửi thông tin, bạn đồng ý với Chính sách bảo mật của EduPass.
+                            </div>
+                            <button type="submit" class="contact-submit-btn">GỬI CÂU HỎI</button>
+                        </form>
+                        <!-- Lời cảm ơn sau khi gửi -->
+                        <div class="contact-thankyou" id="contactThankyou">
+                            <div class="cty-icon"><img src="logo.png" alt="EduPass" style="height:80px;width:auto;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(2,136,209,0.25))"></div>
+                            <h3>Cảm ơn bạn đã nhắn cho EduPass!</h3>
+                            <p>Tụi mình đã nhận được câu hỏi của bạn rồi nha.<br>Sẽ liên hệ lại trong vòng <strong>24 giờ</strong> sớm nhất có thể 💙</p>
+                            <button class="cty-back-btn" onclick="document.getElementById('contactThankyou').style.display='none';document.getElementById('contactForm').style.display='block'">Gửi thêm câu hỏi</button>
+                        </div>
                     </div>
                 </div>
-                
-                <p class="support-note">👉 Vui lòng liên hệ để được hỗ trợ nhanh chóng và kịp thời.</p>
             </div>
         </div>
     </section>
@@ -389,6 +508,7 @@
         </div>
     </section>
 
+
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -413,7 +533,7 @@
                 </div>
                 <div class="footer-contact-col">
                     <h4>Liên hệ</h4>
-                    <p>📧 <a href="mailto:trcuong12112008@gmail.com">trcuong12112008@gmail.com</a></p>
+                    <p>📧 <a href="mailto:edupasshotro@gmail.com">edupasshotro@gmail.com</a></p>
                     <p>📱 <a href="tel:0348908243">0348 908 243</a></p>
                     <p>📱 <a href="tel:0876422788">0876 422 788</a></p>
                 </div>
@@ -432,5 +552,160 @@
 
     <script src="script.js"></script>
     <script src="edupass-ai.js"></script>
+    <script>
+        // Contact form appear on scroll
+        const contactOuter = document.querySelector('.contact-form-outer');
+        const contactHeader = document.querySelector('.contact-header');
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    contactObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        if (contactHeader) contactObserver.observe(contactHeader);
+        if (contactOuter) {
+            setTimeout(() => contactObserver.observe(contactOuter), 200);
+        }
+
+        // Benefit cards appear on scroll
+        const benefitCards = document.querySelectorAll('.benefit-card');
+        const benefitObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(benefitCards).indexOf(entry.target);
+                    setTimeout(() => entry.target.classList.add('visible'), idx * 120);
+                    benefitObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        benefitCards.forEach(card => benefitObserver.observe(card));
+
+        // Navbar scroll effect (trang chủ)
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Typewriter effect
+        const typewriterEl = document.getElementById('typewriterText');
+        const cursorEl = document.querySelector('.typewriter-cursor');
+        const phrases = ['THPT Quốc Gia', 'Đại Học 2026', 'Tương Lai Bạn', 'Chinh phục kỳ thi – Mở lối tương lai', 'Nỗ lực hôm nay – Tự hào ngày mai'];
+        let phraseIndex = 0, charIndex = 0, isDeleting = false;
+
+        function typeWriter() {
+            const current = phrases[phraseIndex];
+            if (isDeleting) {
+                charIndex--;
+            } else {
+                charIndex++;
+            }
+            typewriterEl.textContent = current.slice(0, charIndex);
+
+            let delay = isDeleting ? 60 : 100;
+
+            if (!isDeleting && charIndex === current.length) {
+                delay = 2000; // pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                delay = 400;
+            }
+            setTimeout(typeWriter, delay);
+        }
+
+        // Start after short delay
+        setTimeout(typeWriter, 600);
+
+        // Logo typewriter - chạy 1 lần
+        const logoEl = document.getElementById('logoText');
+        const logoWord = 'EduPass';
+        let logoChar = 0;
+        function typeLogo() {
+            if (logoChar <= logoWord.length) {
+                logoEl.textContent = logoWord.slice(0, logoChar);
+                logoChar++;
+                setTimeout(typeLogo, 120);
+            }
+        }
+        setTimeout(typeLogo, 200);
+        function toggleSearchDropdown() {
+            const dropdown = document.getElementById('searchDropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        // Filter items on input
+        document.getElementById('heroSearchInput').addEventListener('input', function() {
+            const q = this.value.toLowerCase().trim();
+            const items = document.querySelectorAll('.search-item');
+            const dropdown = document.getElementById('searchDropdown');
+            dropdown.classList.add('open');
+            items.forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(q) || q === '' ? 'flex' : 'none';
+            });
+        });
+
+        document.getElementById('heroSearchInput').addEventListener('focus', function() {
+            document.getElementById('searchDropdown').classList.add('open');
+        });
+
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('heroSearchBox').contains(e.target)) {
+                document.getElementById('searchDropdown').classList.remove('open');
+            }
+        });
+
+        // Enter key → go to tai-lieu
+        document.getElementById('heroSearchInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const q = this.value.trim();
+                window.location.href = 'tai-lieu.html' + (q ? '?q=' + encodeURIComponent(q) : '');
+            }
+        });
+
+        // Contact form submit
+        const CONTACT_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzB1A7kR9we0HNdqFrTWYwUDnE70mH-pbm4djeB3J2qViM7qhDyn_FtYscAgTvNk-TP/exec';
+
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.contact-submit-btn');
+            btn.textContent = '⏳ Đang gửi...';
+            btn.disabled = true;
+
+            const payload = {
+                name:    document.getElementById('contactName').value.trim(),
+                phone:   document.getElementById('contactPhone').value.trim(),
+                email:   document.getElementById('contactEmail').value.trim(),
+                service: document.getElementById('contactService').value,
+                message: document.getElementById('contactMessage').value.trim()
+            };
+
+            try {
+                await fetch(CONTACT_SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch(err) {
+                console.warn('Sheet error:', err);
+            }
+
+            // Ẩn form, hiện lời cảm ơn
+            this.reset();
+            btn.textContent = 'GỬI CÂU HỎI';
+            btn.disabled = false;
+            this.style.display = 'none';
+            document.getElementById('contactThankyou').style.display = 'flex';
+        });
+    </script>
 </body>
 </html>
+

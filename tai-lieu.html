@@ -9,19 +9,22 @@
     <link rel="stylesheet" href="edupass-ai.css">
 </head>
 <body>
-    <nav class="navbar">
+    <nav class="navbar navbar-solid">
         <div class="container">
             <a href="index.html" class="logo">
                 <img src="logo.png" alt="EduPass Logo" class="logo-img">
                 <span class="logo-text">EduPass</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="index.html">Trang chủ</a></li>
-                <li><a href="tai-lieu.html">Kho tài liệu</a></li>
-                <li><a href="luyen-thi.html">Luyện thi</a></li>
-                <li><a href="dang-nhap.html">Đăng nhập</a></li>
-                <li><a href="dang-ky.html" class="btn-primary">Đăng ký</a></li>
+                <li><a href="index.html">🏠 Trang chủ</a></li>
+                <li><a href="tai-lieu.html" class="active">📚 Kho tài liệu</a></li>
+                <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
             </ul>
+            <div class="nav-actions">
+                <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
+                <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
+            </div>
         </div>
     </nav>
 
@@ -47,23 +50,28 @@
                 </div>
                 <div class="filters-modern">
                     <div class="filter-group-modern">
-                        <label>
-                            <span class="filter-icon">🔎</span>
-                            Từ khóa
-                        </label>
+                        <label><span class="filter-icon">🔎</span> Từ khóa</label>
                         <input type="text" id="searchInput" placeholder="Nhập tên tài liệu..." class="filter-input-modern">
                     </div>
                     <div class="filter-group-modern">
-                        <label>
-                            <span class="filter-icon">💰</span>
-                            Loại
-                        </label>
+                        <label><span class="filter-icon">💰</span> Loại</label>
                         <select id="priceFilter" class="filter-select-modern">
                             <option value="">Tất cả</option>
                             <option value="free">Miễn phí</option>
                             <option value="paid">Trả phí</option>
                         </select>
                     </div>
+                </div>
+                <div class="subject-chips">
+                    <button class="subject-chip active" data-subject="">📚 Tất cả</button>
+                    <button class="subject-chip" data-subject="toan">📐 Toán</button>
+                    <button class="subject-chip" data-subject="ly">⚛️ Vật Lý</button>
+                    <button class="subject-chip" data-subject="hoa">🧪 Hóa</button>
+                    <button class="subject-chip" data-subject="sinh">🧬 Sinh</button>
+                    <button class="subject-chip" data-subject="van">📖 Ngữ Văn</button>
+                    <button class="subject-chip" data-subject="anh">🇬🇧 Tiếng Anh</button>
+                    <button class="subject-chip" data-subject="su">🏛️ Lịch Sử</button>
+                    <button class="subject-chip" data-subject="dia">🌍 Địa Lý</button>
                 </div>
             </div>
 
@@ -108,7 +116,7 @@
                 </div>
                 <div class="footer-contact-col">
                     <h4>Liên hệ</h4>
-                    <p>📧 <a href="mailto:trcuong12112008@gmail.com">trcuong12112008@gmail.com</a></p>
+                    <p>📧 <a href="mailto:edupasshotro@gmail.com">edupasshotro@gmail.com</a></p>
                     <p>📱 <a href="tel:0348908243">0348 908 243</a></p>
                     <p>📱 <a href="tel:0876422788">0876 422 788</a></p>
                 </div>
@@ -183,5 +191,16 @@
 
     <script src="script.js"></script>
     <script src="edupass-ai.js"></script>
+    <script>
+        window._subjectFilter = '';
+        document.querySelectorAll('.subject-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.subject-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                window._subjectFilter = this.dataset.subject;
+                filterMaterials();
+            });
+        });
+    </script>
 </body>
 </html>

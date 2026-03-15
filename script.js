@@ -1281,65 +1281,73 @@ let currentExam = null;
 let startTime = null;
 let timerInterval = null;
 
+// Subject icon map
+const subjectIcons = { toan:'📐', ly:'⚛️', hoa:'🧪', sinh:'🧬', van:'📖', anh:'🇬🇧', su:'🏛️', dia:'🌍', gdcd:'👥', ktpl:'💼', congnghe:'🔧', tinhoc:'💻' };
+
 // Trang tài liệu
 if (document.getElementById('materialsGrid')) {
+    window._subjectFilter = window._subjectFilter || '';
     displayMaterials(materials, 'materialsGrid');
     
     // Tìm kiếm và lọc
     document.getElementById('searchInput').addEventListener('input', filterMaterials);
-    document.getElementById('subjectFilter').addEventListener('change', filterMaterials);
-    document.getElementById('gradeFilter').addEventListener('change', filterMaterials);
+    if (document.getElementById('subjectFilter')) document.getElementById('subjectFilter').addEventListener('change', filterMaterials);
+    if (document.getElementById('gradeFilter')) document.getElementById('gradeFilter').addEventListener('change', filterMaterials);
     document.getElementById('priceFilter').addEventListener('change', filterMaterials);
 }
 
 function displayMaterials(items, containerId) {
     const container = document.getElementById(containerId);
+    if (!container) return;
     
-    if (items.length === 0) {
-        container.innerHTML = '<p class="empty-message">Chưa có tài liệu nào. Vui lòng quay lại sau!</p>';
+    if (!items || items.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p class="empty-state-text">Không tìm thấy tài liệu phù hợp</p></div>';
         return;
     }
     
-    // Sắp xếp: tài liệu trả phí lên đầu, miễn phí xuống dưới
     const sortedItems = [...items].sort((a, b) => {
-        if (a.price > 0 && b.price === 0) return -1; // a trả phí, b miễn phí -> a lên trước
-        if (a.price === 0 && b.price > 0) return 1;  // a miễn phí, b trả phí -> b lên trước
-        return 0; // giữ nguyên thứ tự nếu cùng loại
+        if (a.price > 0 && b.price === 0) return -1;
+        if (a.price === 0 && b.price > 0) return 1;
+        return 0;
     });
     
-    container.innerHTML = sortedItems.map(material => `
-        <div class="material-card">
-            <div class="material-badge ${material.price === 0 ? 'badge-free' : 'badge-paid'}">
-                ${material.price === 0 ? '🎁 Miễn phí' : '💎 Trả phí'}
-            </div>
-            <img src="${material.image}" alt="${material.title}">
-            <div class="material-card-content">
-                <h3>${material.title}</h3>
-                <p>${material.description}</p>
-                <div class="material-price">
-                    ${material.price === 0 ? 'Miễn phí' : material.price.toLocaleString('vi-VN') + 'đ'}
-                </div>
-                <div class="material-actions">
-                    <button class="btn-secondary" onclick="previewMaterial(${material.id})">Xem trước</button>
-                    <button class="btn-primary" onclick="downloadMaterial(${material.id})">
-                        ${material.price === 0 ? 'Tải về' : 'Mua ngay'}
-                    </button>
-                </div>
-            </div>
-        </div>
-    `).join('');
+    const rows = sortedItems.map(function(material) {
+        const icon = subjectIcons[material.subject] || '📄';
+        const subjectObj = subjects.find(function(s) { return s.id === material.subject; });
+        const subjectName = subjectObj ? subjectObj.name : material.subject;
+        const isFree = material.price === 0;
+        const priceText = isFree ? '🎁 Miễn phí' : material.price.toLocaleString('vi-VN') + 'đ';
+        const btnText = isFree ? '⬇ Tải về' : '💳 Mua';
+        return '<div class="material-card" onclick="previewMaterial(' + material.id + ')">'
+            + '<div class="material-header">'
+            + '<div class="material-header-icon">' + icon + '</div>'
+            + '<div><div class="material-title">' + material.title + '</div>'
+            + '<div class="material-meta">'
+            + '<span>' + subjectName + '</span>'
+            + '<span>Lớp ' + material.grade + '</span>'
+            + '<span>' + material.year + '</span>'
+            + '</div></div></div>'
+            + '<div class="material-body"><p class="material-description">' + material.description + '</p></div>'
+            + '<div class="material-footer">'
+            + '<div class="material-price' + (isFree ? ' free' : '') + '">' + priceText + '</div>'
+            + '<div class="material-actions">'
+            + '<button class="btn-material btn-preview" onclick="event.stopPropagation();previewMaterial(' + material.id + ')">Xem</button>'
+            + '<button class="btn-material btn-download" onclick="event.stopPropagation();downloadMaterial(' + material.id + ')">' + btnText + '</button>'
+            + '</div></div></div>';
+    });
+    
+    container.innerHTML = rows.join('');
 }
 
 function filterMaterials() {
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const subject = document.getElementById('subjectFilter').value;
-    const price = document.getElementById('priceFilter').value;
+    const search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
+    const subject = window._subjectFilter !== undefined ? window._subjectFilter : (document.getElementById('subjectFilter') ? document.getElementById('subjectFilter').value : '');
+    const price = document.getElementById('priceFilter') ? document.getElementById('priceFilter').value : '';
     
     const filtered = materials.filter(m => {
         const matchSearch = m.title.toLowerCase().includes(search) || m.description.toLowerCase().includes(search);
         const matchSubject = !subject || m.subject === subject;
         const matchPrice = !price || (price === 'free' && m.price === 0) || (price === 'paid' && m.price > 0);
-        
         return matchSearch && matchSubject && matchPrice;
     });
     
@@ -2326,7 +2334,7 @@ if (document.getElementById('contactForm')) {
             
         } catch (error) {
             console.error('Error:', error);
-            alert('❌ Có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ trực tiếp qua:\n📧 trcuong12112008@gmail.com\n📱 0348 908 243');
+            alert('❌ Có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ trực tiếp qua:\n📧 edupasshotro@gmail.com\n📱 0348 908 243');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;

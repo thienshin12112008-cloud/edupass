@@ -70,7 +70,7 @@ Chúc bạn học tập hiệu quả!
 
 ---
 EduPass Team
-Email: trcuong12112008@gmail.com
+Email: edupasshotro@gmail.com
 SĐT: 0348 908 243
         `
       });
@@ -259,7 +259,7 @@ Thêm vào Apps Script:
 ```javascript
 // Gửi thông báo cho admin
 MailApp.sendEmail({
-  to: "trcuong12112008@gmail.com",
+  to: "edupasshotro@gmail.com",
   subject: "🎉 Người dùng mới đăng ký!",
   body: `
 Người dùng mới vừa đăng ký:
