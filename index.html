@@ -47,8 +47,40 @@
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html">Trang chủ</a></li>
                     <li><a href="tai-lieu.html">Kho tài liệu</a></li>
-                    <li><a href="luyen-thi.html">Luyện thi</a></li>
-                    <li><a href="tao-de-thi.html">Tạo đề thi</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                            Luyện thi <span class="nav-arrow">▾</span>
+                        </a>
+                        <ul class="nav-dropdown-menu">
+                            <li>
+                                <a href="luyen-thi.html">
+                                    <span class="ndm-icon">✏️</span>
+                                    <span class="ndm-text">
+                                        <strong>Luyện thi</strong>
+                                        <small>Hàng ngàn đề thi, chấm điểm tự động</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tao-de-thi.html">
+                                    <span class="ndm-icon">🛠️</span>
+                                    <span class="ndm-text">
+                                        <strong>Tạo đề thi</strong>
+                                        <small>Tự tạo đề theo môn và độ khó</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="note-lich-hoc.html">
+                                    <span class="ndm-icon">📓</span>
+                                    <span class="ndm-text">
+                                        <strong>Note & Lịch học</strong>
+                                        <small>Ghi chú và lên kế hoạch ôn thi</small>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <!-- Mobile only links -->
                     <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
                     <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
@@ -121,7 +153,7 @@
                 <span class="hero-title-top">Nền tảng luyện thi</span><br>
                 <span id="typewriterText"></span><span class="typewriter-cursor">|</span>
             </h1>
-            <p class="hero-subtitle">Học thông minh hơn, ôn luyện hiệu quả hơn cùng <span class="subtitle-brand">EduPass</span></p>
+            <p class="hero-subtitle">Học thông minh hơn, ôn luyện hiệu quả hơn cùng <span class="subtitle-brand"><span class="sb-edu">Edu</span><span class="sb-pass">Pass</span></span></p>
         </div>
 
         <div class="hero-features">
@@ -143,6 +175,112 @@
             </div>
         </div>
     </section>
+
+    <!-- Section đếm ngược thi THPTQG -->
+    <section class="countdown-section">
+        <!-- Particles nền -->
+        <div class="cd-particles">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+        </div>
+
+        <div class="cd-inner">
+            <!-- Tiêu đề -->
+            <div class="cd-header">
+                <div class="cd-badge">🎓 Kỳ thi Tốt nghiệp THPTQG 2026</div>
+                <h2 class="cd-title">Đồng hồ đếm ngược <span class="cd-title-hl">ngày thi</span></h2>
+                <p class="cd-desc">Ngày thi: <strong>11/06/2026</strong> — Hãy tận dụng từng giây để ôn luyện!</p>
+            </div>
+
+            <!-- Boxes đếm ngược -->
+            <div class="cd-boxes">
+                <div class="cd-box">
+                    <div class="cd-box-inner">
+                        <div class="cd-num" id="countdownDays">60</div>
+                    </div>
+                    <div class="cd-lbl">Ngày</div>
+                </div>
+                <div class="cd-colon">:</div>
+                <div class="cd-box">
+                    <div class="cd-box-inner">
+                        <div class="cd-num" id="countdownHours">00</div>
+                    </div>
+                    <div class="cd-lbl">Giờ</div>
+                </div>
+                <div class="cd-colon">:</div>
+                <div class="cd-box">
+                    <div class="cd-box-inner">
+                        <div class="cd-num" id="countdownMins">00</div>
+                    </div>
+                    <div class="cd-lbl">Phút</div>
+                </div>
+                <div class="cd-colon">:</div>
+                <div class="cd-box">
+                    <div class="cd-box-inner">
+                        <div class="cd-num" id="countdownSecs">00</div>
+                    </div>
+                    <div class="cd-lbl">Giây</div>
+                </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="cd-progress-wrap">
+                <div class="cd-progress-track">
+                    <div class="cd-progress-bar" id="cdProgressBar"></div>
+                </div>
+                <div class="cd-progress-labels">
+                    <span>Bắt đầu ôn thi</span>
+                    <span id="cdProgressPct">0%</span>
+                    <span>Ngày thi 🏁</span>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="cd-actions">
+                <a href="luyen-thi.html" class="cd-btn-primary">🚀 Luyện thi ngay</a>
+                <a href="tai-lieu.html" class="cd-btn-secondary">📚 Xem tài liệu</a>
+            </div>
+        </div>
+    </section>
+    <script>
+    (function(){
+        function pad(n){ return n < 10 ? '0'+n : n; }
+        var examDate = new Date('2026-06-11T00:00:00');
+        var totalMs = 60 * 24 * 60 * 60 * 1000; // 60 ngày tổng
+        function tick(){
+            var now = new Date();
+            var diff = examDate - now;
+            if(diff <= 0){
+                document.getElementById('countdownDays').textContent = '0';
+                document.getElementById('countdownHours').textContent = '00';
+                document.getElementById('countdownMins').textContent = '00';
+                document.getElementById('countdownSecs').textContent = '00';
+                var bar = document.getElementById('cdProgressBar');
+                var pct = document.getElementById('cdProgressPct');
+                if(bar) bar.style.width = '100%';
+                if(pct) pct.textContent = '100%';
+                return;
+            }
+            var days  = Math.floor(diff / 86400000);
+            var hours = Math.floor((diff % 86400000) / 3600000);
+            var mins  = Math.floor((diff % 3600000) / 60000);
+            var secs  = Math.floor((diff % 60000) / 1000);
+            document.getElementById('countdownDays').textContent = days;
+            document.getElementById('countdownHours').textContent = pad(hours);
+            document.getElementById('countdownMins').textContent = pad(mins);
+            document.getElementById('countdownSecs').textContent = pad(secs);
+            // Progress
+            var elapsed = totalMs - diff;
+            var percent = Math.min(100, Math.round(elapsed / totalMs * 100));
+            var bar = document.getElementById('cdProgressBar');
+            var pct = document.getElementById('cdProgressPct');
+            if(bar) bar.style.width = percent + '%';
+            if(pct) pct.textContent = percent + '%';
+        }
+        tick();
+        setInterval(tick, 1000);
+    })();
+    </script>
 
     <section class="ecosystem-section">
         <div class="eco-sticky-wrap">
@@ -436,14 +574,47 @@
         </div>
     </section>
 
+    <section class="team-intro-section">
+        <div class="container">
+            <div class="team-intro-inner">
+                <div class="team-intro-left">
+                    <div class="team-intro-badge">👥 Đội ngũ phát triển</div>
+                    <h2 class="team-intro-title">Những người xây dựng <span class="team-intro-brand">EduPass</span></h2>
+                    <p class="team-intro-p">EduPass được xây dựng và phát triển bởi một đội ngũ đam mê công nghệ và giáo dục. Với mục tiêu mang đến môi trường học tập trực tuyến hiệu quả, chúng tôi không ngừng nghiên cứu, cải tiến và ứng dụng các giải pháp công nghệ hiện đại để hỗ trợ học sinh học tập tốt hơn mỗi ngày.</p>
+                    <p class="team-intro-p">Chúng tôi luôn lắng nghe ý kiến từ người dùng để hoàn thiện nền tảng, giúp việc học trở nên dễ dàng, trực quan và thú vị hơn. Sự tin tưởng và đóng góp của cộng đồng học sinh chính là động lực để đội ngũ tiếp tục sáng tạo và nâng cao chất lượng hệ thống.</p>
+                    <div class="team-intro-commit">
+                        <span>⚡ Tiện lợi</span>
+                        <span>🔍 Minh bạch</span>
+                        <span>🎯 Hiệu quả</span>
+                    </div>
+                </div>
+                <div class="team-intro-right">
+                    <div class="team-intro-card">
+                        <div class="tic-icon">🚀</div>
+                        <div class="tic-num">2026</div>
+                        <div class="tic-label">Năm thành lập</div>
+                    </div>
+                    <div class="team-intro-card">
+                        <div class="tic-icon">🏫</div>
+                        <div class="tic-num" style="font-size:1rem;padding-top:0.3rem">THCS-THPT</div>
+                        <div class="tic-label">Hòa Bình</div>
+                    </div>
+
+                    <div class="team-intro-card team-intro-card--wide">
+                        <div class="tic-icon">💡</div>
+                        <div class="tic-text">EduPass cam kết mang đến nền tảng học tập <strong>tiện lợi – minh bạch – hiệu quả</strong>, đồng hành cùng học sinh trên hành trình chinh phục tri thức.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="contact-section">
         <div class="container">
             <div class="contact-header">
-                <div class="contact-emoji-row"><img src="logo.png" alt="EduPass" style="height:110px;width:auto;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(2,136,209,0.25))"></div>
+                <div class="contact-emoji-row"><img src="logo.png" alt="EduPass" style="height:320px;width:auto;object-fit:contain;filter:drop-shadow(0 4px 16px rgba(2,136,209,0.25))"></div>
                 <h2>Bạn còn câu hỏi khác?</h2>
-                <p>Để lại thông tin, EduPass sẽ chủ động liên hệ và hỗ trợ bạn sớm nhất.</p>
-                <p>Chúng tôi luôn sẵn sàng tư vấn lộ trình học tập và tài liệu ôn luyện.</p>
-                <p>Đồng hành cùng bạn trên hành trình chinh phục kỳ thi với phương pháp hiệu quả nhất.</p>
+                <p id="contactTypewriter" class="contact-typewriter"><span id="contactTypeText"></span><span class="contact-type-cursor">|</span></p>
             </div>
             <div class="contact-layout">
                 <!-- Cột trái: thông tin liên hệ -->
@@ -652,23 +823,12 @@
                         <div class="community-card-header">
                             <div class="community-card-avatar">👥</div>
                             <div>
-                                <div class="community-card-name">Nhóm Zalo Google Meet Học Tập </div>
-                                <div class="community-card-status">🟢 Đang hoạt động</div>
+                                <div class="community-card-name">Nhóm Zalo Google Meet Học Tập</div>
+                                <div class="community-card-status" id="communityStatus">🟢 Đang hoạt động</div>
                             </div>
                         </div>
-                        <div class="community-messages">
-                            <div class="community-msg">
-                                <span class="msg-avatar">🧑‍🎓</span>
-                                <div class="msg-bubble">Mình vừa tìm được tài liệu Toán hay lắm! 📐</div>
-                            </div>
-                            <div class="community-msg">
-                                <span class="msg-avatar">👩‍🎓</span>
-                                <div class="msg-bubble">EduPass AI giải thích rõ quá, hiểu ngay! 🤖</div>
-                            </div>
-                            <div class="community-msg">
-                                <span class="msg-avatar">🧑‍💻</span>
-                                <div class="msg-bubble">Luyện đề xong điểm tăng hẳn 2 điểm 🎯</div>
-                            </div>
+                        <div class="community-messages" id="communityMessages">
+                            <!-- JS render -->
                         </div>
                         <a href="https://zalo.me/g/mmkxms736" target="_blank" rel="noopener" class="community-join-btn">
                             + Tham gia nhóm
@@ -777,20 +937,68 @@
     <script src="script.js"></script>
     <script src="edupass-ai.js"></script>
     <script>
-        // Contact form appear on scroll
-        const contactOuter = document.querySelector('.contact-form-outer');
-        const contactHeader = document.querySelector('.contact-header');
-        const contactObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    contactObserver.unobserve(entry.target);
+        // Team intro section scroll animation
+        const teamIntroSection = document.querySelector('.team-intro-section');
+        if (teamIntroSection) {
+            const tiObs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        tiObs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            tiObs.observe(teamIntroSection);
+        }
+
+        // Contact section — 1 observer cho toàn bộ, tất cả animate cùng lúc
+        const contactSection = document.querySelector('.contact-section');
+        if (contactSection) {
+            const csObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        csObserver.unobserve(entry.target);
+                        startContactTypewriter();
+                    }
+                });
+            }, { threshold: 0.12 });
+            csObserver.observe(contactSection);
+        }
+
+        // Contact typewriter — vòng lặp
+        function startContactTypewriter() {
+            const lines = [
+                'Để lại thông tin, EduPass sẽ chủ động liên hệ và hỗ trợ bạn sớm nhất.',
+                'Chúng tôi luôn sẵn sàng tư vấn lộ trình học tập và tài liệu ôn luyện.',
+                'Đồng hành cùng bạn trên hành trình chinh phục kỳ thi với phương pháp hiệu quả nhất.'
+            ];
+            const el = document.getElementById('contactTypeText');
+            if (!el) return;
+            let lineIdx = 0, charIdx = 0, isDeleting = false;
+
+            function type() {
+                const line = lines[lineIdx % lines.length];
+                if (!isDeleting) {
+                    charIdx++;
+                    el.textContent = line.slice(0, charIdx);
+                    if (charIdx === line.length) {
+                        setTimeout(() => { isDeleting = true; type(); }, 1800);
+                        return;
+                    }
+                } else {
+                    charIdx--;
+                    el.textContent = line.slice(0, charIdx);
+                    if (charIdx === 0) {
+                        isDeleting = false;
+                        lineIdx = (lineIdx + 1) % lines.length;
+                        setTimeout(type, 300);
+                        return;
+                    }
                 }
-            });
-        }, { threshold: 0.1 });
-        if (contactHeader) contactObserver.observe(contactHeader);
-        if (contactOuter) {
-            setTimeout(() => contactObserver.observe(contactOuter), 200);
+                setTimeout(type, isDeleting ? 22 : 38);
+            }
+            setTimeout(type, 400);
         }
 
         // Benefit cards appear on scroll
@@ -965,6 +1173,136 @@
                     .catch(err => console.log('SW error:', err));
             });
         }
+    </script>
+    <script>
+    // Community chat — typing effect
+    (function(){
+        const msgs = [
+            ['🧑‍🎓','An','Mình vừa tìm được tài liệu Toán hay lắm! 📄'],
+            ['👩‍🎓','Linh','EduPass AI giải thích dễ hiểu thật 😆'],
+            ['🧑‍💻','Huy','Luyện đề xong thấy tiến bộ rõ luôn 🎯'],
+            ['👦','Nam','Có ai có đề Lý mới không?'],
+            ['👧','Mai','Học nhóm tối nay nha mọi người!'],
+            ['🧑‍🎓','Khoa','Mới làm xong đề Toán 2025 🔥'],
+            ['👩‍💻','Trang','AI giải bài nhanh thật đó'],
+            ['👨‍🎓','Đức','Vừa tải bộ đề Hóa hay lắm'],
+            ['👧','Ngân','Luyện đề trên EduPass tiện ghê'],
+            ['🧑','Bảo','Điểm kiểm tra Toán tăng rồi 😭'],
+            ['👩‍🎓','Vy','Ai cần tài liệu Văn không?'],
+            ['🧑‍💻','Minh','Học nhóm Google Meet đi'],
+            ['👦','Phúc','Đề này khó ghê 😵'],
+            ['👩‍🎓','Hà','AI giải thích từng bước luôn'],
+            ['🧑‍🎓','Tuấn','Tối nay luyện đề chung không'],
+            ['👧','Nhi','Mình vừa tìm được đề thi thử'],
+            ['👨‍🎓','Long','EduPass có nhiều đề hay thật'],
+            ['🧑','Kiên','Làm xong đề thấy tự tin hơn'],
+            ['👩‍💻','Thảo','Có ai giải được câu 5 không'],
+            ['🧑‍🎓','Duy','Vừa hiểu bài Hóa rồi 😆'],
+            ['👧','Lan','Tài liệu Sinh này dễ hiểu ghê'],
+            ['👦','Tú','Ai gửi mình đề Lý với'],
+            ['👩‍🎓','Quỳnh','AI giải thích hay thật'],
+            ['🧑‍💻','Hùng','Luyện đề mỗi ngày luôn'],
+            ['👨‍🎓','Trí','Điểm kiểm tra tăng 1 điểm rồi'],
+            ['👧','Yến','Học nhóm vui ghê'],
+            ['🧑‍🎓','Khang','Đề Toán năm nay khó quá'],
+            ['👩‍🎓','Phương','Có video giải chi tiết luôn'],
+            ['🧑','Tâm','AI giải bài nhanh thật'],
+            ['👦','Hoàng','Tối nay học chung nha'],
+            ['👧','Cúc','Luyện đề xong thấy đỡ lo'],
+            ['🧑‍💻','Sơn','EduPass tiện quá'],
+            ['👩‍🎓','Diệu','Tìm tài liệu dễ thật'],
+            ['🧑‍🎓','Nhật','Đề này hay đó'],
+            ['👨‍🎓','Lộc','Vừa hiểu bài Lý rồi'],
+            ['👧','Hương','Học kiểu này hiệu quả ghê'],
+            ['🧑','Việt','Điểm thi thử tăng rồi'],
+            ['👩‍💻','Ngọc','Học nhóm đi mọi người'],
+            ['🧑‍🎓','Phát','Mới làm xong đề Toán'],
+            ['👦','Khánh','AI giải thích rõ từng bước'],
+            ['👧','Thu','Có tài liệu mới nè'],
+            ['👩‍🎓','Loan','Đề này giống thi thật'],
+            ['🧑‍💻','Tùng','Vừa tìm được file PDF hay'],
+            ['👨‍🎓','Bình','EduPass giúp hiểu bài nhanh'],
+            ['🧑‍🎓','Châu','Tài liệu Văn hay quá'],
+            ['👧','Hoa','Làm xong đề thấy dễ hơn'],
+            ['👦','Quân','Đề này khó thật'],
+            ['👩‍🎓','Liên','AI giải bài chuẩn ghê'],
+            ['🧑','Thắng','Luyện đề tiếp thôi'],
+            ['🧑‍💻','Giang','Điểm kiểm tra tăng rồi'],
+            ['👩‍🎓','Xuân','Học trên EduPass thích thật 🚀'],
+        ];
+
+        const container = document.getElementById('communityMessages');
+        if (!container) return;
+
+        const MAX_VISIBLE = 4;
+        let idx = 0;
+
+        function addMsg(avatar, name, text) {
+            // Remove oldest if too many
+            while (container.children.length >= MAX_VISIBLE) {
+                const old = container.children[0];
+                old.style.transition = 'opacity 0.3s';
+                old.style.opacity = '0';
+                setTimeout(() => old.remove(), 300);
+                break;
+            }
+
+            // Typing indicator
+            const typing = document.createElement('div');
+            typing.className = 'community-msg msg-typing';
+            typing.innerHTML = `<span class="msg-avatar">${avatar}</span>
+                <div class="msg-bubble">
+                    <div class="typing-dots"><span></span><span></span><span></span></div>
+                </div>`;
+            container.appendChild(typing);
+
+            // After "typing" delay → show real message
+            const delay = 600 + text.length * 18;
+            setTimeout(() => {
+                typing.remove();
+                const msg = document.createElement('div');
+                msg.className = 'community-msg';
+                msg.style.opacity = '0';
+                msg.style.transform = 'translateY(8px)';
+                msg.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                msg.innerHTML = `<span class="msg-avatar">${avatar}</span>
+                    <div>
+                        <div class="msg-name">${name}</div>
+                        <div class="msg-bubble">${text}</div>
+                    </div>`;
+                container.appendChild(msg);
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        msg.style.opacity = '1';
+                        msg.style.transform = 'translateY(0)';
+                    });
+                });
+            }, delay);
+        }
+
+        function next() {
+            const [avatar, name, text] = msgs[idx % msgs.length];
+            idx++;
+            addMsg(avatar, name, text);
+        }
+
+        // Seed 3 messages instantly
+        for (let i = 0; i < 3; i++) {
+            const [avatar, name, text] = msgs[idx % msgs.length];
+            idx++;
+            const msg = document.createElement('div');
+            msg.className = 'community-msg';
+            msg.innerHTML = `<span class="msg-avatar">${avatar}</span>
+                <div>
+                    <div class="msg-name">${name}</div>
+                    <div class="msg-bubble">${text}</div>
+                </div>`;
+            container.appendChild(msg);
+        }
+
+        // Then cycle with typing effect
+        setInterval(next, 3200);
+    })();
     </script>
 </body>
 </html>

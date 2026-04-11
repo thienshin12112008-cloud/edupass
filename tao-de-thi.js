@@ -258,19 +258,42 @@ function saveExam() {
         return;
     }
     
-    // Save to localStorage
-    let savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
     examData.id = Date.now();
     examData.createdAt = new Date().toLocaleDateString('vi-VN');
+
+    // Lưu vào myExams (dùng cho trang tạo đề)
+    let savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
     savedExams.push(examData);
     localStorage.setItem('myExams', JSON.stringify(savedExams));
+
+    // Đồng bộ sang customExams để luyen-thi.html đọc được
+    const subjectIdMap = {
+        'Toán': 'toan', 'Văn': 'van', 'Anh': 'anh',
+        'Lý': 'ly', 'Hóa': 'hoa', 'Sinh': 'sinh',
+        'Sử': 'su', 'Địa': 'dia', 'GDCD': 'gdcd'
+    };
+    const customExam = {
+        id: examData.id,
+        title: examData.name,
+        subject: examData.subject,
+        subjectId: subjectIdMap[examData.subject] || examData.subject,
+        grade: examData.grade,
+        questions: examData.questionCount,
+        time: examData.duration,
+        difficulty: examData.difficulty,
+        questionsData: examData.questions,
+        shuffle: examData.shuffle,
+        showAnswers: examData.showAnswers,
+        createdAt: examData.createdAt,
+        isCustom: true
+    };
+    let customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
+    customExams.push(customExam);
+    localStorage.setItem('customExams', JSON.stringify(customExams));
     
-    alert('✅ Đã lưu đề thi thành công!\n\nBạn có thể xem đề trong danh sách "Đề thi đã lưu" bên dưới.');
+    alert('✅ Đã lưu đề thi thành công!\n\nĐề thi đã được thêm vào trang Luyện thi.');
     
-    // Reload saved exams list
     loadSavedExams();
-    
-    // Scroll to saved exams section
     document.getElementById('savedExamsSection').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -653,7 +676,7 @@ function loadSavedExams() {
                 </div>
             </div>
             <div class="saved-exam-meta">
-                <span>📚 ${exam.subjectName}</span>
+                <span>📚 ${exam.subject}</span>
                 <span>🎓 Lớp ${exam.grade}</span>
                 <span>📝 ${exam.questions.length} câu</span>
                 <span>⏱️ ${exam.duration} phút</span>

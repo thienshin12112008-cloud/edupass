@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note & Lịch học - EduPass</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0288d1">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="edupass-ai.css">
+    <link rel="stylesheet" href="note-lich-hoc.css">
+    <script>
+    (function(){
+        function wrapEduPass(node) {
+            if (node.nodeType === 3) {
+                var text = node.nodeValue;
+                if (text.indexOf('EduPass') === -1) return;
+                var span = document.createElement('span');
+                span.innerHTML = text.replace(/EduPass/g,
+                    '<span class="ep-brand"><span class="ep-cap">E</span>du<span class="ep-cap">P</span>ass</span>');
+                node.parentNode.replaceChild(span, node);
+            } else if (node.nodeType === 1) {
+                var skip = ['SCRIPT','STYLE','TEXTAREA','INPUT','CODE','PRE','TITLE','META'];
+                if (skip.indexOf(node.tagName) !== -1) return;
+                Array.from(node.childNodes).forEach(wrapEduPass);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function(){ wrapEduPass(document.body); });
+    })();
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-solid">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="EduPass Logo" class="logo-img">
+                <span class="logo-text">EduPass</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">🏠 Trang chủ</a></li>
+                <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                        ✏️ Luyện thi <span class="nav-arrow">▾</span>
+                    </a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
+                        <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
+                        <li><a href="note-lich-hoc.html" class="active"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+                <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
+                <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
+            </div>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="nlh-header">
+        <div class="container">
+            <div class="nlh-header-content">
+                <div class="nlh-header-icon">📓</div>
+                <h1>Note & Lịch học</h1>
+                <p>Ghi chú bài học và lên kế hoạch ôn thi thông minh</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="nlh-main">
+        <div class="nlh-container">
+
+            <!-- Tabs -->
+            <div class="nlh-tabs">
+                <button class="nlh-tab active" data-tab="notes" onclick="switchTab('notes')">📝 Ghi chú</button>
+                <button class="nlh-tab" data-tab="schedule" onclick="switchTab('schedule')">📅 Lịch học</button>
+                <button class="nlh-tab" data-tab="timer" onclick="switchTab('timer')">⏱️ Đếm giờ học</button>
+            </div>
+
+            <!-- ===== TAB GHI CHÚ ===== -->
+            <div class="nlh-panel active" id="tab-notes">
+                <div class="nlh-notes-layout">
+                    <!-- Sidebar danh sách note -->
+                    <div class="nlh-notes-sidebar">
+                        <div class="nlh-sidebar-header">
+                            <span>Ghi chú của tôi</span>
+                            <button class="nlh-btn-add" onclick="addNote()" title="Thêm ghi chú">＋</button>
+                        </div>
+                        <div class="nlh-notes-search">
+                            <input type="text" id="noteSearch" placeholder="🔍 Tìm ghi chú..." oninput="filterNotes(this.value)">
+                        </div>
+                        <ul class="nlh-notes-list" id="notesList"></ul>
+                    </div>
+
+                    <!-- Editor -->
+                    <div class="nlh-notes-editor" id="notesEditor">
+                        <div class="nlh-editor-empty" id="editorEmpty">
+                            <div class="nlh-editor-empty-icon">📝</div>
+                            <p>Chọn một ghi chú hoặc tạo mới</p>
+                            <button class="nlh-btn-primary" onclick="addNote()">＋ Tạo ghi chú mới</button>
+                        </div>
+                        <div class="nlh-editor-active" id="editorActive" style="display:none">
+                            <div class="nlh-editor-toolbar">
+                                <input type="text" id="noteTitle" class="nlh-note-title-input" placeholder="Tiêu đề ghi chú..." oninput="saveCurrentNote()">
+                                <div class="nlh-editor-actions">
+                                    <select id="noteColor" onchange="saveCurrentNote()" class="nlh-color-pick">
+                                        <option value="yellow">🟡 Vàng</option>
+                                        <option value="blue">🔵 Xanh</option>
+                                        <option value="green">🟢 Lá</option>
+                                        <option value="pink">🩷 Hồng</option>
+                                        <option value="purple">🟣 Tím</option>
+                                    </select>
+                                    <button class="nlh-btn-danger" onclick="deleteCurrentNote()">🗑️ Xóa</button>
+                                </div>
+                            </div>
+                            <textarea id="noteContent" class="nlh-note-textarea" placeholder="Viết ghi chú của bạn tại đây..." oninput="saveCurrentNote()"></textarea>
+                            <div class="nlh-editor-footer">
+                                <span id="noteLastSaved">Chưa lưu</span>
+                                <span id="noteWordCount">0 từ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB LỊCH HỌC ===== -->
+            <div class="nlh-panel" id="tab-schedule">
+                <div class="nlh-schedule-layout">
+                    <!-- Calendar -->
+                    <div class="nlh-calendar-wrap">
+                        <div class="nlh-cal-header">
+                            <button class="nlh-cal-nav" onclick="changeMonth(-1)">‹</button>
+                            <span class="nlh-cal-title" id="calTitle"></span>
+                            <button class="nlh-cal-nav" onclick="changeMonth(1)">›</button>
+                        </div>
+                        <div class="nlh-cal-days-header">
+                            <span>CN</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span>
+                        </div>
+                        <div class="nlh-cal-grid" id="calGrid"></div>
+                    </div>
+
+                    <!-- Tasks của ngày được chọn -->
+                    <div class="nlh-tasks-wrap">
+                        <div class="nlh-tasks-header">
+                            <span id="tasksDateTitle">Chọn ngày để xem lịch</span>
+                            <button class="nlh-btn-add" id="btnAddTask" onclick="openAddTask()" style="display:none" title="Thêm nhiệm vụ">＋</button>
+                        </div>
+                        <ul class="nlh-tasks-list" id="tasksList">
+                            <li class="nlh-tasks-empty">📅 Chọn một ngày để xem hoặc thêm lịch học</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Modal thêm task -->
+                <div class="nlh-modal-overlay" id="taskModal" style="display:none" onclick="if(event.target===this)closeAddTask()">
+                    <div class="nlh-modal">
+                        <div class="nlh-modal-header">
+                            <h3>➕ Thêm lịch học</h3>
+                            <button onclick="closeAddTask()" class="nlh-modal-close">✕</button>
+                        </div>
+                        <div class="nlh-modal-body">
+                            <label>Môn học / Nội dung</label>
+                            <input type="text" id="taskSubject" placeholder="VD: Ôn Toán chương 3..." class="nlh-input">
+                            <label>Thời gian</label>
+                            <div class="nlh-time-row">
+                                <input type="time" id="taskTimeStart" class="nlh-input">
+                                <span>đến</span>
+                                <input type="time" id="taskTimeEnd" class="nlh-input">
+                            </div>
+                            <label>Màu sắc</label>
+                            <div class="nlh-color-row" id="taskColorRow">
+                                <button class="nlh-color-dot active" data-color="blue" style="background:#3b82f6" onclick="selectTaskColor('blue',this)"></button>
+                                <button class="nlh-color-dot" data-color="green" style="background:#22c55e" onclick="selectTaskColor('green',this)"></button>
+                                <button class="nlh-color-dot" data-color="red" style="background:#ef4444" onclick="selectTaskColor('red',this)"></button>
+                                <button class="nlh-color-dot" data-color="orange" style="background:#f97316" onclick="selectTaskColor('orange',this)"></button>
+                                <button class="nlh-color-dot" data-color="purple" style="background:#a855f7" onclick="selectTaskColor('purple',this)"></button>
+                            </div>
+                        </div>
+                        <div class="nlh-modal-footer">
+                            <button class="nlh-btn-secondary" onclick="closeAddTask()">Hủy</button>
+                            <button class="nlh-btn-primary" onclick="saveTask()">Lưu lịch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB TIMER ===== -->
+            <div class="nlh-panel" id="tab-timer">
+                <div class="nlh-timer-layout">
+
+                    <!-- Pomodoro -->
+                    <div class="nlh-timer-card">
+                        <div class="nlh-timer-badge">🍅 Pomodoro</div>
+                        <div class="nlh-pomo-modes">
+                            <button class="nlh-pomo-mode active" data-mins="25" onclick="setPomoMode(this,25,'Tập trung')">Tập trung</button>
+                            <button class="nlh-pomo-mode" data-mins="5" onclick="setPomoMode(this,5,'Nghỉ ngắn')">Nghỉ ngắn</button>
+                            <button class="nlh-pomo-mode" data-mins="15" onclick="setPomoMode(this,15,'Nghỉ dài')">Nghỉ dài</button>
+                        </div>
+                        <div class="nlh-custom-time">
+                            <span>⚙️ Tùy chỉnh:</span>
+                            <input type="number" id="customMins" min="1" max="180" value="25" class="nlh-custom-input">
+                            <span>phút</span>
+                            <button class="nlh-custom-btn" onclick="applyCustomTime()">Áp dụng</button>
+                        </div>
+                        <div class="nlh-timer-ring-wrap">
+                            <svg class="nlh-ring" viewBox="0 0 200 200">
+                                <circle class="nlh-ring-bg" cx="100" cy="100" r="88"/>
+                                <circle class="nlh-ring-progress" id="pomoRing" cx="100" cy="100" r="88"/>
+                            </svg>
+                            <div class="nlh-timer-display" id="pomoDisplay">25:00</div>
+                        </div>
+                        <div class="nlh-pomo-label" id="pomoLabel">Tập trung</div>
+                        <div class="nlh-timer-controls">
+                            <button class="nlh-timer-btn" id="pomoBtnStart" onclick="pomoStart()">▶ Bắt đầu</button>
+                            <button class="nlh-timer-btn nlh-timer-btn-ghost" onclick="pomoReset()">↺ Reset</button>
+                        </div>
+                        <div class="nlh-pomo-sessions">
+                            <span id="pomoSessionDots"></span>
+                            <span class="nlh-pomo-session-label">Phiên hôm nay: <strong id="pomoSessionCount">0</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Stopwatch -->
+                    <div class="nlh-timer-card">
+                        <div class="nlh-timer-badge">⏱️ Bấm giờ</div>
+                        <div class="nlh-sw-display" id="swDisplay">00:00:00</div>
+                        <div class="nlh-timer-controls">
+                            <button class="nlh-timer-btn" id="swBtnStart" onclick="swToggle()">▶ Bắt đầu</button>
+                            <button class="nlh-timer-btn nlh-timer-btn-ghost" onclick="swLap()">⊕ Lap</button>
+                            <button class="nlh-timer-btn nlh-timer-btn-ghost" onclick="swReset()">↺ Reset</button>
+                        </div>
+                        <ul class="nlh-sw-laps" id="swLaps"></ul>
+                    </div>
+
+                </div>
+
+                <!-- Nhạc học -->
+                <div class="nlh-music-card">
+                    <div class="nlh-music-header">
+                        <div class="nlh-timer-badge">🎵 Nhạc học tập</div>
+                        <div class="nlh-music-vol">
+                            <span>🔊</span>
+                            <input type="range" id="musicVol" min="0" max="1" step="0.05" value="0.5" oninput="setMusicVol(this.value)">
+                        </div>
+                    </div>
+
+                    <!-- Preset nhạc -->
+                    <div class="nlh-music-presets">
+                        <button class="nlh-music-preset" onclick="loadPreset('lofi',this)">☕ Lo-fi</button>
+                        <button class="nlh-music-preset" onclick="loadPreset('nature',this)">🌿 Thiên nhiên</button>
+                        <button class="nlh-music-preset" onclick="loadPreset('classical',this)">🎻 Cổ điển</button>
+                        <button class="nlh-music-preset" onclick="loadPreset('rain',this)">🌧️ Mưa</button>
+                    </div>
+
+                    <!-- Dán link -->
+                    <div class="nlh-music-input-row">
+                        <input type="text" id="musicLinkInput" class="nlh-input" placeholder="Dán link Spotify, SoundCloud, MP3...">
+                        <button class="nlh-music-play-btn" onclick="playMusicLink()">▶ Phát</button>
+                    </div>
+
+                    <!-- Player -->
+                    <div class="nlh-music-player" id="musicPlayer" style="display:none">
+                        <iframe id="musicIframe" class="nlh-music-iframe"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            allowfullscreen
+                            frameborder="0"
+                            sandbox="allow-scripts allow-same-origin allow-presentation allow-popups"></iframe>
+                        <audio id="musicAudio" style="display:none" controls></audio>
+                        <div class="nlh-music-yt-notice" id="ytNotice" style="display:none">
+                            <span>YouTube không tự phát trong trang —</span>
+                            <a id="ytOpenLink" href="#" target="_blank" class="nlh-music-yt-link">🔗 Mở YouTube</a>
+                        </div>
+                    </div>
+
+                    <div class="nlh-music-tip">💡 Hỗ trợ tốt nhất: Spotify, SoundCloud, MP3. YouTube → mở tab mới.</div>
+                </div>
+
+                <!-- Thống kê học hôm nay -->
+                <div class="nlh-study-stats">
+                    <div class="nlh-stats-title">📊 Thống kê hôm nay</div>
+                    <div class="nlh-stats-row">
+                        <div class="nlh-stat-box">
+                            <div class="nlh-stat-num" id="statPomoCount">0</div>
+                            <div class="nlh-stat-lbl">Pomodoro</div>
+                        </div>
+                        <div class="nlh-stat-box">
+                            <div class="nlh-stat-num" id="statFocusTime">0 phút</div>
+                            <div class="nlh-stat-lbl">Tập trung</div>
+                        </div>
+                        <div class="nlh-stat-box">
+                            <div class="nlh-stat-num" id="statStreak">0</div>
+                            <div class="nlh-stat-lbl">Ngày liên tiếp</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script src="edupass-ai.js"></script>
+    <script src="note-lich-hoc.js"></script>
+</body>
+</html>

@@ -1634,23 +1634,65 @@ function displaySubjects() {
 
 function selectSubject(subjectId) {
     currentSubject = subjectId;
+    // Re-sync custom exams mỗi lần chọn môn để đảm bảo mới nhất
+    loadCustomExams();
+
     document.getElementById('subjectList').style.display = 'none';
     document.getElementById('examList').style.display = 'block';
-    
-    const subjectExams = exams[subjectId] || [];
+
+    const subjectName = (subjects.find(s => s.id === subjectId) || {}).name || subjectId;
+    document.querySelector('#examList h2').textContent = '📝 Đề thi môn ' + subjectName;
+
+    const allExams = exams[subjectId] || [];
     const container = document.querySelector('.exams-grid');
-    
-    if (subjectExams.length === 0) {
-        container.innerHTML = '<p class="empty-message">Chưa có đề thi nào cho môn học này. Vui lòng quay lại sau!</p>';
+
+    if (allExams.length === 0) {
+        container.innerHTML = `
+            <div class="empty-message" style="text-align:center; padding:2rem; color:#7f8c8d;">
+                <p>Chưa có đề thi nào cho môn <strong>${subjectName}</strong>.</p>
+                <p style="margin-top:0.5rem;">Bạn có thể <a href="tao-de-thi.html" style="color:#667eea;">tạo đề thi mới</a> hoặc quay lại sau!</p>
+            </div>`;
         return;
     }
-    
-    container.innerHTML = subjectExams.map(exam => `
-        <div class="exam-card" onclick="startExam(${exam.id})">
-            <h3>${exam.title}</h3>
-            <p>Số câu: ${exam.questions} | Thời gian: ${exam.time} phút</p>
+
+    container.innerHTML = allExams.map(exam => `
+        <div class="exam-card" style="cursor:pointer; position:relative;">
+            <div onclick="${exam.isCustom ? `startCustomExam(${exam.id})` : `startExam(${exam.id})`}">
+                <h3>${exam.title || exam.name || 'Đề thi'}</h3>
+                <p>Số câu: ${exam.questions} | Thời gian: ${exam.time} phút${exam.isCustom ? ' | <span style="color:#27ae60;">✏️ Tự tạo</span>' : ''}</p>
+            </div>
+            ${exam.isCustom ? `
+            <button onclick="event.stopPropagation(); deleteCustomExam(${exam.id})" style="position:absolute; top:0.75rem; right:0.75rem; background:#e74c3c; color:#fff; border:none; border-radius:6px; padding:0.3rem 0.6rem; cursor:pointer; font-size:0.8rem;">🗑️ Xóa</button>
+            ` : ''}
         </div>
     `).join('');
+}
+
+function startCustomExam(examId) {
+    const customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
+    const exam = customExams.find(e => e.id === examId);
+    if (!exam) { alert('Không tìm thấy đề thi!'); return; }
+    sessionStorage.setItem('currentExam', JSON.stringify(exam));
+    window.location.href = 'lam-bai-thi.html';
+}
+
+function deleteCustomExam(examId) {
+    if (!confirm('Bạn có chắc muốn xóa đề thi này?')) return;
+
+    let customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
+    customExams = customExams.filter(e => e.id !== examId);
+    localStorage.setItem('customExams', JSON.stringify(customExams));
+
+    let myExams = JSON.parse(localStorage.getItem('myExams') || '[]');
+    myExams = myExams.filter(e => e.id !== examId);
+    localStorage.setItem('myExams', JSON.stringify(myExams));
+
+    // Xóa khỏi exams[] trong memory
+    for (const key in exams) {
+        exams[key] = exams[key].filter(e => e.id !== examId);
+    }
+
+    selectSubject(currentSubject);
 }
 
 function backToSubjects() {
@@ -2028,24 +2070,24 @@ function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
 }
 
-document.getElementById('editForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    
-    // Update only fullname
-    user.fullname = document.getElementById('editName').value;
-    
-    // Save to localStorage
-    localStorage.setItem('user', JSON.stringify(user));
-    
-    // Close modal
-    closeEditModal();
-    
-    // Reload data to display
-    loadAccountData();
-    
-    alert('✅ Cập nhật thông tin thành công!');
+document.addEventListener('submit', function(e) {
+    if (e.target && e.target.id === 'editForm') {
+        e.preventDefault();
+
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        user.fullname = document.getElementById('editName').value.trim();
+        localStorage.setItem('user', JSON.stringify(user));
+
+        // Update UI ngay lập tức
+        const displayNameEl = document.getElementById('displayName');
+        const userNameEl = document.getElementById('userName');
+        if (displayNameEl) displayNameEl.textContent = user.fullname || '-';
+        if (userNameEl) userNameEl.textContent = user.fullname || 'Người dùng';
+
+        closeEditModal();
+        if (typeof loadAccountData === 'function') loadAccountData();
+        alert('✅ Cập nhật thông tin thành công!');
+    }
 });
 
 function showRechargeModal() {
@@ -2467,14 +2509,25 @@ if (document.getElementById('createExamForm')) {
 function loadCustomExams() {
     const customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
     customExams.forEach(exam => {
-        const subjectId = subjects.find(s => s.name === exam.subject)?.id;
+        // Ưu tiên subjectId, fallback sang tìm theo tên
+        const subjectId = exam.subjectId || subjects.find(s => s.name === exam.subject)?.id;
         if (subjectId) {
-            if (!exams[subjectId]) {
-                exams[subjectId] = [];
-            }
-            // Check if exam already exists
+            if (!exams[subjectId]) exams[subjectId] = [];
             if (!exams[subjectId].find(e => e.id === exam.id)) {
-                exams[subjectId].push(exam);
+                exams[subjectId].push({
+                    id: exam.id,
+                    title: exam.title || exam.name,
+                    subject: exam.subject,
+                    grade: exam.grade,
+                    questions: exam.questions,
+                    time: exam.time,
+                    difficulty: exam.difficulty,
+                    questionsData: exam.questionsData,
+                    shuffle: exam.shuffle,
+                    showAnswers: exam.showAnswers,
+                    createdAt: exam.createdAt,
+                    isCustom: true
+                });
             }
         }
     });
@@ -2513,4 +2566,25 @@ document.addEventListener('keydown', function(event) {
             closeGiftModal();
         }
     }
+});
+
+// ===== Nav Dropdown Toggle =====
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.nav-dropdown').forEach(function (dropdown) {
+        var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+
+        toggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            var isOpen = dropdown.classList.contains('open');
+            document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+            if (!isOpen) dropdown.classList.add('open');
+            toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.nav-dropdown')) {
+            document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+        }
+    });
 });
