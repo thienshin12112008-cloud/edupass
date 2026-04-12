@@ -12,6 +12,8 @@
     <meta name="apple-mobile-web-app-title" content="EduPass">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="effects.css">
     <link rel="stylesheet" href="edupass-ai.css">
     <script>
     // EduPass brand typography: E và P in hoa lớn
@@ -49,7 +51,7 @@
                     <li><a href="tai-lieu.html">Kho tài liệu</a></li>
                     <li class="nav-dropdown">
                         <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                            Luyện thi <span class="nav-arrow">▾</span>
+                            Công cụ học tập <span class="nav-arrow">▾</span>
                         </a>
                         <ul class="nav-dropdown-menu">
                             <li>
@@ -85,6 +87,15 @@
                                     <span class="ndm-text">
                                         <strong>Flashcard</strong>
                                         <small>Ôn từ vựng & công thức siêu nhanh</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="dich-thuat.html">
+                                    <span class="ndm-icon">🌐</span>
+                                    <span class="ndm-text">
+                                        <strong>Dịch thuật</strong>
+                                        <small>Dịch nhanh sang nhiều ngôn ngữ</small>
                                     </span>
                                 </a>
                             </li>
@@ -415,6 +426,25 @@
                     </div>
                 </div>
                 <div class="eco-card-scene">
+                    <div class="eco-stack-card eco-green">
+                        <div class="eco-card-bg-icon">🌐</div>
+                        <div class="eco-card-content">
+                            <div class="eco-card-icon-wrap">🌐</div>
+                            <div class="eco-card-text">
+                                <h3>Dịch Thuật</h3>
+                                <p>Dịch nhanh nội dung học tập sang 10 ngôn ngữ với độ chính xác chuẩn Google.</p>
+                                <div class="eco-card-features">
+                                    <span class="eco-feat-tag">⚡ Dịch tức thì</span>
+                                    <span class="eco-feat-tag">🌍 10 ngôn ngữ</span>
+                                    <span class="eco-feat-tag">🔄 Đổi chiều dịch</span>
+                                    <span class="eco-feat-tag">🕐 Lịch sử dịch</span>
+                                </div>
+                            </div>
+                            <a href="dich-thuat.html" class="eco-card-link">Dịch ngay →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="eco-card-scene">
                     <div class="eco-stack-card eco-navy">
                         <div class="eco-card-bg-icon">🏫</div>
                         <div class="eco-card-content">
@@ -656,7 +686,7 @@
                 <div class="testi-card"><div class="testi-name">Nguyễn Minh Đức <span>Lớp 12A4</span></div><p>"Nhờ luyện đề nên mình tự tin hơn khi làm bài."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
                 <div class="testi-card"><div class="testi-name">Trần Hải Nam <span>Lớp 11A7</span></div><p>"Trang web giúp mình học tập hiệu quả hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
                 <div class="testi-card"><div class="testi-name">Lê Quốc Huy <span>Lớp 12A3</span></div><p>"Đề thi phong phú và cập nhật thường xuyên."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
-                <div class="testi-card"><div class="testi-name">Nguyễn Thanh Phong <span>Lớp 11A1</span></div><p>"Hệ thống luyện thi rất tiện lợi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
+                <div class="testi-card"><div class="testi-name">Nguyễn Thanh Phong <span>Lớp 11A1</span></div><p>"Hệ thống Công cụ học tập rất tiện lợi."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
                 <div class="testi-card"><div class="testi-name">Trần Đức Anh <span>Lớp 12A5</span></div><p>"Nhờ EduPass mình tiến bộ rõ rệt."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
                 <div class="testi-card"><div class="testi-name">Phạm Minh Hoàng <span>Lớp 11A4</span></div><p>"Mình học được nhiều kiến thức mới."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
                 <div class="testi-card"><div class="testi-name">Nguyễn Văn Thành <span>Lớp 12A6</span></div><p>"Trang web giúp mình học tập có động lực hơn."</p><div class="testi-stars">⭐⭐⭐⭐⭐</div></div>
@@ -1050,7 +1080,7 @@
                     <ul class="footer-nav">
                         <li><a href="index.html">🏠 Trang chủ</a></li>
                         <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
-                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="luyen-thi.html">✏️ Công cụ học tập</a></li>
                         <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
                     </ul>
                 </div>
@@ -1535,6 +1565,8 @@
         <div id="nlhLbCaption" class="nlh-lb-caption"></div>
     </div>
 
+    <script src="effects.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>
 

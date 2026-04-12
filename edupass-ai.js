@@ -14,7 +14,7 @@ class EduPassAI {
         // API Endpoints
         this.endpoints = {
             openai: 'https://api.openai.com/v1/chat/completions',
-            gemini: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
+            gemini: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent'
         };
         
         this.init();
@@ -477,59 +477,58 @@ class EduPassAI {
         }
     }
 
-    // Google Gemini API
     async callGeminiAPI(userMessage) {
         try {
-            // Build context from conversation history
-            let contextText = this.getSystemPrompt() + '\n\n';
+            // Build contents array với system + history + message hiện tại
+            const contents = [];
 
-            // Add recent conversation history
-            const recentHistory = this.conversationHistory.slice(-3);
+            // Thêm lịch sử hội thoại gần nhất
+            const recentHistory = this.conversationHistory.slice(-4);
             recentHistory.forEach(conv => {
-                contextText += `Người dùng: ${conv.user}\nEduPass AI: ${conv.ai}\n\n`;
+                contents.push({ role: 'user',  parts: [{ text: conv.user }] });
+                contents.push({ role: 'model', parts: [{ text: conv.ai   }] });
             });
 
-            contextText += `Người dùng: ${userMessage}\nEduPass AI:`;
+            // Thêm message hiện tại kèm system prompt
+            contents.push({
+                role: 'user',
+                parts: [{ text: this.getSystemPrompt() + '\n\nNgười dùng hỏi: ' + userMessage }]
+            });
 
-            console.log('Calling Gemini API...');
-            
             const response = await fetch(`${this.endpoints.gemini}?key=${this.apiKey}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: contextText
-                        }]
-                    }],
+                    contents,
                     generationConfig: {
                         temperature: 0.7,
-                        maxOutputTokens: 500,
+                        maxOutputTokens: 600,
                         topP: 0.8,
                         topK: 40
-                    }
+                    },
+                    safetySettings: [
+                        { category: 'HARM_CATEGORY_HARASSMENT',        threshold: 'BLOCK_NONE' },
+                        { category: 'HARM_CATEGORY_HATE_SPEECH',       threshold: 'BLOCK_NONE' },
+                        { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+                        { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' }
+                    ]
                 })
             });
 
-            console.log('Response status:', response.status);
-
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Gemini API Error Details:', errorData);
-                throw new Error(`Gemini API error: ${JSON.stringify(errorData)}`);
+                console.error('Gemini API Error:', errorData);
+                throw new Error('Gemini API error: ' + response.status);
             }
 
             const data = await response.json();
-            console.log('Gemini Response:', data);
-            
+
             if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
                 throw new Error('Invalid response format from Gemini');
             }
-            
+
             return data.candidates[0].content.parts[0].text;
-            
+
         } catch (error) {
             console.error('Gemini API Error:', error);
             throw error;

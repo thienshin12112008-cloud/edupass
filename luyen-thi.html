@@ -12,7 +12,9 @@
     <meta name="apple-mobile-web-app-title" content="EduPass">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="edupass-ai.css">
+    <link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="effects.css">
+    
     <script>
     // Auth guard — yêu cầu đăng nhập
     (function(){
@@ -56,13 +58,14 @@
                 <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
                 <li class="nav-dropdown">
                     <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        ✏️ Luyện thi <span class="nav-arrow">▾</span>
+                        🛠️ Công cụ học tập <span class="nav-arrow">▾</span>
                     </a>
                     <ul class="nav-dropdown-menu">
                         <li><a href="luyen-thi.html" class="active"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
                         <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
                         <li><a href="note-lich-hoc.html"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
                         <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                        <li><a href="dich-thuat.html"><span class="ndm-icon">🌐</span><span class="ndm-text"><strong>Dịch thuật</strong><small>Dịch nhanh sang nhiều ngôn ngữ</small></span></a></li>
                     </ul>
                 </li>
                 <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
@@ -249,7 +252,7 @@
                     <ul class="footer-nav">
                         <li><a href="index.html">🏠 Trang chủ</a></li>
                         <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
-                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="luyen-thi.html">✏️ Công cụ học tập</a></li>
                         <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
                     </ul>
                 </div>
@@ -323,7 +326,7 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="edupass-ai.js"></script>
+    
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -360,5 +363,7 @@
         });
     })();
     </script>
+    <script src="effects.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>

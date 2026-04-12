@@ -1,4 +1,4 @@
-// ===== TẠO ĐỀ THI JAVASCRIPT =====
+﻿// ===== TẠO ĐỀ THI JAVASCRIPT =====
 
 // Global variables
 let questions = [];
@@ -58,6 +58,7 @@ function clearQuestionForm() {
     document.getElementById('answerC').value = '';
     document.getElementById('answerD').value = '';
     document.querySelectorAll('input[name="correctAnswer"]').forEach(radio => radio.checked = false);
+    qiClear();
 }
 
 function saveQuestion() {
@@ -70,22 +71,23 @@ function saveQuestion() {
     
     // Validation
     if (!content) {
-        alert('❌ Vui lòng nhập nội dung câu hỏi!');
+        epAlert('Thiếu nội dung', 'Vui lòng nhập nội dung câu hỏi!', 'warning');
         return;
     }
     
     if (!answerA || !answerB || !answerC || !answerD) {
-        alert('❌ Vui lòng nhập đầy đủ 4 đáp án!');
+        epAlert('Thiếu đáp án', 'Vui lòng nhập đầy đủ 4 đáp án!', 'warning');
         return;
     }
     
     if (!correctAnswer) {
-        alert('❌ Vui lòng chọn đáp án đúng!');
+        epAlert('Chưa chọn đáp án đúng', 'Vui lòng chọn đáp án đúng bằng cách click vào radio button.', 'warning');
         return;
     }
     
     const question = {
         content: content,
+        image: document.getElementById('qiData').value || '',
         answers: {
             A: answerA,
             B: answerB,
@@ -106,8 +108,7 @@ function saveQuestion() {
     renderQuestions();
     closeQuestionModal();
     updateSummary();
-    
-    alert('✅ Đã lưu câu hỏi!');
+    epToast('Đã lưu câu hỏi ✅', 'success');
 }
 
 function renderQuestions() {
@@ -121,6 +122,7 @@ function renderQuestions() {
     container.innerHTML = questions.map((q, index) => `
         <div class="question-card">
             <div class="question-number">Câu ${index + 1}</div>
+            ${q.image ? `<img src="${q.image}" class="question-img" alt="Ảnh câu ${index+1}">` : ''}
             <div class="question-text">${q.content}</div>
             <div class="question-answers">
                 <div class="answer-option ${q.correct === 'A' ? 'correct' : ''}">
@@ -154,17 +156,27 @@ function editQuestion(index) {
     document.getElementById('answerC').value = question.answers.C;
     document.getElementById('answerD').value = question.answers.D;
     document.getElementById('correct' + question.correct).checked = true;
+
+    // Restore image
+    if (question.image) {
+        document.getElementById('qiData').value = question.image;
+        document.getElementById('qiPreviewImg').src = question.image;
+        document.getElementById('qiPreview').style.display = 'flex';
+    } else {
+        qiClear();
+    }
     
     document.getElementById('questionModal').style.display = 'flex';
 }
 
 function deleteQuestion(index) {
-    if (confirm('Bạn có chắc muốn xoá câu hỏi này?')) {
+    epConfirm('Xóa câu hỏi?', 'Bạn có chắc muốn xóa câu hỏi này không?', { okText: '🗑️ Xóa', cancelText: 'Hủy' }).then(function(ok) {
+        if (!ok) return;
         questions.splice(index, 1);
         renderQuestions();
         updateSummary();
-        alert('✅ Đã xoá câu hỏi!');
-    }
+        epToast('Đã xóa câu hỏi', 'success');
+    });
 }
 
 // ===== FORM LISTENERS =====
@@ -290,9 +302,7 @@ function saveExam() {
     let customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
     customExams.push(customExam);
     localStorage.setItem('customExams', JSON.stringify(customExams));
-    
-    alert('✅ Đã lưu đề thi thành công!\n\nĐề thi đã được thêm vào trang Luyện thi.');
-    
+    epAlert('Lưu thành công! 🎉', 'Đề thi đã được lưu và thêm vào trang Luyện thi.', 'success');
     loadSavedExams();
     document.getElementById('savedExamsSection').scrollIntoView({ behavior: 'smooth' });
 }
@@ -358,25 +368,25 @@ function collectExamData() {
 
 function validateExamData(data) {
     if (!data.name) {
-        alert('❌ Vui lòng nhập tên đề thi!');
+        epAlert('Thiếu tên đề', 'Vui lòng nhập tên đề thi!', 'warning');
         document.getElementById('examName').focus();
         return false;
     }
     
     if (!data.grade) {
-        alert('❌ Vui lòng chọn lớp!');
+        epAlert('Chưa chọn lớp', 'Vui lòng chọn lớp!', 'warning');
         document.getElementById('examGrade').focus();
         return false;
     }
     
     if (!data.subject) {
-        alert('❌ Vui lòng chọn môn học!');
+        epAlert('Chưa chọn môn', 'Vui lòng chọn môn học!', 'warning');
         document.getElementById('examSubject').focus();
         return false;
     }
     
     if (questions.length === 0) {
-        alert('❌ Vui lòng thêm câu hỏi!');
+        epAlert('Chưa có câu hỏi', 'Vui lòng thêm ít nhất 1 câu hỏi!', 'warning');
         return false;
     }
     
@@ -418,7 +428,7 @@ function validateAndImportJSON() {
     const jsonInput = document.getElementById('aiJsonInput').value.trim();
     
     if (!jsonInput) {
-        alert('❌ Vui lòng dán JSON từ AI vào ô bên trên!');
+        epAlert('Chưa có JSON', 'Vui lòng dán JSON từ AI vào ô bên trên!', 'warning');
         return;
     }
     
@@ -484,13 +494,13 @@ function validateAndImportJSON() {
         document.getElementById('aiJsonInput').value = '';
         
         // Show success
-        alert(`✅ Đã nhập thành công ${validQuestions.length} câu hỏi từ AI!\n\nCâu hỏi đã được thêm vào tab "Tạo câu hỏi nhanh".\nBạn có thể xem và chỉnh sửa ngay!`);
+        epToast(`Đã nhập ${validQuestions.length} câu hỏi từ AI ✅`, 'success');
         
         console.log('✅ Imported questions from AI:', validQuestions);
         
     } catch (error) {
         console.error('JSON parse error:', error);
-        alert(`❌ Lỗi định dạng JSON!\n\n${error.message}\n\nVui lòng kiểm tra lại JSON từ AI.\n\nĐịnh dạng đúng:\n[\n  {\n    "content": "Câu hỏi?",\n    "answers": {\n      "A": "Đáp án A",\n      "B": "Đáp án B",\n      "C": "Đáp án C",\n      "D": "Đáp án D"\n    },\n    "correct": "A"\n  }\n]`);
+        epAlert('Lỗi định dạng JSON', error.message + '\n\nVui lòng kiểm tra lại JSON từ AI.', 'error');
     }
 }
 
@@ -501,7 +511,7 @@ function validateAndImportJSON() {
 function saveToUserAccount(examData) {
     const userId = localStorage.getItem('userId');
     if (!userId) {
-        alert('Vui lòng đăng nhập để lưu đề thi!');
+        epAlert('Chưa đăng nhập', 'Vui lòng đăng nhập để lưu đề thi!', 'warning');
         return;
     }
     
@@ -648,7 +658,7 @@ function shareExam(examId) {
     } else {
         // Fallback: Copy to clipboard
         navigator.clipboard.writeText(shareUrl);
-        alert('Đã copy link chia sẻ!');
+        epToast('Đã copy link chia sẻ ', 'success');
     }
 }
 */
@@ -699,7 +709,7 @@ function startSavedExam(index) {
     const exam = savedExams[index];
     
     if (!exam) {
-        alert('❌ Không tìm thấy đề thi!');
+        epAlert('Không tìm thấy', 'Không tìm thấy đề thi này!', 'error');
         return;
     }
     
@@ -709,19 +719,83 @@ function startSavedExam(index) {
 }
 
 function deleteSavedExam(index) {
-    if (!confirm('Bạn có chắc muốn xóa đề thi này?')) {
-        return;
-    }
-    
-    let savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
-    savedExams.splice(index, 1);
-    localStorage.setItem('myExams', JSON.stringify(savedExams));
-    
-    alert('✅ Đã xóa đề thi!');
-    loadSavedExams();
+    epConfirm('Xóa đề thi?', 'Bạn có chắc muốn xóa đề thi này không?', { okText: '🗑️ Xóa', cancelText: 'Hủy' }).then(function(ok) {
+        if (!ok) return;
+        let savedExams = JSON.parse(localStorage.getItem('myExams') || '[]');
+        savedExams.splice(index, 1);
+        localStorage.setItem('myExams', JSON.stringify(savedExams));
+        epToast('Đã xóa đề thi', 'success');
+        loadSavedExams();
+    });
 }
 
 // Load saved exams on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadSavedExams();
 });
+
+// ===== QUESTION IMAGE HELPERS =====
+function qiSwitchTab(type, btn) {
+    btn.parentNode.querySelectorAll('.qi-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('qiFileWrap').style.display = type === 'file' ? '' : 'none';
+    document.getElementById('qiUrlWrap').style.display  = type === 'url'  ? '' : 'none';
+    if (type === 'url') setTimeout(() => document.getElementById('qiUrlInput').focus(), 80);
+}
+
+function qiPreviewFile() {
+    const file = document.getElementById('qiFileInput').files[0];
+    if (!file) return;
+    if (file.size > 3 * 1024 * 1024) { epToast('Ảnh tối đa 3MB ⚠️', 'warning'); return; }
+    const reader = new FileReader();
+    reader.onload = e => qiSetPreview(e.target.result);
+    reader.readAsDataURL(file);
+}
+
+function qiPreviewUrl() {
+    const url = document.getElementById('qiUrlInput').value.trim();
+    if (!url) { qiClear(); return; }
+    const normalized = qiNormalizeUrl(url);
+    // Thử trực tiếp, fallback qua proxy
+    const img = new Image();
+    img.onload = () => qiSetPreview(normalized);
+    img.onerror = () => {
+        const proxies = [
+            'https://corsproxy.io/?' + encodeURIComponent(normalized),
+            'https://images.weserv.nl/?url=' + encodeURIComponent(normalized),
+            'https://api.allorigins.win/raw?url=' + encodeURIComponent(normalized)
+        ];
+        qiTryProxies(proxies, 0, normalized);
+    };
+    img.src = normalized;
+}
+
+function qiTryProxies(proxies, idx, original) {
+    if (idx >= proxies.length) { qiSetPreview(original); return; }
+    const img = new Image();
+    img.onload = () => qiSetPreview(proxies[idx]);
+    img.onerror = () => qiTryProxies(proxies, idx + 1, original);
+    img.src = proxies[idx];
+}
+
+function qiSetPreview(src) {
+    document.getElementById('qiData').value = src;
+    document.getElementById('qiPreviewImg').src = src;
+    document.getElementById('qiPreview').style.display = 'flex';
+}
+
+function qiClear() {
+    document.getElementById('qiData').value = '';
+    const prev = document.getElementById('qiPreview');
+    if (prev) { prev.style.display = 'none'; prev.querySelector('img').src = ''; }
+    const fi = document.getElementById('qiFileInput'); if (fi) fi.value = '';
+    const ui = document.getElementById('qiUrlInput');  if (ui) ui.value = '';
+}
+
+function qiNormalizeUrl(url) {
+    const gdrive = url.match(/drive\.google\.com\/file\/d\/([^\/\?]+)/);
+    if (gdrive) return 'https://drive.google.com/uc?export=view&id=' + gdrive[1];
+    const gopen = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+    if (gopen) return 'https://drive.google.com/uc?export=view&id=' + gopen[1];
+    return url;
+}

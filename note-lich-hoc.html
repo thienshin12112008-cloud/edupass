@@ -9,7 +9,8 @@
     <meta name="theme-color" content="#0288d1">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="edupass-ai.css">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="effects.css">
     <link rel="stylesheet" href="note-lich-hoc.css">
     <script>
     // Auth guard — yêu cầu đăng nhập
@@ -51,13 +52,14 @@
                 <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
                 <li class="nav-dropdown">
                     <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        ✏️ Luyện thi <span class="nav-arrow">▾</span>
+                        🛠️ Công cụ học tập <span class="nav-arrow">▾</span>
                     </a>
                     <ul class="nav-dropdown-menu">
                         <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
                         <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
                         <li><a href="note-lich-hoc.html" class="active"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
                         <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                        <li><a href="dich-thuat.html"><span class="ndm-icon">🌐</span><span class="ndm-text"><strong>Dịch thuật</strong><small>Dịch nhanh sang nhiều ngôn ngữ</small></span></a></li>
                     </ul>
                 </li>
                 <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
@@ -67,9 +69,7 @@
                 <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
                 <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
             </div>
-            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
@@ -77,12 +77,38 @@
     <section class="nlh-header">
         <div class="container">
             <div class="nlh-header-content">
-                <div class="nlh-header-icon">📓</div>
+                <span class="nlh-header-icon">📓</span>
                 <h1>Note & Lịch học</h1>
                 <p>Ghi chú bài học và lên kế hoạch ôn thi thông minh</p>
+                <div class="nlh-header-stats">
+                    <span class="nlh-hstat" id="hstatNotes">📝 0 ghi chú</span>
+                    <span class="nlh-hstat" id="hstatTasks">📅 0 lịch học</span>
+                    <span class="nlh-hstat" id="hstatPomo">🍅 0 pomodoro hôm nay</span>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Banner học cùng nhau -->
+    <div class="nlh-banner-wrap">
+        <div class="nlh-banner-info">
+            <span class="nlh-banner-badge">✨ EduPass Note & Lịch học</span>
+            <h2 class="nlh-banner-title">Nâng cấp cách bạn học<br><span class="nlh-banner-title-accent">ngay hôm nay</span></h2>
+            <p class="nlh-banner-desc">Đừng chỉ học chăm chỉ, hãy học thông minh hơn. EduPass mang đến một không gian học tập nơi mọi thứ bạn cần đều nằm trong tầm tay — ghi chú, lập kế hoạch, tập trung và theo dõi tiến độ — tất cả được tối ưu để bạn đạt kết quả tốt nhất.</p>
+            <div class="nlh-banner-features">
+                <span>📝 Ghi chú thông minh</span>
+                <span>📅 Lập kế hoạch rõ ràng</span>
+                <span>🗓️ Thời khóa biểu cá nhân</span>
+                <span>⏱️ Pomodoro Timer</span>
+                <span>📊 Theo dõi tiến độ</span>
+                <span>🎵 Không gian học lý tưởng</span>
+            </div>
+            <p class="nlh-banner-tagline">👉 EduPass – nơi việc học trở nên rõ ràng, hiệu quả và đầy cảm hứng.</p>
+        </div>
+        <div class="nlh-banner-img-wrap">
+            <img src="hoccungnhau.png" alt="Học cùng nhau - EduPass" class="nlh-banner-img">
+        </div>
+    </div>
 
     <!-- Main Content -->
     <section class="nlh-main">
@@ -94,6 +120,7 @@
                 <button class="nlh-tab" data-tab="schedule" onclick="switchTab('schedule')">📅 Lịch học</button>
                 <button class="nlh-tab" data-tab="timetable" onclick="switchTab('timetable')">🗓️ Thời khóa biểu</button>
                 <button class="nlh-tab" data-tab="timer" onclick="switchTab('timer')">⏱️ Đếm giờ học</button>
+                <button class="nlh-tab" data-tab="chart" onclick="switchTab('chart')">📊 Biểu đồ</button>
             </div>
 
             <!-- ===== TAB GHI CHÚ ===== -->
@@ -167,6 +194,94 @@
                         <ul class="nlh-tasks-list" id="tasksList">
                             <li class="nlh-tasks-empty">📅 Chọn một ngày để xem hoặc thêm lịch học</li>
                         </ul>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ sóng timeline -->
+                <div class="nlh-wave-wrap" id="waveWrap" style="display:none">
+                    <div class="nlh-wave-header">
+                        <span class="nlh-wave-title">⏰ Timeline trong ngày</span>
+                        <span class="nlh-wave-hint">← Kéo để lướt →</span>
+                    </div>
+                    <div class="nlh-wave-scroll" id="waveScroll">
+                        <div class="nlh-wave-inner" id="waveInner"></div>
+                    </div>
+                </div>
+
+                <!-- Modal chi tiết task từ wave -->
+                <div class="nlh-modal-overlay" id="waveDetailModal" style="display:none" onclick="if(event.target===this)closeWaveDetail()">
+                    <div class="nlh-modal nlh-wave-detail-modal">
+                        <div class="nlh-modal-header" id="waveDetailHeader">
+                            <h3 id="waveDetailTitle">Chi tiết</h3>
+                            <button onclick="closeWaveDetail()" class="nlh-modal-close">✕</button>
+                        </div>
+
+                        <!-- VIEW mode -->
+                        <div class="nlh-modal-body nlh-wave-detail-body" id="wdViewBody">
+                            <div class="nlh-wd-row">
+                                <span class="nlh-wd-icon">📚</span>
+                                <div>
+                                    <div class="nlh-wd-label">Môn học / Nội dung</div>
+                                    <div class="nlh-wd-val" id="wdSubject">—</div>
+                                </div>
+                            </div>
+                            <div class="nlh-wd-row">
+                                <span class="nlh-wd-icon">⏰</span>
+                                <div>
+                                    <div class="nlh-wd-label">Thời gian</div>
+                                    <div class="nlh-wd-val" id="wdTime">—</div>
+                                </div>
+                            </div>
+                            <div class="nlh-wd-row">
+                                <span class="nlh-wd-icon">⏳</span>
+                                <div>
+                                    <div class="nlh-wd-label">Thời lượng</div>
+                                    <div class="nlh-wd-val" id="wdDuration">—</div>
+                                </div>
+                            </div>
+                            <div class="nlh-wd-row">
+                                <span class="nlh-wd-icon">📅</span>
+                                <div>
+                                    <div class="nlh-wd-label">Ngày học</div>
+                                    <div class="nlh-wd-val" id="wdDate">—</div>
+                                </div>
+                            </div>
+                            <div class="nlh-wd-row">
+                                <span class="nlh-wd-icon">✅</span>
+                                <div>
+                                    <div class="nlh-wd-label">Trạng thái</div>
+                                    <div class="nlh-wd-val" id="wdStatus">—</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nlh-modal-footer" id="wdViewFooter">
+                            <button class="nlh-btn-secondary" onclick="closeWaveDetail()">Đóng</button>
+                            <button class="nlh-btn-ghost-edit" onclick="switchToEditMode()">✏️ Chỉnh sửa</button>
+                            <button class="nlh-btn-primary" id="wdToggleBtn" onclick="wdToggleDone()">✓ Đánh dấu xong</button>
+                        </div>
+
+                        <!-- EDIT mode -->
+                        <div class="nlh-modal-body nlh-wave-detail-body" id="wdEditBody" style="display:none">
+                            <label class="nlh-wd-edit-label">Môn học / Nội dung</label>
+                            <input type="text" id="wdEditSubject" class="nlh-input" placeholder="Tên môn học...">
+                            <label class="nlh-wd-edit-label">Thời gian bắt đầu</label>
+                            <input type="time" id="wdEditTimeStart" class="nlh-input">
+                            <label class="nlh-wd-edit-label">Thời gian kết thúc</label>
+                            <input type="time" id="wdEditTimeEnd" class="nlh-input">
+                            <label class="nlh-wd-edit-label">Màu sắc</label>
+                            <div class="nlh-color-row" id="wdEditColorRow">
+                                <button class="nlh-color-dot" data-color="blue"   style="background:#3b82f6" onclick="selectWdColor('blue',this)"></button>
+                                <button class="nlh-color-dot" data-color="green"  style="background:#22c55e" onclick="selectWdColor('green',this)"></button>
+                                <button class="nlh-color-dot" data-color="red"    style="background:#ef4444" onclick="selectWdColor('red',this)"></button>
+                                <button class="nlh-color-dot" data-color="orange" style="background:#f97316" onclick="selectWdColor('orange',this)"></button>
+                                <button class="nlh-color-dot" data-color="purple" style="background:#a855f7" onclick="selectWdColor('purple',this)"></button>
+                            </div>
+                        </div>
+                        <div class="nlh-modal-footer" id="wdEditFooter" style="display:none">
+                            <button class="nlh-btn-secondary" onclick="switchToViewMode()">← Quay lại</button>
+                            <button class="nlh-btn-danger" onclick="wdDeleteTask()">🗑 Xóa</button>
+                            <button class="nlh-btn-primary" onclick="wdSaveEdit()">💾 Lưu</button>
+                        </div>
                     </div>
                 </div>
 
@@ -396,10 +511,68 @@
                 </div>
             </div>
 
+            <!-- ===== TAB BIỂU ĐỒ ===== -->
+            <div class="nlh-panel" id="tab-chart">
+                <div class="nlh-chart-grid">
+
+                    <!-- Biểu đồ môn học từ TKB -->
+                    <div class="nlh-chart-card">
+                        <div class="nlh-chart-title">📚 Môn học trong thời khóa biểu</div>
+                        <div class="nlh-chart-sub">Số tiết mỗi môn trong tuần hiện tại</div>
+                        <div class="nlh-bar-chart" id="chartSubjects">
+                            <div class="nlh-chart-empty">Chưa có dữ liệu TKB. Hãy điền thời khóa biểu trước.</div>
+                        </div>
+                    </div>
+
+                    <!-- Biểu đồ lịch học theo ngày trong tuần -->
+                    <div class="nlh-chart-card">
+                        <div class="nlh-chart-title">📅 Lịch học theo ngày</div>
+                        <div class="nlh-chart-sub">Số nhiệm vụ học tập mỗi ngày trong tháng này</div>
+                        <div class="nlh-bar-chart" id="chartDailyTasks">
+                            <div class="nlh-chart-empty">Chưa có lịch học nào.</div>
+                        </div>
+                    </div>
+
+                    <!-- Heatmap tháng -->
+                    <div class="nlh-chart-card nlh-chart-full">
+                        <div class="nlh-chart-title">🔥 Heatmap học tập</div>
+                        <div class="nlh-chart-sub">Ngày nào có lịch học trong tháng này</div>
+                        <div class="nlh-heatmap" id="chartHeatmap"></div>
+                    </div>
+
+                    <!-- Tỉ lệ hoàn thành -->
+                    <div class="nlh-chart-card">
+                        <div class="nlh-chart-title">✅ Tỉ lệ hoàn thành</div>
+                        <div class="nlh-chart-sub">Nhiệm vụ đã hoàn thành so với tổng số</div>
+                        <div class="nlh-donut-wrap">
+                            <svg class="nlh-donut" viewBox="0 0 120 120">
+                                <circle class="nlh-donut-bg" cx="60" cy="60" r="48"/>
+                                <circle class="nlh-donut-fill" id="donutFill" cx="60" cy="60" r="48"/>
+                            </svg>
+                            <div class="nlh-donut-label" id="donutLabel">0%</div>
+                        </div>
+                        <div class="nlh-donut-legend">
+                            <span class="nlh-dl-done">✅ Hoàn thành: <strong id="donutDone">0</strong></span>
+                            <span class="nlh-dl-todo">⏳ Chưa xong: <strong id="donutTodo">0</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Ghi chú theo màu -->
+                    <div class="nlh-chart-card">
+                        <div class="nlh-chart-title">📝 Ghi chú theo màu</div>
+                        <div class="nlh-chart-sub">Phân loại ghi chú theo màu sắc</div>
+                        <div class="nlh-color-chart" id="chartNoteColors">
+                            <div class="nlh-chart-empty">Chưa có ghi chú nào.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <footer class="site-footer">
+    <footer
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
@@ -412,7 +585,7 @@
                     <ul class="footer-nav">
                         <li><a href="index.html">🏠 Trang chủ</a></li>
                         <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
-                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="luyen-thi.html">✏️ Công cụ học tập</a></li>
                         <li><a href="flashcard.html">🃏 Flashcard</a></li>
                         <li><a href="note-lich-hoc.html">📓 Note & Lịch học</a></li>
                     </ul>
@@ -480,7 +653,39 @@
     </footer>
 
     <script src="script.js"></script>
-    <script src="edupass-ai.js"></script>
+    
     <script src="note-lich-hoc.js"></script>
+    <script>
+    // Cập nhật header stats
+    function updateHeaderStats() {
+        const notes = JSON.parse(localStorage.getItem('nlh_notes') || '[]');
+        const tasks = JSON.parse(localStorage.getItem('nlh_tasks') || '{}');
+        const totalTasks = Object.values(tasks).reduce((s, arr) => s + (arr ? arr.length : 0), 0);
+        const pomoToday = parseInt(localStorage.getItem('nlh_pomo_today_' + new Date().toDateString()) || '0');
+        const hn = document.getElementById('hstatNotes');
+        const ht = document.getElementById('hstatTasks');
+        const hp = document.getElementById('hstatPomo');
+        if (hn) hn.textContent = '📝 ' + notes.length + ' ghi chú';
+        if (ht) ht.textContent = '📅 ' + totalTasks + ' lịch học';
+        if (hp) hp.textContent = '🍅 ' + pomoToday + ' pomodoro hôm nay';
+    }
+    document.addEventListener('DOMContentLoaded', updateHeaderStats);
+    setInterval(updateHeaderStats, 3000);
+    </script>
+    <!-- SVG gradient defs cho timer ring -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#4f46e5"/>
+                <stop offset="100%" style="stop-color:#a855f7"/>
+            </linearGradient>
+            <linearGradient id="donutGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#4f46e5"/>
+                <stop offset="100%" style="stop-color:#7c3aed"/>
+            </linearGradient>
+        </defs>
+    </svg>
+    <script src="effects.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>

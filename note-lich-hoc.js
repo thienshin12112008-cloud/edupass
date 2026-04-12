@@ -81,13 +81,16 @@ function saveCurrentNote() {
 
 function deleteCurrentNote() {
     if (!currentNoteId) return;
-    if (!confirm('Xóa ghi chú này?')) return;
-    notes = notes.filter(function(n){ return n.id !== currentNoteId; });
-    saveData('nlh_notes', notes);
-    currentNoteId = null;
-    document.getElementById('editorEmpty').style.display = 'flex';
-    document.getElementById('editorActive').style.display = 'none';
-    renderNotesList();
+    epConfirm('Xóa ghi chú?', 'Ghi chú này sẽ bị xóa vĩnh viễn.', { okText: '🗑️ Xóa', cancelText: 'Hủy' }).then(function(ok) {
+        if (!ok) return;
+        notes = notes.filter(function(n){ return n.id !== currentNoteId; });
+        saveData('nlh_notes', notes);
+        currentNoteId = null;
+        document.getElementById('editorEmpty').style.display = 'flex';
+        document.getElementById('editorActive').style.display = 'none';
+        renderNotesList();
+        epToast('Đã xóa ghi chú', 'success');
+    });
 }
 
 function filterNotes(val) { renderNotesList(val); }
@@ -638,8 +641,8 @@ function tkbRender() {
     }
 
     var sessions = [
-        { label: '☀️ Sáng', slots: [1,2,3,4,5] },
-        { label: '🌤️ Chiều', slots: [6,7,8,9,10] }
+        { label: '☀️ Sáng', slots: [1,2,3,4,5], displayStart: 1 },
+        { label: '🌤️ Chiều', slots: [6,7,8,9,10], displayStart: 1 }
     ];
 
     var today = new Date();
@@ -649,9 +652,10 @@ function tkbRender() {
     sessions.forEach(function(session) {
         // Session header row
         html += '<tr class="tkb-session-row"><td colspan="7" class="tkb-session-label">' + session.label + '</td></tr>';
-        session.slots.forEach(function(slot) {
+        session.slots.forEach(function(slot, idx) {
+            var displayNum = session.displayStart + idx;
             html += '<tr class="tkb-row">';
-            html += '<td class="tkb-slot-num">Tiết ' + slot + '</td>';
+            html += '<td class="tkb-slot-num">Tiết ' + displayNum + '</td>';
             for (var col = 0; col < 6; col++) {
                 var d = dates[col];
                 var dStr = d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate());
@@ -792,3 +796,464 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(checkDueTasks, 30000);
     checkDueTasks(); // chạy ngay khi load
 });
+
+// ==============================
+// ========= BIỂU ĐỒ ============
+// ==============================
+
+var CHART_COLORS = [
+    '#4f46e5','#7c3aed','#a855f7','#ec4899','#f97316',
+    '#22c55e','#0ea5e9','#f59e0b','#ef4444','#14b8a6'
+];
+
+var NOTE_COLOR_MAP = {
+    yellow: { label: '🟡 Vàng',  hex: '#f59e0b' },
+    blue:   { label: '🔵 Xanh',  hex: '#3b82f6' },
+    green:  { label: '🟢 Lá',    hex: '#22c55e' },
+    pink:   { label: '🩷 Hồng',  hex: '#ec4899' },
+    purple: { label: '🟣 Tím',   hex: '#a855f7' }
+};
+
+function renderCharts() {
+    renderChartSubjects();
+    renderChartDailyTasks();
+    renderChartHeatmap();
+    renderChartDonut();
+    renderChartNoteColors();
+}
+
+// 1. Môn học từ TKB tuần hiện tại
+function renderChartSubjects() {
+    var el = document.getElementById('chartSubjects');
+    if (!el) return;
+    var key = tkbGetWeekKey(0);
+    var data = loadData(key, {});
+    var counts = {};
+    Object.values(data).forEach(function(val) {
+        var v = (val || '').trim();
+        if (!v || v === '—') return;
+        counts[v] = (counts[v] || 0) + 1;
+    });
+    var entries = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; }).slice(0, 8);
+    if (!entries.length) {
+        el.innerHTML = '<div class="nlh-chart-empty">Chưa có dữ liệu TKB. Hãy điền thời khóa biểu trước.</div>';
+        return;
+    }
+    var max = entries[0][1];
+    el.innerHTML = entries.map(function(e, i) {
+        var pct = Math.round(e[1] / max * 100);
+        var color = CHART_COLORS[i % CHART_COLORS.length];
+        return '<div class="nlh-bar-row">' +
+            '<span class="nlh-bar-label" title="' + e[0] + '">' + e[0] + '</span>' +
+            '<div class="nlh-bar-track"><div class="nlh-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+            '<span class="nlh-bar-val">' + e[1] + '</span>' +
+        '</div>';
+    }).join('');
+}
+
+// 2. Lịch học theo ngày trong tháng hiện tại
+function renderChartDailyTasks() {
+    var el = document.getElementById('chartDailyTasks');
+    if (!el) return;
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth();
+    var days = new Date(y, m+1, 0).getDate();
+    var dayNames = ['CN','T2','T3','T4','T5','T6','T7'];
+    var counts = {};
+    for (var d = 1; d <= days; d++) {
+        var key = y + '-' + pad2(m+1) + '-' + pad2(d);
+        counts[key] = (tasks[key] || []).length;
+    }
+    var entries = Object.entries(counts).filter(function(e){ return e[1] > 0; })
+        .sort(function(a,b){ return a[0].localeCompare(b[0]); }).slice(0, 10);
+    if (!entries.length) {
+        el.innerHTML = '<div class="nlh-chart-empty">Chưa có lịch học nào trong tháng này.</div>';
+        return;
+    }
+    var max = Math.max.apply(null, entries.map(function(e){ return e[1]; }));
+    el.innerHTML = entries.map(function(e, i) {
+        var parts = e[0].split('-');
+        var date = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+        var label = parts[2] + '/' + parts[1] + ' ' + dayNames[date.getDay()];
+        var pct = Math.round(e[1] / max * 100);
+        var color = CHART_COLORS[i % CHART_COLORS.length];
+        return '<div class="nlh-bar-row">' +
+            '<span class="nlh-bar-label">' + label + '</span>' +
+            '<div class="nlh-bar-track"><div class="nlh-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+            '<span class="nlh-bar-val">' + e[1] + '</span>' +
+        '</div>';
+    }).join('');
+}
+
+// 3. Heatmap tháng
+function renderChartHeatmap() {
+    var el = document.getElementById('chartHeatmap');
+    if (!el) return;
+    var now = new Date();
+    var y = now.getFullYear(), m = now.getMonth();
+    var days = new Date(y, m+1, 0).getDate();
+    var todayStr = y + '-' + pad2(m+1) + '-' + pad2(now.getDate());
+    var html = '';
+    for (var d = 1; d <= days; d++) {
+        var key = y + '-' + pad2(m+1) + '-' + pad2(d);
+        var count = (tasks[key] || []).length;
+        var cls = 'nlh-hm-day ';
+        if (count === 0) cls += 'hm-empty';
+        else if (count === 1) cls += 'hm-1';
+        else if (count === 2) cls += 'hm-2';
+        else if (count === 3) cls += 'hm-3';
+        else if (count === 4) cls += 'hm-4';
+        else cls += 'hm-5plus';
+        if (key === todayStr) cls += ' hm-today';
+        html += '<div class="' + cls + '" title="' + d + '/' + (m+1) + ': ' + count + ' lịch học">' + d + '</div>';
+    }
+    html += '<div class="nlh-hm-legend">' +
+        '<span>Ít</span>' +
+        '<div class="nlh-hm-legend-box" style="background:#e0e7ff"></div>' +
+        '<div class="nlh-hm-legend-box" style="background:#a5b4fc"></div>' +
+        '<div class="nlh-hm-legend-box" style="background:#818cf8"></div>' +
+        '<div class="nlh-hm-legend-box" style="background:linear-gradient(135deg,#4f46e5,#7c3aed)"></div>' +
+        '<span>Nhiều</span>' +
+    '</div>';
+    el.innerHTML = html;
+}
+
+// 4. Donut tỉ lệ hoàn thành
+function renderChartDonut() {
+    var fill = document.getElementById('donutFill');
+    var label = document.getElementById('donutLabel');
+    var doneEl = document.getElementById('donutDone');
+    var todoEl = document.getElementById('donutTodo');
+    if (!fill) return;
+    var total = 0, done = 0;
+    Object.values(tasks).forEach(function(arr) {
+        (arr || []).forEach(function(t) {
+            total++;
+            if (t.done) done++;
+        });
+    });
+    var pct = total > 0 ? Math.round(done / total * 100) : 0;
+    var CIRC = 301.6;
+    fill.style.strokeDashoffset = CIRC - (CIRC * pct / 100);
+    if (label) label.textContent = pct + '%';
+    if (doneEl) doneEl.textContent = done;
+    if (todoEl) todoEl.textContent = total - done;
+}
+
+// 5. Ghi chú theo màu
+function renderChartNoteColors() {
+    var el = document.getElementById('chartNoteColors');
+    if (!el) return;
+    var counts = {};
+    notes.forEach(function(n) { counts[n.color] = (counts[n.color] || 0) + 1; });
+    var entries = Object.entries(counts).sort(function(a,b){ return b[1]-a[1]; });
+    if (!entries.length) {
+        el.innerHTML = '<div class="nlh-chart-empty">Chưa có ghi chú nào.</div>';
+        return;
+    }
+    var max = entries[0][1];
+    el.innerHTML = entries.map(function(e) {
+        var info = NOTE_COLOR_MAP[e[0]] || { label: e[0], hex: '#aaa' };
+        var pct = Math.round(e[1] / max * 100);
+        return '<div class="nlh-cc-row">' +
+            '<div class="nlh-cc-dot" style="background:' + info.hex + '"></div>' +
+            '<span class="nlh-cc-label">' + info.label + '</span>' +
+            '<div class="nlh-cc-track"><div class="nlh-cc-fill" style="width:' + pct + '%;background:' + info.hex + '"></div></div>' +
+            '<span class="nlh-cc-val">' + e[1] + '</span>' +
+        '</div>';
+    }).join('');
+}
+
+// Hook vào switchTab để render khi mở tab chart
+var _origSwitchTab2 = switchTab;
+switchTab = function(tab) {
+    _origSwitchTab2(tab);
+    if (tab === 'chart') renderCharts();
+};
+
+// ==============================
+// ===== WAVE TIMELINE ==========
+// ==============================
+
+var TASK_COLORS_HEX = {
+    blue:   ['#3b82f6','#1d4ed8'],
+    green:  ['#22c55e','#15803d'],
+    red:    ['#ef4444','#b91c1c'],
+    orange: ['#f97316','#c2410c'],
+    purple: ['#a855f7','#7e22ce']
+};
+
+var PX_PER_MIN = 1.5; // 1 phút = 1.5px → 24h = 2160px
+
+function renderWaveTimeline() {
+    var wrap = document.getElementById('waveWrap');
+    var inner = document.getElementById('waveInner');
+    if (!wrap || !inner || !selectedDate) return;
+
+    var dayTasks = tasks[selectedDate] || [];
+    wrap.style.display = 'block';
+
+    var totalW = 24 * 60 * PX_PER_MIN;
+    inner.style.minWidth = totalW + 'px';
+
+    var html = '';
+
+    // Wave SVG decoration
+    var wavePoints = '';
+    for (var wx = 0; wx <= totalW; wx += 40) {
+        var wy = 9 + Math.sin(wx / 120) * 6;
+        wavePoints += (wx === 0 ? 'M' : 'L') + wx + ',' + wy + ' ';
+    }
+    html += '<svg class="nlh-wave-svg" style="width:' + totalW + 'px" viewBox="0 0 ' + totalW + ' 18" preserveAspectRatio="none">' +
+        '<path d="' + wavePoints + '" fill="none" stroke="#4f46e5" stroke-width="3"/>' +
+        '</svg>';
+
+    // Hour grid
+    for (var h = 0; h <= 24; h++) {
+        var x = h * 60 * PX_PER_MIN;
+        html += '<div class="nlh-wave-hour" style="left:' + x + 'px"></div>';
+        if (h < 24) {
+            var lbl = h < 10 ? '0' + h + ':00' : h + ':00';
+            html += '<div class="nlh-wave-hour-label" style="left:' + x + 'px">' + lbl + '</div>';
+        }
+    }
+
+    // Current time line (chỉ hiện nếu là hôm nay)
+    var now = new Date();
+    var todayKey = now.getFullYear() + '-' + pad2(now.getMonth()+1) + '-' + pad2(now.getDate());
+    if (selectedDate === todayKey) {
+        var nowMins = now.getHours() * 60 + now.getMinutes();
+        var nowX = nowMins * PX_PER_MIN;
+        var nowLbl = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+        html += '<div class="nlh-wave-now" style="left:' + nowX + 'px">' +
+            '<span class="nlh-wave-now-label">' + nowLbl + '</span>' +
+        '</div>';
+    }
+
+    // Task blocks (có giờ)
+    var noTimeTasks = [];
+    dayTasks.forEach(function(t) {
+        if (!t.timeStart) { noTimeTasks.push(t); return; }
+        var startParts = t.timeStart.split(':');
+        var startMins = parseInt(startParts[0]) * 60 + parseInt(startParts[1]);
+        var endMins = startMins + 60; // default 1h
+        if (t.timeEnd) {
+            var ep = t.timeEnd.split(':');
+            endMins = parseInt(ep[0]) * 60 + parseInt(ep[1]);
+        }
+        if (endMins <= startMins) endMins = startMins + 45;
+        var blockX = startMins * PX_PER_MIN;
+        var blockW = Math.max((endMins - startMins) * PX_PER_MIN, 48);
+        var colors = TASK_COLORS_HEX[t.color] || TASK_COLORS_HEX.blue;
+        var timeStr = t.timeStart + (t.timeEnd ? ' – ' + t.timeEnd : '');
+        var taskIdx = dayTasks.indexOf(t);
+        html += '<div class="nlh-wave-block' + (t.done ? ' done-block' : '') + '" ' +
+            'style="left:' + blockX + 'px;width:' + blockW + 'px;background:linear-gradient(135deg,' + colors[0] + ',' + colors[1] + ')" ' +
+            'title="' + t.subject + ' | ' + timeStr + '" ' +
+            'onclick="openWaveDetail(' + taskIdx + ')">' +
+            '<div class="nlh-wave-block-name">' + t.subject + '</div>' +
+            '<div class="nlh-wave-block-time">' + timeStr + '</div>' +
+        '</div>';
+    });
+
+    // No-time tasks strip
+    if (noTimeTasks.length) {
+        html += '<div class="nlh-wave-notime">';
+        noTimeTasks.forEach(function(t) {
+            html += '<span class="nlh-wave-notime-chip">' + t.subject + '</span>';
+        });
+        html += '</div>';
+    }
+
+    inner.innerHTML = html;
+
+    // Scroll đến giờ hiện tại nếu là hôm nay
+    var scroll = document.getElementById('waveScroll');
+    if (scroll) {
+        if (selectedDate === todayKey) {
+            var nowMins2 = now.getHours() * 60 + now.getMinutes();
+            var scrollTo = Math.max(0, nowMins2 * PX_PER_MIN - 200);
+            setTimeout(function(){ scroll.scrollLeft = scrollTo; }, 80);
+        } else {
+            scroll.scrollLeft = 0;
+        }
+        initWaveDrag(scroll);
+    }
+}
+
+// Drag to scroll
+function initWaveDrag(el) {
+    if (el._waveDragInit) return;
+    el._waveDragInit = true;
+    var isDown = false, startX, scrollLeft;
+    el.addEventListener('mousedown', function(e) {
+        isDown = true;
+        el.classList.add('grabbing');
+        startX = e.pageX - el.offsetLeft;
+        scrollLeft = el.scrollLeft;
+    });
+    el.addEventListener('mouseleave', function() { isDown = false; el.classList.remove('grabbing'); });
+    el.addEventListener('mouseup', function() { isDown = false; el.classList.remove('grabbing'); });
+    el.addEventListener('mousemove', function(e) {
+        if (!isDown) return;
+        e.preventDefault();
+        var x = e.pageX - el.offsetLeft;
+        el.scrollLeft = scrollLeft - (x - startX);
+    });
+}
+
+// Hook vào renderTasks để cập nhật wave
+var _origRenderTasks = renderTasks;
+renderTasks = function() {
+    _origRenderTasks();
+    renderWaveTimeline();
+};
+
+// ==============================
+// ===== WAVE DETAIL MODAL ======
+// ==============================
+var waveDetailIdx = -1;
+
+function openWaveDetail(idx) {
+    var dayTasks = tasks[selectedDate] || [];
+    var t = dayTasks[idx];
+    if (!t) return;
+    waveDetailIdx = idx;
+
+    // Header gradient theo màu task
+    var colors = TASK_COLORS_HEX[t.color] || TASK_COLORS_HEX.blue;
+    var header = document.getElementById('waveDetailHeader');
+    if (header) header.style.background = 'linear-gradient(135deg,' + colors[0] + ',' + colors[1] + ')';
+
+    document.getElementById('waveDetailTitle').textContent = t.subject;
+    document.getElementById('wdSubject').textContent = t.subject;
+
+    // Thời gian
+    var timeStr = '—';
+    if (t.timeStart) timeStr = t.timeStart + (t.timeEnd ? ' → ' + t.timeEnd : '');
+    document.getElementById('wdTime').textContent = timeStr;
+
+    // Thời lượng
+    var durStr = '—';
+    if (t.timeStart && t.timeEnd) {
+        var sp = t.timeStart.split(':'), ep = t.timeEnd.split(':');
+        var mins = (parseInt(ep[0])*60 + parseInt(ep[1])) - (parseInt(sp[0])*60 + parseInt(sp[1]));
+        if (mins > 0) {
+            var h = Math.floor(mins/60), m = mins % 60;
+            durStr = (h ? h + ' giờ ' : '') + (m ? m + ' phút' : '');
+        }
+    }
+    document.getElementById('wdDuration').textContent = durStr;
+
+    // Ngày
+    if (selectedDate) {
+        var parts = selectedDate.split('-');
+        document.getElementById('wdDate').textContent =
+            'Thứ ' + getDayName(new Date(selectedDate).getDay()) +
+            ', ' + parseInt(parts[2]) + '/' + parseInt(parts[1]) + '/' + parts[0];
+    }
+
+    // Trạng thái
+    var statusEl = document.getElementById('wdStatus');
+    var btnEl = document.getElementById('wdToggleBtn');
+    if (t.done) {
+        statusEl.textContent = '✅ Đã hoàn thành';
+        statusEl.style.color = '#22c55e';
+        if (btnEl) btnEl.textContent = '↩ Đánh dấu chưa xong';
+    } else {
+        statusEl.textContent = '⏳ Chưa hoàn thành';
+        statusEl.style.color = '#f59e0b';
+        if (btnEl) btnEl.textContent = '✓ Đánh dấu xong';
+    }
+
+    document.getElementById('waveDetailModal').style.display = 'flex';
+}
+
+function closeWaveDetail() {
+    document.getElementById('waveDetailModal').style.display = 'none';
+    waveDetailIdx = -1;
+}
+
+function wdToggleDone() {
+    if (waveDetailIdx < 0 || !selectedDate) return;
+    var dayTasks = tasks[selectedDate] || [];
+    if (!dayTasks[waveDetailIdx]) return;
+    dayTasks[waveDetailIdx].done = !dayTasks[waveDetailIdx].done;
+    saveData('nlh_tasks', tasks);
+    closeWaveDetail();
+    renderTasks(); // cũng re-render wave
+}
+
+function getDayName(d) {
+    return ['CN','2','3','4','5','6','7'][d];
+}
+
+// ==============================
+// ===== WAVE DETAIL EDIT =======
+// ==============================
+var wdEditColor = 'blue';
+
+function switchToEditMode() {
+    var dayTasks = tasks[selectedDate] || [];
+    var t = dayTasks[waveDetailIdx];
+    if (!t) return;
+
+    // Điền sẵn giá trị hiện tại
+    document.getElementById('wdEditSubject').value = t.subject || '';
+    document.getElementById('wdEditTimeStart').value = t.timeStart || '';
+    document.getElementById('wdEditTimeEnd').value = t.timeEnd || '';
+    wdEditColor = t.color || 'blue';
+    document.querySelectorAll('#wdEditColorRow .nlh-color-dot').forEach(function(d) {
+        d.classList.toggle('active', d.dataset.color === wdEditColor);
+    });
+
+    document.getElementById('wdViewBody').style.display = 'none';
+    document.getElementById('wdViewFooter').style.display = 'none';
+    document.getElementById('wdEditBody').style.display = 'flex';
+    document.getElementById('wdEditFooter').style.display = 'flex';
+    document.getElementById('wdEditSubject').focus();
+}
+
+function switchToViewMode() {
+    document.getElementById('wdEditBody').style.display = 'none';
+    document.getElementById('wdEditFooter').style.display = 'none';
+    document.getElementById('wdViewBody').style.display = 'flex';
+    document.getElementById('wdViewFooter').style.display = 'flex';
+}
+
+function selectWdColor(color, el) {
+    wdEditColor = color;
+    document.querySelectorAll('#wdEditColorRow .nlh-color-dot').forEach(function(d) {
+        d.classList.remove('active');
+    });
+    el.classList.add('active');
+}
+
+function wdSaveEdit() {
+    var subject = document.getElementById('wdEditSubject').value.trim();
+    if (!subject) { document.getElementById('wdEditSubject').focus(); return; }
+    var dayTasks = tasks[selectedDate] || [];
+    if (!dayTasks[waveDetailIdx]) return;
+
+    dayTasks[waveDetailIdx].subject   = subject;
+    dayTasks[waveDetailIdx].timeStart = document.getElementById('wdEditTimeStart').value;
+    dayTasks[waveDetailIdx].timeEnd   = document.getElementById('wdEditTimeEnd').value;
+    dayTasks[waveDetailIdx].color     = wdEditColor;
+    saveData('nlh_tasks', tasks);
+
+    closeWaveDetail();
+    renderTasks();
+}
+
+function wdDeleteTask() {
+    epConfirm('Xóa lịch học?', 'Lịch học này sẽ bị xóa vĩnh viễn.', { okText: '🗑️ Xóa', cancelText: 'Hủy' }).then(function(ok) {
+        if (!ok) return;
+        var dayTasks = tasks[selectedDate] || [];
+        dayTasks.splice(waveDetailIdx, 1);
+        saveData('nlh_tasks', tasks);
+        closeWaveDetail();
+        renderTasks();
+        renderCalendar();
+        epToast('Đã xóa lịch học', 'success');
+    });
+}

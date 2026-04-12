@@ -7977,7 +7977,7 @@ section, .container, nav, footer, header {
 
 .footer-desc {
     font-size: 0.88rem;
-    color: #8fa3b8;
+    color: #b0c4d8;
     line-height: 1.65;
     max-width: 280px;
 }
@@ -8028,7 +8028,7 @@ section, .container, nav, footer, header {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #0288d1;
+    color: #fff;
     margin-bottom: 0.4rem;
 }
 
@@ -8043,7 +8043,7 @@ section, .container, nav, footer, header {
 
 .footer-nav a,
 .footer-contact-list a {
-    color: #8fa3b8;
+    color: #b0c4d8;
     text-decoration: none;
     font-size: 0.88rem;
     padding: 0.3rem 0;
@@ -8070,7 +8070,7 @@ section, .container, nav, footer, header {
 /* Copyright & tagline column */
 .footer-col-brand .footer-copy {
     font-size: 0.85rem;
-    color: #8fa3b8;
+    color: #b0c4d8;
     line-height: 1.6;
     margin-bottom: 0.6rem;
 }
@@ -8088,7 +8088,7 @@ section, .container, nav, footer, header {
 
 .footer-slogan-vi {
     font-size: 0.78rem;
-    color: #6a8aa0;
+    color: #90a4ae;
     line-height: 1.5;
     margin-bottom: 0.4rem;
 }
@@ -8111,14 +8111,14 @@ section, .container, nav, footer, header {
 
 .footer-bottom-new p {
     font-size: 0.82rem;
-    color: #5a7a96;
+    color: #c8d6e5;
     margin: 0;
     line-height: 1.5;
 }
 
 .footer-bottom-new .footer-thank-you {
     font-size: 0.78rem !important;
-    color: #4a6a82 !important;
+    color: #a0b8cc !important;
     max-width: 640px;
     margin: 0 auto !important;
     line-height: 1.6;
@@ -8237,7 +8237,7 @@ section, .container, nav, footer, header {
 
 .ftb-teacher-label {
     font-size: 0.7rem;
-    color: #607d8b;
+    color: #90a4ae;
     letter-spacing: 0.4px;
     text-transform: uppercase;
 }
@@ -8269,7 +8269,7 @@ section, .container, nav, footer, header {
 
 .ftb-sep-text {
     font-size: 0.68rem;
-    color: #546e7a;
+    color: #90a4ae;
     letter-spacing: 0.8px;
     text-transform: uppercase;
     white-space: nowrap;
@@ -9414,4 +9414,183 @@ section, .container, nav, footer, header {
     font-size: 0.78rem;
     text-align: center;
     line-height: 1.3;
+}
+
+
+/* ============================================
+   MOBILE OPTIMIZATION — GLOBAL PATCH
+   Tối ưu hóa toàn diện cho điện thoại
+   ============================================ */
+
+/* ── Tránh zoom iOS khi focus input ── */
+@media (max-width: 768px) {
+    input, select, textarea,
+    .form-input, .form-select, .form-textarea,
+    .nlh-input, .dt-textarea, .dt-select,
+    .tkb-input, .nlh-note-textarea,
+    .ai-chat-input input {
+        font-size: 16px !important;
+    }
+}
+
+/* ── Touch targets tối thiểu 44px ── */
+@media (max-width: 768px) {
+    button, [role="button"],
+    .nlh-tab, .nlh-btn-primary, .nlh-btn-secondary,
+    .nlh-btn-add, .nlh-cal-nav,
+    .dt-btn-translate, .dt-swap-btn,
+    .eco-card-link, .quick-action-btn,
+    .nlh-timer-btn, .nlh-music-preset,
+    .nlh-quick-chip, .dt-quick-chip,
+    .tkb-btn-today, .tkb-btn-save,
+    .nlh-pomo-mode {
+        min-height: 44px;
+    }
+}
+
+/* ── Overflow ngang ── */
+@media (max-width: 768px) {
+    .testi-card { min-width: 240px; }
+    .subject-card { min-width: 100px; }
+    .eco-feat-tag { font-size: 0.72rem; padding: 0.2rem 0.5rem; }
+}
+
+/* ── Hero section mobile ── */
+@media (max-width: 480px) {
+    .hero-title { font-size: 1.7rem !important; letter-spacing: -0.5px; }
+    .hero-subtitle { font-size: 0.9rem !important; }
+    .hero-inner { padding: 4rem 0.75rem 2rem !important; }
+    .hero-cta-row { flex-direction: column; gap: 0.6rem; }
+    .hero-btn-primary, .hero-btn-secondary {
+        width: 100%; text-align: center; justify-content: center;
+    }
+    .cd-actions { flex-direction: column; gap: 0.6rem; }
+    .cd-btn-primary, .cd-btn-secondary { width: 100%; text-align: center; }
+}
+
+/* ── Eco stack cards ── */
+@media (max-width: 768px) {
+    .eco-stack-card { flex-direction: column !important; gap: 1rem; padding: 1.5rem !important; }
+    .eco-card-content { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .eco-card-icon-wrap { font-size: 2rem; }
+    .eco-stack-card h3 { font-size: 1.3rem; }
+    .eco-card-features { flex-wrap: wrap; gap: 0.3rem; }
+}
+
+/* ── Section headers ── */
+@media (max-width: 480px) {
+    .section-header h2, .eco-header-sticky h2 { font-size: 1.5rem !important; }
+    .section-header p { font-size: 0.88rem; }
+    .eco-badge, .nlh-eco-badge { font-size: 0.72rem; padding: 0.3rem 0.8rem; }
+}
+
+/* ── Dịch thuật mobile ── */
+@media (max-width: 768px) {
+    .dt-boxes { grid-template-columns: 1fr !important; }
+    .dt-lang-bar { flex-wrap: wrap; gap: 0.5rem; }
+    .dt-lang-group { min-width: 130px; }
+    .dt-card { padding: 1.2rem; border-radius: 16px; }
+    .dt-intro { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+    .dt-intro { grid-template-columns: 1fr; }
+    .dt-btn-translate { width: 100%; }
+    .dt-quick-list { gap: 0.4rem; }
+}
+
+/* ── Note & Lịch học mobile ── */
+@media (max-width: 480px) {
+    .nlh-banner-wrap { grid-template-columns: 1fr !important; }
+    .nlh-banner-img-wrap { height: 180px; }
+    .nlh-banner-info { padding: 1.5rem 1.2rem; }
+    .nlh-banner-title { font-size: 1.3rem !important; }
+    .nlh-tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding: 4px; }
+    .nlh-tab { font-size: 0.78rem; padding: 0.5rem 0.8rem; white-space: nowrap; flex-shrink: 0; }
+    .nlh-chart-grid { grid-template-columns: 1fr !important; }
+    .nlh-chart-full { grid-column: 1 !important; }
+    .nlh-hm-day { width: 24px; height: 24px; font-size: 0.6rem; border-radius: 6px; }
+    .nlh-wave-wrap { margin-top: 12px; padding: 14px; }
+    .nlh-timer-layout { grid-template-columns: 1fr !important; }
+    .nlh-schedule-layout { grid-template-columns: 1fr !important; }
+    .nlh-notes-layout { grid-template-columns: 1fr !important; }
+}
+
+/* ── Flashcard mobile ── */
+@media (max-width: 480px) {
+    .fc-card-inner { min-height: 200px; }
+    .fc-front, .fc-back { padding: 1.2rem; }
+    .fc-word { font-size: 1.4rem; }
+    .fc-controls { flex-wrap: wrap; gap: 0.5rem; }
+    .fc-btn { flex: 1; min-width: 80px; }
+}
+
+/* ── Tạo đề thi mobile ── */
+@media (max-width: 480px) {
+    .create-exam-page { padding: 1rem 0 80px !important; }
+    .page-title h1 { font-size: 1.2rem !important; }
+    .card-body { padding: 1rem !important; }
+    .radio-group { grid-template-columns: 1fr !important; }
+    .form-row { grid-template-columns: 1fr !important; }
+}
+
+/* ── Modal bottom sheet trên mobile ── */
+@media (max-width: 480px) {
+    .nlh-modal {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        border-radius: 20px 20px 0 0 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        max-height: 92dvh;
+        overflow-y: auto;
+    }
+    .nlh-modal-overlay { align-items: flex-end !important; padding: 0 !important; }
+    .nlh-wave-detail-modal { max-width: 100vw !important; }
+}
+
+/* ── Footer mobile ── */
+@media (max-width: 480px) {
+    .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 1.2rem !important; }
+    .footer-brand { grid-column: 1 / -1 !important; }
+    .footer-col-brand { grid-column: 1 / -1 !important; text-align: center; }
+    .footer-team-block { padding: 1rem; }
+    .ftb-member { font-size: 0.7rem; padding: 0.2rem 0.6rem; }
+    .footer-bottom-new p { font-size: 0.75rem; }
+}
+
+/* ── Effects — tắt tilt và particles trên mobile (tiết kiệm pin) ── */
+@media (max-width: 768px) {
+    #ep-particles { display: none; }
+    .ep-tilt { transform: none !important; }
+    .ep-cursor-dot { display: none; }
+    .ep-orb { display: none; }
+}
+
+/* ── Safe area inset cho notch/home indicator ── */
+@media (max-width: 768px) {
+    .mobile-action-bar,
+    .tkb-saved-toast,
+    .nlh-due-toast {
+        padding-bottom: calc(0.7rem + env(safe-area-inset-bottom));
+    }
+    .ai-chat-button {
+        bottom: calc(16px + env(safe-area-inset-bottom));
+        right: calc(16px + env(safe-area-inset-right));
+    }
+}
+
+/* ── Scrollbar ẩn trên mobile ── */
+@media (max-width: 768px) {
+    .nlh-wave-scroll,
+    .nlh-tabs,
+    .nlh-sw-laps,
+    .nlh-history-list {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .nlh-wave-scroll::-webkit-scrollbar,
+    .nlh-tabs::-webkit-scrollbar { display: none; }
 }

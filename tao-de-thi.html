@@ -12,8 +12,10 @@
     <meta name="apple-mobile-web-app-title" content="EduPass">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="effects.css">
     <link rel="stylesheet" href="tao-de-thi.css">
-    <link rel="stylesheet" href="edupass-ai.css">
+    
     <script>
     // Auth guard — yêu cầu đăng nhập
     (function(){
@@ -57,13 +59,14 @@
                 <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
                 <li class="nav-dropdown">
                     <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        ✏️ Luyện thi <span class="nav-arrow">▾</span>
+                        🛠️ Công cụ học tập <span class="nav-arrow">▾</span>
                     </a>
                     <ul class="nav-dropdown-menu">
                         <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
                         <li><a href="tao-de-thi.html" class="active"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
                         <li><a href="note-lich-hoc.html"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
                         <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                        <li><a href="dich-thuat.html"><span class="ndm-icon">🌐</span><span class="ndm-text"><strong>Dịch thuật</strong><small>Dịch nhanh sang nhiều ngôn ngữ</small></span></a></li>
                     </ul>
                 </li>
                 <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
@@ -73,16 +76,28 @@
                 <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
                 <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
             </div>
-            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
     <section class="create-exam-page">
-        <div class="container">
-            <div class="page-title">
-                <h1>✨ Tạo đề thi tự luyện</h1>
-                <p>Tự tạo đề thi, làm bài online và luyện tập cá nhân</p>
+        <div class="tde-hero">
+            <div class="container">
+                <div class="tde-hero-content">
+                    <span class="tde-badge">🛠️ Công cụ học tập</span>
+                    <h1 class="tde-hero-title">Tạo đề thi tự luyện</h1>
+                    <p class="tde-hero-desc">Tự tạo đề thi cá nhân hóa, làm bài online và theo dõi tiến độ học tập của bạn</p>
+                    <div class="tde-hero-stats">
+                        <div class="tde-stat"><span class="tde-stat-num">12</span><span class="tde-stat-lbl">Môn học</span></div>
+                        <div class="tde-stat"><span class="tde-stat-num">∞</span><span class="tde-stat-lbl">Câu hỏi</span></div>
+                        <div class="tde-stat"><span class="tde-stat-num">100%</span><span class="tde-stat-lbl">Miễn phí</span></div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="container">
 
             <!-- Hướng dẫn sử dụng -->
             <div class="guide-section">
@@ -432,6 +447,29 @@
                     <textarea id="questionContent" class="form-textarea" rows="3" placeholder="Nhập nội dung câu hỏi..." required></textarea>
                 </div>
 
+                <!-- Ảnh câu hỏi -->
+                <div class="form-group">
+                    <label>Ảnh minh hoạ <span class="optional">(tuỳ chọn)</span></label>
+                    <div class="qi-tabs">
+                        <button type="button" class="qi-tab active" onclick="qiSwitchTab('file',this)">📁 Upload</button>
+                        <button type="button" class="qi-tab" onclick="qiSwitchTab('url',this)">🔗 Link URL</button>
+                    </div>
+                    <div id="qiFileWrap">
+                        <input type="file" id="qiFileInput" accept="image/*" style="display:none" onchange="qiPreviewFile()">
+                        <button type="button" class="qi-pick-btn" onclick="document.getElementById('qiFileInput').click()">🖼️ Chọn ảnh từ máy</button>
+                    </div>
+                    <div id="qiUrlWrap" style="display:none">
+                        <input type="text" id="qiUrlInput" class="form-input" placeholder="https://... dán link ảnh vào đây"
+                            oninput="qiPreviewUrl()"
+                            onpaste="setTimeout(qiPreviewUrl,50)">
+                    </div>
+                    <div id="qiPreview" style="display:none;position:relative;margin-top:.5rem;border-radius:10px;overflow:hidden;border:1.5px solid #e0eaf0;background:#f8fbff;max-height:140px;display:none;align-items:center;justify-content:center">
+                        <img id="qiPreviewImg" src="" alt="" style="max-width:100%;max-height:140px;object-fit:contain;display:block">
+                        <button type="button" onclick="qiClear()" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+                    </div>
+                    <input type="hidden" id="qiData" value="">
+                </div>
+
                 <div class="answers-section">
                     <label>Đáp án</label>
                     <div class="answer-item">
@@ -488,7 +526,7 @@
                     <ul class="footer-nav">
                         <li><a href="index.html">🏠 Trang chủ</a></li>
                         <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
-                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="luyen-thi.html">✏️ Công cụ học tập</a></li>
                         <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
                     </ul>
                 </div>
@@ -563,7 +601,7 @@
 
     <script src="script.js"></script>
     <script src="tao-de-thi.js"></script>
-    <script src="edupass-ai.js"></script>
+    
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -600,5 +638,7 @@
         });
     })();
     </script>
+    <script src="effects.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>

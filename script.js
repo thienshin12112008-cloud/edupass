@@ -1677,22 +1677,20 @@ function startCustomExam(examId) {
 }
 
 function deleteCustomExam(examId) {
-    if (!confirm('Bạn có chắc muốn xóa đề thi này?')) return;
-
-    let customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
-    customExams = customExams.filter(e => e.id !== examId);
-    localStorage.setItem('customExams', JSON.stringify(customExams));
-
-    let myExams = JSON.parse(localStorage.getItem('myExams') || '[]');
-    myExams = myExams.filter(e => e.id !== examId);
-    localStorage.setItem('myExams', JSON.stringify(myExams));
-
-    // Xóa khỏi exams[] trong memory
-    for (const key in exams) {
-        exams[key] = exams[key].filter(e => e.id !== examId);
-    }
-
-    selectSubject(currentSubject);
+    epConfirm('Xóa đề thi?', 'Bạn có chắc muốn xóa đề thi này không?', { okText: '🗑️ Xóa', cancelText: 'Hủy' }).then(function(ok) {
+        if (!ok) return;
+        let customExams = JSON.parse(localStorage.getItem('customExams') || '[]');
+        customExams = customExams.filter(e => e.id !== examId);
+        localStorage.setItem('customExams', JSON.stringify(customExams));
+        let myExams = JSON.parse(localStorage.getItem('myExams') || '[]');
+        myExams = myExams.filter(e => e.id !== examId);
+        localStorage.setItem('myExams', JSON.stringify(myExams));
+        for (const key in exams) {
+            exams[key] = exams[key].filter(e => e.id !== examId);
+        }
+        selectSubject(currentSubject);
+        epToast('Đã xóa đề thi', 'success');
+    });
 }
 
 function backToSubjects() {
@@ -1774,6 +1772,19 @@ function showResult(correct, answers) {
     document.getElementById('score').textContent = `${score} điểm`;
     document.getElementById('resultDetails').textContent = 
         `Đúng ${correct}/${total} câu (${(correct/total*100).toFixed(0)}%)`;
+
+    // Hiển thị câu chúc random theo điểm
+    const msg = getMotivationMessage(parseFloat(score));
+    let motivEl = document.getElementById('resultMotivation');
+    if (!motivEl) {
+        motivEl = document.createElement('div');
+        motivEl.id = 'resultMotivation';
+        motivEl.style.cssText = 'margin:1rem 0;padding:.85rem 1.2rem;border-radius:14px;font-size:.95rem;font-weight:600;text-align:center;background:linear-gradient(135deg,#f5f0ff,#e0f2fe);color:#1a1a2e;border:1px solid #e0d9ff;animation:msgFadeIn .4s ease';
+        const scoreEl = document.getElementById('score');
+        if (scoreEl && scoreEl.parentNode) scoreEl.parentNode.insertBefore(motivEl, scoreEl.nextSibling);
+        else document.getElementById('examResult').prepend(motivEl);
+    }
+    motivEl.textContent = msg;
     
     document.getElementById('answers').innerHTML = answers.map((a, i) => `
         <div class="answer-review ${a.isCorrect ? 'correct' : 'incorrect'}">
@@ -1782,6 +1793,26 @@ function showResult(correct, answers) {
             <p><strong>Đáp án đúng:</strong> ${a.correctAnswer}</p>
         </div>
     `).join('');
+}
+
+function getMotivationMessage(score) {
+    var banks = {
+        low:    ["Không sao cả, đây chỉ là bước khởi đầu thôi!","Thất bại là mẹ thành công, bạn đang tiến lên rồi đó!","Mỗi lần thử là một lần học được điều mới!","Đừng buồn, lần sau bạn sẽ làm tốt hơn!","Quan trọng là bạn đã cố gắng!","Ai cũng từng bắt đầu từ con số 0!","Hãy tự hào vì bạn không bỏ cuộc!","Sai thì sửa, không sao hết!","Tiếp tục cố gắng nhé, bạn làm được mà!","Đây là nền tảng cho sự tiến bộ!"],
+        fair:   ["Bạn đang đi đúng hướng rồi đó!","Chỉ cần thêm chút cố gắng nữa thôi!","Có tiến bộ rồi, đừng dừng lại nhé!","Bạn đã hiểu được một phần rồi đó!","Tiếp tục luyện tập, kết quả sẽ tốt hơn!","Không tệ đâu, hãy thử lại nhé!","Mỗi lần làm là một lần giỏi hơn!","Bạn đang tiến bộ từng ngày!","Đừng nản, bạn gần đạt rồi!","Cố thêm chút nữa là ổn ngay!"],
+        good:   ["Làm khá tốt rồi đó!","Bạn đã nắm được kiến thức cơ bản!","Cố thêm chút là lên điểm cao ngay!","Kết quả này khá ổn rồi!","Bạn đang đi đúng hướng!","Có tiềm năng lắm, phát huy nhé!","Tiếp tục giữ phong độ nha!","Bạn làm được nhiều hơn thế này!","Cố gắng thêm để bứt phá!","Rất đáng khích lệ!"],
+        great:  ["Làm rất tốt!","Bạn đã hiểu bài khá chắc rồi!","Kết quả đáng khen!","Cố thêm chút là đạt xuất sắc!","Bạn đang ở top rồi đó!","Rất ấn tượng!","Tiếp tục duy trì phong độ nhé!","Bạn làm rất ổn!","Gần đạt điểm tuyệt đối rồi!","Tự hào về bạn!"],
+        perfect:["Xuất sắc luôn! 🌟","Không có gì để chê!","Quá tuyệt vời!","Bạn làm hoàn hảo!","Đỉnh cao luôn!","Chúc mừng bạn! 🎉","Bạn thật xuất sắc!","Kết quả đáng ngưỡng mộ!","Quá ấn tượng!","Bạn đã làm rất tuyệt!"],
+        common: ["Bạn đã hoàn thành bài rồi, chúc mừng!","Cố gắng của bạn rất đáng ghi nhận!","Hãy tiếp tục phát huy!","Mỗi lần nộp là một lần trưởng thành!","Bạn đang tiến bộ từng ngày!","Bạn giỏi hơn bạn nghĩ!","Tin vào bản thân nhé!","Kiên trì sẽ chiến thắng!","Hôm nay tốt hơn hôm qua!","Bạn đang tỏa sáng! ✨"]
+    };
+    var pool;
+    if (score <= 2)      pool = banks.low;
+    else if (score <= 4) pool = banks.fair;
+    else if (score <= 6) pool = banks.good;
+    else if (score <= 8) pool = banks.great;
+    else                 pool = banks.perfect;
+    // 30% chance dùng câu chung
+    if (Math.random() < 0.3) pool = banks.common;
+    return pool[Math.floor(Math.random() * pool.length)];
 }
 
 function backToExams() {

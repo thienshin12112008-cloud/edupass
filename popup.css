@@ -1,0 +1,148 @@
+/* ============================================
+   EDUPASS POPUP SYSTEM
+   Thay thế alert / confirm / prompt native
+   ============================================ */
+
+.ep-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,15,40,.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: epPopupFadeIn .2s ease;
+}
+@keyframes epPopupFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.ep-popup {
+    background: #fff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 24px 64px rgba(0,0,0,.22), 0 0 0 1px rgba(79,70,229,.08);
+    overflow: hidden;
+    animation: epPopupSlideUp .28s cubic-bezier(.22,.68,0,1.2);
+}
+@keyframes epPopupSlideUp {
+    from { opacity: 0; transform: translateY(24px) scale(.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.ep-popup-header {
+    padding: 1.4rem 1.6rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.ep-popup-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+.ep-popup-icon.info    { background: #eff6ff; }
+.ep-popup-icon.success { background: #f0fdf4; }
+.ep-popup-icon.warning { background: #fffbeb; }
+.ep-popup-icon.error   { background: #fef2f2; }
+.ep-popup-icon.confirm { background: #f5f3ff; }
+.ep-popup-icon.prompt  { background: #f0f9ff; }
+
+.ep-popup-titles { flex: 1; }
+.ep-popup-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 .25rem;
+    line-height: 1.3;
+}
+.ep-popup-msg {
+    font-size: .9rem;
+    color: #5a6a8a;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Prompt input */
+.ep-popup-input-wrap { padding: 0 1.6rem .4rem; }
+.ep-popup-input {
+    width: 100%;
+    border: 1.5px solid #e0e7ff;
+    border-radius: 12px;
+    padding: .75rem 1rem;
+    font-size: .95rem;
+    font-family: inherit;
+    outline: none;
+    color: #1a1a2e;
+    background: #f8f7ff;
+    box-sizing: border-box;
+    transition: border-color .2s, box-shadow .2s;
+}
+.ep-popup-input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+    background: #fff;
+}
+
+/* Footer */
+.ep-popup-footer {
+    padding: 1rem 1.6rem 1.4rem;
+    display: flex;
+    gap: .7rem;
+    justify-content: flex-end;
+}
+.ep-popup-btn {
+    padding: .65rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s, opacity .15s;
+    min-height: 44px;
+    font-family: inherit;
+}
+.ep-popup-btn:hover { transform: translateY(-1px); }
+.ep-popup-btn:active { transform: translateY(0); }
+
+.ep-popup-btn-cancel {
+    background: #f1f0ff;
+    color: #4f46e5;
+    border: 1.5px solid #e0d9ff;
+}
+.ep-popup-btn-cancel:hover { background: #e8e5ff; }
+
+.ep-popup-btn-ok {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(79,70,229,.3);
+}
+.ep-popup-btn-ok:hover { box-shadow: 0 6px 20px rgba(79,70,229,.4); }
+
+.ep-popup-btn-ok.success { background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: 0 4px 14px rgba(22,163,74,.3); }
+.ep-popup-btn-ok.warning { background: linear-gradient(135deg, #d97706, #f59e0b); box-shadow: 0 4px 14px rgba(217,119,6,.3); }
+.ep-popup-btn-ok.error   { background: linear-gradient(135deg, #dc2626, #ef4444); box-shadow: 0 4px 14px rgba(220,38,38,.3); }
+.ep-popup-btn-ok.confirm { background: linear-gradient(135deg, #4f46e5, #7c3aed); }
+
+/* Divider line */
+.ep-popup-divider {
+    height: 1px;
+    background: #f0f0f8;
+    margin: 0 1.6rem;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .ep-popup-overlay { align-items: flex-end; padding: 0; }
+    .ep-popup { border-radius: 24px 24px 0 0; max-width: 100%; }
+    .ep-popup-footer { flex-direction: column-reverse; }
+    .ep-popup-btn { width: 100%; text-align: center; }
+}

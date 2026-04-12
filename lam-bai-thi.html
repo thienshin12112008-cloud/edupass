@@ -12,6 +12,8 @@
     <meta name="apple-mobile-web-app-title" content="EduPass">
     <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="effects.css">
     <link rel="stylesheet" href="tao-de-thi.css">
     <style>
         .exam-container {
@@ -225,7 +227,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">🏠 Trang chủ</a></li>
                 <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
-                <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                <li><a href="luyen-thi.html">✏️ Công cụ học tập</a></li>
             </ul>
             <div class="nav-actions">
                 <a href="tao-de-thi.html" class="btn-nav-login">← Quay lại</a>
@@ -274,6 +276,7 @@
         <div class="result-content">
             <h2>🎉 Hoàn thành bài thi!</h2>
             <div class="result-score" id="resultScore">0</div>
+            <div id="lbtMotivation" style="margin:.6rem 0 1rem;padding:.75rem 1.2rem;border-radius:14px;font-size:.95rem;font-weight:600;text-align:center;background:linear-gradient(135deg,#f5f0ff,#e0f2fe);color:#1a1a2e;border:1px solid #e0d9ff;"></div>
             <div class="result-details">
                 <p><strong>Số câu đúng:</strong> <span id="correctCount">0</span>/<span id="totalCount">0</span></p>
                 <p><strong>Thời gian làm bài:</strong> <span id="timeSpent">0 phút</span></p>
@@ -335,6 +338,7 @@
             container.innerHTML = questions.map((q, index) => `
                 <div class="question-card">
                     <div class="question-number">Câu ${index + 1}</div>
+                    ${q.image ? `<img src="${q.image}" style="max-width:100%;max-height:200px;object-fit:contain;border-radius:10px;margin-bottom:.7rem;display:block;border:1px solid #e0eaf0" alt="Ảnh câu ${index+1}">` : ''}
                     <div class="question-content">${q.content}</div>
                     <div class="answers">
                         ${Object.entries(q.answers).map(([key, value]) => `
@@ -435,6 +439,9 @@
             document.getElementById('correctCount').textContent = correctCount;
             document.getElementById('totalCount').textContent = totalQuestions;
             document.getElementById('timeSpent').textContent = timeSpent + ' phút';
+            // Câu chúc random
+            var motivEl = document.getElementById('lbtMotivation');
+            if (motivEl) motivEl.textContent = getMotivationMessage(parseFloat(score));
             document.getElementById('resultModal').style.display = 'flex';
             
             // Save to account if logged in
@@ -455,6 +462,26 @@
                 localStorage.setItem('accountData', JSON.stringify(accountData));
             }
         }
+    </script>
+    <script>
+    function getMotivationMessage(score) {
+        var banks = {
+            low:    ["Không sao cả, đây chỉ là bước khởi đầu thôi!","Thất bại là mẹ thành công, bạn đang tiến lên rồi đó!","Mỗi lần thử là một lần học được điều mới!","Đừng buồn, lần sau bạn sẽ làm tốt hơn!","Quan trọng là bạn đã cố gắng!","Ai cũng từng bắt đầu từ con số 0!","Hãy tự hào vì bạn không bỏ cuộc!","Sai thì sửa, không sao hết!","Tiếp tục cố gắng nhé, bạn làm được mà!","Đây là nền tảng cho sự tiến bộ!"],
+            fair:   ["Bạn đang đi đúng hướng rồi đó!","Chỉ cần thêm chút cố gắng nữa thôi!","Có tiến bộ rồi, đừng dừng lại nhé!","Bạn đã hiểu được một phần rồi đó!","Tiếp tục luyện tập, kết quả sẽ tốt hơn!","Không tệ đâu, hãy thử lại nhé!","Mỗi lần làm là một lần giỏi hơn!","Bạn đang tiến bộ từng ngày!","Đừng nản, bạn gần đạt rồi!","Cố thêm chút nữa là ổn ngay!"],
+            good:   ["Làm khá tốt rồi đó!","Bạn đã nắm được kiến thức cơ bản!","Cố thêm chút là lên điểm cao ngay!","Kết quả này khá ổn rồi!","Bạn đang đi đúng hướng!","Có tiềm năng lắm, phát huy nhé!","Tiếp tục giữ phong độ nha!","Bạn làm được nhiều hơn thế này!","Cố gắng thêm để bứt phá!","Rất đáng khích lệ!"],
+            great:  ["Làm rất tốt!","Bạn đã hiểu bài khá chắc rồi!","Kết quả đáng khen!","Cố thêm chút là đạt xuất sắc!","Bạn đang ở top rồi đó!","Rất ấn tượng!","Tiếp tục duy trì phong độ nhé!","Bạn làm rất ổn!","Gần đạt điểm tuyệt đối rồi!","Tự hào về bạn!"],
+            perfect:["Xuất sắc luôn! 🌟","Không có gì để chê!","Quá tuyệt vời!","Bạn làm hoàn hảo!","Đỉnh cao luôn!","Chúc mừng bạn! 🎉","Bạn thật xuất sắc!","Kết quả đáng ngưỡng mộ!","Quá ấn tượng!","Bạn đã làm rất tuyệt!"],
+            common: ["Bạn đã hoàn thành bài rồi, chúc mừng!","Cố gắng của bạn rất đáng ghi nhận!","Hãy tiếp tục phát huy!","Mỗi lần nộp là một lần trưởng thành!","Bạn đang tiến bộ từng ngày!","Bạn giỏi hơn bạn nghĩ!","Tin vào bản thân nhé!","Kiên trì sẽ chiến thắng!","Hôm nay tốt hơn hôm qua!","Bạn đang tỏa sáng! ✨"]
+        };
+        var pool;
+        if (score <= 2)      pool = banks.low;
+        else if (score <= 4) pool = banks.fair;
+        else if (score <= 6) pool = banks.good;
+        else if (score <= 8) pool = banks.great;
+        else                 pool = banks.perfect;
+        if (Math.random() < 0.3) pool = banks.common;
+        return pool[Math.floor(Math.random() * pool.length)];
+    }
     </script>
     <script>
     // Hamburger menu
@@ -484,5 +511,7 @@
         });
     })();
     </script>
+    <script src="effects.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>

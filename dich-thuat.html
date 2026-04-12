@@ -1,0 +1,427 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dịch thuật - EduPass</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="popup.css">
+<link rel="stylesheet" href="effects.css">
+<style>
+.dt-page { background: linear-gradient(160deg,#f0fffe 0%,#e8f4ff 100%); min-height: 100vh; padding: 2rem 0 4rem; }
+.dt-header { text-align: center; padding: 2.5rem 1rem 2rem; }
+.dt-badge { display: inline-block; background: linear-gradient(135deg,#0288d122,#00c85322); border: 1px solid #0288d144; color: #0288d1; font-size: .85rem; font-weight: 700; padding: .4rem 1.2rem; border-radius: 50px; margin-bottom: 1rem; }
+.dt-header h1 { font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 900; background: linear-gradient(135deg,#0288d1,#00c853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: .5rem; }
+.dt-header p { color: #5a7a8a; font-size: 1rem; }
+.dt-card { background: #fff; border-radius: 24px; box-shadow: 0 4px 24px rgba(2,136,209,.1); border: 1px solid rgba(2,136,209,.08); max-width: 960px; margin: 0 auto; padding: 2rem; }
+.dt-note { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: .85rem 1.1rem; font-size: .85rem; color: #1e3a5f; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: .6rem; }
+
+/* Lang bar */
+.dt-lang-bar { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.dt-lang-group { display: flex; align-items: center; gap: .5rem; flex: 1; min-width: 160px; }
+.dt-lang-label { font-size: .85rem; font-weight: 700; color: #5a7a8a; white-space: nowrap; }
+.dt-select { flex: 1; padding: .6rem .9rem; border: 1.5px solid #e0eaf0; border-radius: 12px; font-size: .9rem; color: #1a2a3a; background: #f8fbff; outline: none; cursor: pointer; font-family: inherit; transition: border-color .2s; }
+.dt-select:focus { border-color: #0288d1; }
+.dt-swap-btn { background: linear-gradient(135deg,#0288d1,#00c853); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .2s, box-shadow .2s; box-shadow: 0 2px 8px rgba(2,136,209,.3); }
+.dt-swap-btn:hover { transform: rotate(180deg); box-shadow: 0 4px 14px rgba(2,136,209,.4); }
+
+/* Two boxes */
+.dt-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width:640px){ .dt-boxes { grid-template-columns: 1fr; } }
+.dt-box { border: 1.5px solid #e0eaf0; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; background: #fafcff; transition: border-color .2s; }
+.dt-box:focus-within { border-color: #0288d1; }
+.dt-box-result { background: #f0fffe; }
+.dt-box-head { display: flex; align-items: center; justify-content: space-between; padding: .65rem 1rem; background: #f0f6ff; border-bottom: 1px solid #e0eaf0; font-size: .85rem; font-weight: 700; color: #1a2a3a; }
+.dt-clear-btn, .dt-copy-btn { background: none; border: none; cursor: pointer; font-size: .82rem; color: #5a7a8a; padding: .2rem .5rem; border-radius: 8px; transition: background .15s, color .15s; }
+.dt-clear-btn:hover { background: #fee2e2; color: #dc2626; }
+.dt-copy-btn { background: #e0f2fe; color: #0288d1; font-weight: 600; }
+.dt-copy-btn:hover { background: #0288d1; color: #fff; }
+.dt-textarea { flex: 1; min-height: 200px; padding: 1rem; border: none; outline: none; resize: none; font-size: .95rem; font-family: inherit; background: transparent; color: #1a2a3a; line-height: 1.6; }
+.dt-output { flex: 1; min-height: 200px; padding: 1rem; font-size: .95rem; color: #1a2a3a; line-height: 1.6; overflow-y: auto; white-space: pre-wrap; word-break: break-word; }
+.dt-placeholder { color: #aab8c2; font-style: italic; }
+.dt-box-foot { padding: .5rem 1rem; font-size: .78rem; color: #aab8c2; border-top: 1px solid #e0eaf0; display: flex; justify-content: space-between; align-items: center; min-height: 32px; }
+.dt-status-loading { color: #0288d1; }
+.dt-status-ok { color: #00c853; }
+.dt-status-err { color: #e53935; }
+
+/* Translate button */
+.dt-btn-translate { background: linear-gradient(135deg,#0288d1,#00c853); color: #fff; border: none; border-radius: 50px; padding: .75rem 2.5rem; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(2,136,209,.3); transition: transform .15s, box-shadow .15s; }
+.dt-btn-translate:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2,136,209,.4); }
+.dt-btn-translate:active { transform: translateY(0); }
+
+/* Quick phrases */
+.dt-quick { margin-top: 1.5rem; }
+.dt-quick-title { font-size: .82rem; font-weight: 700; color: #5a7a8a; margin-bottom: .6rem; }
+.dt-quick-list { display: flex; flex-wrap: wrap; gap: .5rem; }
+.dt-quick-chip { background: #e0f2fe; color: #0277bd; border: none; border-radius: 50px; padding: .35rem .9rem; font-size: .8rem; cursor: pointer; transition: background .15s, color .15s; }
+.dt-quick-chip:hover { background: #0288d1; color: #fff; }
+
+/* History */
+.dt-history { margin-top: 1.75rem; border-top: 1px solid #e0eaf0; padding-top: 1.25rem; }
+.dt-history-title { font-size: .85rem; font-weight: 700; color: #5a7a8a; margin-bottom: .75rem; display: flex; justify-content: space-between; align-items: center; }
+.dt-history-clear { background: none; border: none; font-size: .78rem; color: #e53935; cursor: pointer; }
+.dt-history-list { display: flex; flex-direction: column; gap: .5rem; max-height: 220px; overflow-y: auto; }
+.dt-history-item { background: #f8fbff; border: 1px solid #e0eaf0; border-radius: 10px; padding: .6rem .9rem; font-size: .82rem; color: #1a2a3a; cursor: pointer; transition: background .15s; display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; }
+.dt-history-item:hover { background: #e0f2fe; }
+.dt-history-item .dt-hi-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dt-history-item .dt-hi-lang { font-size: .72rem; color: #aab8c2; white-space: nowrap; }
+/* Google Translate banner hide */
+.goog-te-banner-frame { display: none !important; }
+body { top: 0 !important; }
+
+/* Intro section */
+.dt-intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 960px; margin: 0 auto 2rem; }
+.dt-intro-card { background: #fff; border-radius: 18px; padding: 1.4rem 1.2rem; text-align: center; box-shadow: 0 2px 16px rgba(2,136,209,.08); border: 1px solid rgba(2,136,209,.08); transition: transform .2s, box-shadow .2s; }
+.dt-intro-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(2,136,209,.15); }
+.dt-intro-icon { font-size: 2rem; margin-bottom: .6rem; display: block; }
+.dt-intro-card h3 { font-size: .95rem; font-weight: 800; color: #1a2a3a; margin-bottom: .35rem; }
+.dt-intro-card p { font-size: .8rem; color: #5a7a8a; line-height: 1.5; margin: 0; }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-solid">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="EduPass Logo" class="logo-img">
+            <span class="logo-text">EduPass</span>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">🏠 Trang chủ</a></li>
+            <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+            <li class="nav-dropdown">
+                <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    🛠️ Công cụ học tập <span class="nav-arrow">▾</span>
+                </a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
+                    <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
+                    <li><a href="note-lich-hoc.html"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
+                    <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                    <li><a href="dich-thuat.html" class="active"><span class="ndm-icon">🌐</span><span class="ndm-text"><strong>Dịch thuật</strong><small>Dịch nhanh sang nhiều ngôn ngữ</small></span></a></li>
+                </ul>
+            </li>
+            <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+            <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
+            <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
+        </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<div class="dt-page">
+    <div class="container">
+        <div class="dt-header">
+            <span class="dt-badge">🌐 Dịch thuật</span>
+            <h1>Dịch thuật đa ngôn ngữ</h1>
+            <p>Dịch nhanh nội dung học tập sang ngôn ngữ bạn muốn</p>
+        </div>
+
+        <!-- Giới thiệu tính năng -->
+        <div class="dt-intro">
+            <div class="dt-intro-card">
+                <span class="dt-intro-icon">⚡</span>
+                <h3>Dịch tức thì</h3>
+                <p>Tự động dịch ngay khi bạn gõ, không cần nhấn nút — nhanh như chớp.</p>
+            </div>
+            <div class="dt-intro-card">
+                <span class="dt-intro-icon">🌍</span>
+                <h3>10 ngôn ngữ</h3>
+                <p>Hỗ trợ Việt, Anh, Trung, Nhật, Hàn, Pháp, Đức, Tây Ban Nha, Nga, Thái.</p>
+            </div>
+            <div class="dt-intro-card">
+                <span class="dt-intro-icon">🔄</span>
+                <h3>Đổi chiều dịch</h3>
+                <p>Nhấn nút ⇄ để hoán đổi ngôn ngữ và nội dung hai chiều chỉ một cú click.</p>
+            </div>
+            <div class="dt-intro-card">
+                <span class="dt-intro-icon">🕐</span>
+                <h3>Lịch sử dịch</h3>
+                <p>Lưu lại 20 lần dịch gần nhất, click để tải lại bất kỳ lúc nào.</p>
+            </div>
+        </div>
+
+        <div class="dt-card">
+            <div class="dt-note">
+                <span>💡</span>
+                <span>Nhập văn bản vào khung bên trái, chọn ngôn ngữ và nhấn <strong>Dịch</strong> để xem kết quả.</span>
+            </div>
+
+            <!-- Thanh chọn ngôn ngữ -->
+            <div class="dt-lang-bar">
+                <div class="dt-lang-group">
+                    <span class="dt-lang-label">Từ:</span>
+                    <select id="dtLangFrom" class="dt-select">
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                        <option value="en">🇬🇧 Tiếng Anh</option>
+                        <option value="zh-CN">🇨🇳 Tiếng Trung</option>
+                        <option value="ja">🇯🇵 Tiếng Nhật</option>
+                        <option value="ko">🇰🇷 Tiếng Hàn</option>
+                        <option value="fr">🇫🇷 Tiếng Pháp</option>
+                        <option value="de">🇩🇪 Tiếng Đức</option>
+                        <option value="es">🇪🇸 Tiếng Tây Ban Nha</option>
+                        <option value="ru">🇷🇺 Tiếng Nga</option>
+                        <option value="th">🇹🇭 Tiếng Thái</option>
+                    </select>
+                </div>
+                <button class="dt-swap-btn" onclick="swapLang()" title="Đổi chiều dịch">⇄</button>
+                <div class="dt-lang-group">
+                    <span class="dt-lang-label">Sang:</span>
+                    <select id="dtLangTo" class="dt-select">
+                        <option value="en">🇬🇧 Tiếng Anh</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                        <option value="zh-CN">🇨🇳 Tiếng Trung</option>
+                        <option value="ja">🇯🇵 Tiếng Nhật</option>
+                        <option value="ko">🇰🇷 Tiếng Hàn</option>
+                        <option value="fr">🇫🇷 Tiếng Pháp</option>
+                        <option value="de">🇩🇪 Tiếng Đức</option>
+                        <option value="es">🇪🇸 Tiếng Tây Ban Nha</option>
+                        <option value="ru">🇷🇺 Tiếng Nga</option>
+                        <option value="th">🇹🇭 Tiếng Thái</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 2 khung dịch -->
+            <div class="dt-boxes">
+                <div class="dt-box">
+                    <div class="dt-box-head">
+                        <span id="labelFrom">Tiếng Việt</span>
+                        <button class="dt-clear-btn" onclick="clearInput()" title="Xóa">✕</button>
+                    </div>
+                    <textarea id="dtInput" class="dt-textarea" placeholder="Nhập văn bản cần dịch..." oninput="autoTranslate()"></textarea>
+                    <div class="dt-box-foot">
+                        <span id="dtCharCount">0 / 5000</span>
+                    </div>
+                </div>
+
+                <div class="dt-box dt-box-result">
+                    <div class="dt-box-head">
+                        <span id="labelTo">Tiếng Anh</span>
+                        <button class="dt-copy-btn" onclick="copyResult()" title="Sao chép">📋 Sao chép</button>
+                    </div>
+                    <div id="dtOutput" class="dt-output">
+                        <span class="dt-placeholder">Kết quả dịch sẽ hiện ở đây...</span>
+                    </div>
+                    <div class="dt-box-foot">
+                        <span id="dtStatus"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;margin-top:1.2rem">
+                <button class="dt-btn-translate" onclick="doTranslate()">🌐 Dịch ngay</button>
+            </div>
+
+            <!-- Cụm từ nhanh -->
+            <div class="dt-quick">
+                <div class="dt-quick-title">⚡ Cụm từ học tập thường dùng</div>
+                <div class="dt-quick-list">
+                    <button class="dt-quick-chip" onclick="quickPhrase('Xin chào, tôi muốn học tiếng Anh')">Xin chào, tôi muốn học...</button>
+                    <button class="dt-quick-chip" onclick="quickPhrase('Bài tập về nhà của tôi là gì?')">Bài tập về nhà</button>
+                    <button class="dt-quick-chip" onclick="quickPhrase('Tôi không hiểu bài này, bạn có thể giải thích không?')">Giải thích bài học</button>
+                    <button class="dt-quick-chip" onclick="quickPhrase('Kỳ thi sắp tới là khi nào?')">Kỳ thi sắp tới</button>
+                    <button class="dt-quick-chip" onclick="quickPhrase('Tôi cần ôn tập những chủ đề nào?')">Chủ đề ôn tập</button>
+                    <button class="dt-quick-chip" onclick="quickPhrase('Cảm ơn thầy/cô rất nhiều!')">Cảm ơn thầy/cô</button>
+                </div>
+            </div>
+
+            <!-- Lịch sử dịch -->
+            <div class="dt-history">
+                <div class="dt-history-title">
+                    <span>🕐 Lịch sử dịch</span>
+                    <button class="dt-history-clear" onclick="clearHistory()">Xóa tất cả</button>
+                </div>
+                <div class="dt-history-list" id="dtHistoryList">
+                    <span class="dt-history-empty">Chưa có lịch sử dịch.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+// ===== DỊCH THUẬT =====
+const LANG_NAMES = {
+    'vi':'🇻🇳 Tiếng Việt','en':'🇬🇧 Tiếng Anh',
+    'zh-CN':'🇨🇳 Tiếng Trung','ja':'🇯🇵 Tiếng Nhật','ko':'🇰🇷 Tiếng Hàn',
+    'fr':'🇫🇷 Tiếng Pháp','de':'🇩🇪 Tiếng Đức','es':'🇪🇸 Tiếng Tây Ban Nha',
+    'ru':'🇷🇺 Tiếng Nga','th':'🇹🇭 Tiếng Thái'
+};
+
+let autoTimer = null;
+
+function updateLabels() {
+    const from = document.getElementById('dtLangFrom').value;
+    const to   = document.getElementById('dtLangTo').value;
+    document.getElementById('labelFrom').textContent = LANG_NAMES[from] || from;
+    document.getElementById('labelTo').textContent   = LANG_NAMES[to]   || to;
+}
+
+document.getElementById('dtLangFrom').addEventListener('change', updateLabels);
+document.getElementById('dtLangTo').addEventListener('change', updateLabels);
+updateLabels();
+
+function swapLang() {
+    const sf = document.getElementById('dtLangFrom');
+    const st = document.getElementById('dtLangTo');
+    const tmp = sf.value; sf.value = st.value; st.value = tmp;
+    updateLabels();
+    // swap text
+    const inp = document.getElementById('dtInput');
+    const out = document.getElementById('dtOutput');
+    const outText = out.innerText.trim();
+    if (outText && outText !== 'Kết quả dịch sẽ hiện ở đây...') {
+        inp.value = outText;
+        out.innerHTML = '<span class="dt-placeholder">Kết quả dịch sẽ hiện ở đây...</span>';
+        updateCharCount();
+    }
+}
+
+function clearInput() {
+    document.getElementById('dtInput').value = '';
+    document.getElementById('dtOutput').innerHTML = '<span class="dt-placeholder">Kết quả dịch sẽ hiện ở đây...</span>';
+    document.getElementById('dtStatus').textContent = '';
+    updateCharCount();
+}
+
+function updateCharCount() {
+    const len = document.getElementById('dtInput').value.length;
+    document.getElementById('dtCharCount').textContent = len + ' / 5000';
+}
+
+function autoTranslate() {
+    updateCharCount();
+    clearTimeout(autoTimer);
+    const txt = document.getElementById('dtInput').value.trim();
+    if (!txt) {
+        document.getElementById('dtOutput').innerHTML = '<span class="dt-placeholder">Kết quả dịch sẽ hiện ở đây...</span>';
+        document.getElementById('dtStatus').textContent = '';
+        return;
+    }
+    autoTimer = setTimeout(doTranslate, 900);
+}
+
+async function doTranslate() {
+    const text = document.getElementById('dtInput').value.trim();
+    if (!text) return;
+    const from = document.getElementById('dtLangFrom').value;
+    const to   = document.getElementById('dtLangTo').value;
+    if (from === to) {
+        document.getElementById('dtOutput').textContent = text;
+        return;
+    }
+    const statusEl = document.getElementById('dtStatus');
+    const outEl    = document.getElementById('dtOutput');
+    statusEl.className = 'dt-status-loading';
+    statusEl.textContent = '⏳ Đang dịch...';
+    outEl.innerHTML = '<span class="dt-placeholder">Đang dịch...</span>';
+
+    try {
+        // Thử Google Translate API không chính thức trước (nhanh, không giới hạn)
+        const gtxUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
+        let translated = '';
+        let success = false;
+
+        try {
+            const res  = await fetch(gtxUrl);
+            const data = await res.json();
+            if (Array.isArray(data) && data[0]) {
+                translated = data[0].filter(s => s && s[0]).map(s => s[0]).join('');
+                success = !!translated;
+            }
+        } catch(_) {}
+
+        // Fallback: MyMemory (Google-backed) nếu gtx lỗi
+        if (!success) {
+            const mmUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+            const res2  = await fetch(mmUrl);
+            const data2 = await res2.json();
+            if (data2.responseStatus === 200) {
+                translated = data2.responseData.translatedText;
+                success = true;
+            }
+        }
+
+        if (success && translated) {
+            outEl.textContent = translated;
+            statusEl.className = 'dt-status-ok';
+            statusEl.textContent = '✓ Dịch thành công';
+            saveHistory(text, translated, from, to);
+        } else {
+            throw new Error('Không dịch được');
+        }
+    } catch(e) {
+        outEl.innerHTML = '<span class="dt-placeholder">Không thể dịch. Vui lòng thử lại.</span>';
+        statusEl.className = 'dt-status-err';
+        statusEl.textContent = '✗ Lỗi kết nối';
+    }
+}
+
+function copyResult() {
+    const out = document.getElementById('dtOutput').innerText;
+    if (!out || out === 'Kết quả dịch sẽ hiện ở đây...' || out === 'Đang dịch...') return;
+    navigator.clipboard.writeText(out).then(() => {
+        const btn = document.querySelector('.dt-copy-btn');
+        btn.textContent = '✓ Đã sao chép';
+        setTimeout(() => btn.textContent = '📋 Sao chép', 1800);
+    });
+}
+
+function quickPhrase(text) {
+    document.getElementById('dtInput').value = text;
+    updateCharCount();
+    doTranslate();
+}
+
+// ===== HISTORY =====
+function saveHistory(src, result, from, to) {
+    let hist = JSON.parse(localStorage.getItem('dt_history') || '[]');
+    hist.unshift({ src, result, from, to, time: Date.now() });
+    if (hist.length > 20) hist = hist.slice(0, 20);
+    localStorage.setItem('dt_history', JSON.stringify(hist));
+    renderHistory();
+}
+
+function renderHistory() {
+    const list = document.getElementById('dtHistoryList');
+    const hist = JSON.parse(localStorage.getItem('dt_history') || '[]');
+    if (!hist.length) {
+        list.innerHTML = '<span class="dt-history-empty">Chưa có lịch sử dịch.</span>';
+        return;
+    }
+    list.innerHTML = hist.map((h,i) => `
+        <div class="dt-history-item" onclick="loadHistory(${i})">
+            <span class="dt-hi-text" title="${h.src}">${h.src.slice(0,60)}${h.src.length>60?'...':''}</span>
+            <span class="dt-hi-lang">${(LANG_NAMES[h.from]||h.from).replace(/🇻🇳|🇬🇧|🇨🇳|🇯🇵|🇰🇷|🇫🇷|🇩🇪|🇪🇸|🇷🇺|🇹🇭/g,'').trim()} → ${(LANG_NAMES[h.to]||h.to).replace(/🇻🇳|🇬🇧|🇨🇳|🇯🇵|🇰🇷|🇫🇷|🇩🇪|🇪🇸|🇷🇺|🇹🇭/g,'').trim()}</span>
+        </div>`).join('');
+}
+
+function loadHistory(i) {
+    const hist = JSON.parse(localStorage.getItem('dt_history') || '[]');
+    const h = hist[i];
+    if (!h) return;
+    document.getElementById('dtInput').value = h.src;
+    document.getElementById('dtOutput').textContent = h.result;
+    document.getElementById('dtLangFrom').value = h.from;
+    document.getElementById('dtLangTo').value   = h.to;
+    updateLabels(); updateCharCount();
+}
+
+function clearHistory() {
+    localStorage.removeItem('dt_history');
+    renderHistory();
+}
+
+renderHistory();
+</script>
+    <script src="effects.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

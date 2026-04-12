@@ -10,31 +10,86 @@
     --ep-radius: 20px;
 }
 
+/* ── Hero ── */
+.tde-hero {
+    background: linear-gradient(135deg, #0d1f3c 0%, #0288d1 50%, #00897b 100%);
+    padding: 3.5rem 0 3rem;
+    position: relative;
+    overflow: hidden;
+}
+.tde-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(0,200,83,.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(2,136,209,.2) 0%, transparent 50%);
+    pointer-events: none;
+}
+.tde-hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+.tde-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #b2dfdb;
+    font-size: .78rem;
+    font-weight: 700;
+    padding: .35rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    letter-spacing: .4px;
+}
+.tde-hero-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    color: #fff;
+    margin: 0 0 .75rem;
+    text-shadow: 0 2px 16px rgba(0,0,0,.2);
+    letter-spacing: -.5px;
+}
+.tde-hero-desc {
+    color: rgba(255,255,255,.82);
+    font-size: 1rem;
+    max-width: 520px;
+    margin: 0 auto 1.8rem;
+    line-height: 1.65;
+}
+.tde-hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.tde-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .2rem;
+}
+.tde-stat-num {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+.tde-stat-lbl {
+    font-size: .72rem;
+    color: rgba(255,255,255,.7);
+    font-weight: 600;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+}
+
 .create-exam-page {
-    padding: 3rem 0 6rem;
     background: var(--ep-bg);
     min-height: 100vh;
 }
-
-/* ── Page Title ── */
-.page-title {
-    text-align: center;
-    margin-bottom: 2.5rem;
-}
-
-.page-title h1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 900;
-    background: var(--ep-grad);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-}
-
-.page-title p {
-    font-size: 1.05rem;
-    color: #5a7a8a;
+.create-exam-page > .container {
+    padding-top: 2.5rem;
+    padding-bottom: 6rem;
 }
 
 /* ── Layout ── */
@@ -803,4 +858,36 @@
     .create-method-tabs { flex-direction: column; }
     .saved-exams-grid { grid-template-columns: 1fr; }
     .page-title h1 { font-size: 1.35rem; }
+    .tde-hero { padding: 2rem 0 1.8rem; }
+    .tde-hero-title { font-size: 1.5rem; }
+    .tde-hero-stats { gap: 1.2rem; }
+    .tde-stat-num { font-size: 1.4rem; }
+}
+
+/* ===== QUESTION IMAGE ===== */
+.qi-tabs { display:flex; gap:.3rem; margin-bottom:.45rem; }
+.qi-tab {
+    background:#f0f4ff; color:#0288d1;
+    border:1.5px solid #e0eaf0; border-radius:8px;
+    padding:.28rem .75rem; font-size:.75rem; font-weight:700;
+    cursor:pointer; transition:all .15s; font-family:inherit;
+}
+.qi-tab.active { background:#0288d1; color:#fff; border-color:#0288d1; }
+.qi-tab:hover:not(.active) { background:#e0eaf0; }
+
+.qi-pick-btn {
+    width:100%; background:#f0f4ff; color:#0288d1;
+    border:1.5px dashed #b3d4f0; border-radius:10px;
+    padding:.5rem 1rem; font-size:.83rem; font-weight:600;
+    cursor:pointer; transition:all .2s; font-family:inherit;
+    text-align:center;
+}
+.qi-pick-btn:hover { background:#e0eaf0; border-color:#0288d1; }
+
+/* Hiển thị ảnh trong question-card */
+.question-img {
+    width:100%; max-height:160px; object-fit:contain;
+    border-radius:10px; margin-bottom:.7rem;
+    border:1px solid #e0eaf0; background:#f8fbff;
+    display:block;
 }
