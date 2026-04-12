@@ -308,7 +308,7 @@ Chỉnh sửa trong hàm `getAIResponse()`:
     - Bộ 20 Đề Thi ĐGNL - HCMUE
     
     🎁 QUÀ TẶNG MIỄN PHÍ:
-    - Tất cả tài liệu trên đều MIỄN PHÍ 100%
+    - Tất cả tài liệu trên đều MIỄN PHÍ
     - Truy cập trang "Kho tài liệu" để tải về
     - Nhấn nút "🎁 QUÀ SIÊU HOT - TÀI LIỆU FULL MÔN 🔥" để xem tài liệu theo môn
     

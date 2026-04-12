@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="edupass-ai.css">
     <link rel="stylesheet" href="note-lich-hoc.css">
+    <script>
+    // Auth guard — yêu cầu đăng nhập
+    (function(){
+        if (!localStorage.getItem('loggedIn')) {
+            window.location.replace('dang-nhap.html?redirect=' + encodeURIComponent(window.location.pathname));
+        }
+    })();
+    </script>
     <script>
     (function(){
         function wrapEduPass(node) {
@@ -49,6 +57,7 @@
                         <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
                         <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
                         <li><a href="note-lich-hoc.html" class="active"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
+                        <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
                     </ul>
                 </li>
                 <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
@@ -83,6 +92,7 @@
             <div class="nlh-tabs">
                 <button class="nlh-tab active" data-tab="notes" onclick="switchTab('notes')">📝 Ghi chú</button>
                 <button class="nlh-tab" data-tab="schedule" onclick="switchTab('schedule')">📅 Lịch học</button>
+                <button class="nlh-tab" data-tab="timetable" onclick="switchTab('timetable')">🗓️ Thời khóa biểu</button>
                 <button class="nlh-tab" data-tab="timer" onclick="switchTab('timer')">⏱️ Đếm giờ học</button>
             </div>
 
@@ -193,6 +203,37 @@
                 </div>
             </div>
 
+            <!-- ===== TAB THỜI KHÓA BIỂU ===== -->
+            <div class="nlh-panel" id="tab-timetable">
+                <div class="tkb-toolbar">
+                    <div class="tkb-week-nav">
+                        <button class="tkb-nav-btn" onclick="tkbChangeWeek(-1)">‹</button>
+                        <span class="tkb-week-label" id="tkbWeekLabel"></span>
+                        <button class="tkb-nav-btn" onclick="tkbChangeWeek(1)">›</button>
+                    </div>
+                    <button class="tkb-btn-today" onclick="tkbGoToday()">📅 Tuần này</button>
+                    <button class="tkb-btn-save" onclick="tkbSave()">💾 Lưu</button>
+                </div>
+
+                <div class="tkb-wrap">
+                    <table class="tkb-table" id="tkbTable">
+                        <thead>
+                            <tr>
+                                <th class="tkb-th-session">Ca / Tiết</th>
+                                <th>Thứ 2</th>
+                                <th>Thứ 3</th>
+                                <th>Thứ 4</th>
+                                <th>Thứ 5</th>
+                                <th>Thứ 6</th>
+                                <th>Thứ 7</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tkbBody"></tbody>
+                    </table>
+                </div>
+                <div class="tkb-saved-toast" id="tkbToast">✅ Đã lưu thời khóa biểu!</div>
+            </div>
+
             <!-- ===== TAB TIMER ===== -->
             <div class="nlh-panel" id="tab-timer">
                 <div class="nlh-timer-layout">
@@ -282,6 +323,57 @@
                     </div>
 
                     <div class="nlh-music-tip">💡 Hỗ trợ tốt nhất: Spotify, SoundCloud, MP3. YouTube → mở tab mới.</div>
+
+                    <!-- Gợi ý nhạc học -->
+                    <div class="nlh-music-suggest">
+                        <div class="nlh-ms-title">🎧 Gợi ý nhạc học theo mục đích</div>
+                        <div class="nlh-ms-grid">
+                            <div class="nlh-ms-card">
+                                <div class="nlh-ms-head">📚 Nhạc không lời <span class="nlh-ms-tag">Tập trung cao</span></div>
+                                <ul>
+                                    <li>River Flows in You – Yiruma</li>
+                                    <li>Comptine d'un autre été – Yann Tiersen</li>
+                                    <li>Nuvole Bianche – Ludovico Einaudi</li>
+                                </ul>
+                                <div class="nlh-ms-tip">👉 Hợp khi học cần tập trung sâu, tránh xao nhãng</div>
+                            </div>
+                            <div class="nlh-ms-card">
+                                <div class="nlh-ms-head">🌙 Lo-fi chill <span class="nlh-ms-tag">Nhẹ nhàng</span></div>
+                                <ul>
+                                    <li>Snowman – WYS</li>
+                                    <li>affection – Jinsang</li>
+                                    <li>get you the moon – Kina</li>
+                                </ul>
+                                <div class="nlh-ms-tip">👉 Hợp khi học lâu, cần giữ tâm trạng thoải mái</div>
+                            </div>
+                            <div class="nlh-ms-card">
+                                <div class="nlh-ms-head">🌿 Nhạc nhẹ có lời <span class="nlh-ms-tag">Thư giãn</span></div>
+                                <ul>
+                                    <li>Perfect – Ed Sheeran</li>
+                                    <li>Photograph – Ed Sheeran</li>
+                                    <li>Let Her Go – Passenger</li>
+                                </ul>
+                                <div class="nlh-ms-tip">👉 Hợp khi không cần quá căng não</div>
+                            </div>
+                            <div class="nlh-ms-card">
+                                <div class="nlh-ms-head">🌧️ Thiên nhiên & White noise <span class="nlh-ms-tag">Chống phân tâm</span></div>
+                                <ul>
+                                    <li>Tiếng mưa, tiếng sóng biển 🌊</li>
+                                    <li>Tìm: <em>"rain sounds for studying"</em></li>
+                                    <li>trên YouTube hoặc Spotify</li>
+                                </ul>
+                                <div class="nlh-ms-tip">👉 Hợp khi dễ bị phân tâm bởi âm thanh xung quanh</div>
+                            </div>
+                        </div>
+                        <div class="nlh-ms-tips-box">
+                            <div class="nlh-ms-tips-title">💡 Mẹo nhỏ</div>
+                            <div class="nlh-ms-tips-list">
+                                <span>🧠 Học môn khó → nhạc không lời</span>
+                                <span>⏳ Học lâu → lo-fi</span>
+                                <span>😴 Buồn ngủ → nhạc có beat nhẹ</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Thống kê học hôm nay -->
@@ -306,6 +398,86 @@
 
         </div>
     </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo-wrap"><img src="logo.png" alt="EduPass" class="footer-logo"></a>
+                    <p class="footer-desc">Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                    <p class="footer-tagline-new">✨ Learn today. Pass tomorrow.</p>
+                </div>
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Khám phá</h5>
+                    <ul class="footer-nav">
+                        <li><a href="index.html">🏠 Trang chủ</a></li>
+                        <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+                        <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                        <li><a href="flashcard.html">🃏 Flashcard</a></li>
+                        <li><a href="note-lich-hoc.html">📓 Note & Lịch học</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Về EduPass</h5>
+                    <ul class="footer-nav">
+                                            <li><a href="gioi-thieu.html"> Giới thiệu</a></li>
+                    <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                        <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
+                        <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
+                        <li><a href="dang-nhap.html">🔑 Đăng nhập</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Liên hệ</h5>
+                    <ul class="footer-contact-list">
+                        <li><a href="mailto:edupasshotro@gmail.com">📧 edupasshotro@gmail.com</a></li>
+                        <li><a href="tel:0348908243">📱 0348 908 243</a></li>
+                        <li><a href="tel:0876422788">📱 0876 422 788</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-col-brand">
+                    <h5 class="footer-col-title">EduPass</h5>
+                    <p class="footer-copy">© 2026 EduPass.<br>All rights reserved.</p>
+                    <p class="footer-slogan">Learn today.<br>Pass tomorrow.</p>
+                    <p class="footer-slogan-vi">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
+                    <p class="footer-slogan-vi2">🎓 Học hôm nay · Đỗ ngày mai</p>
+                </div>
+            </div>
+            <div class="footer-bottom-new">
+                <div class="footer-team-block">
+                    <div class="ftb-top">
+                        <span class="ftb-school-badge"> Lớp 12A5  THCS-THPT Hòa Bình</span>
+                    </div>
+                    <div class="ftb-teacher">
+                        <div class="ftb-teacher-card">
+                            <span class="ftb-teacher-icon"></span>
+                            <div class="ftb-teacher-info">
+                                <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
+                                <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ftb-sep">
+                        <span class="ftb-sep-line"></span>
+                        <span class="ftb-sep-text">Thành viên nhóm</span>
+                        <span class="ftb-sep-line"></span>
+                    </div>
+                    <div class="footer-team-members">
+                        <span class="ftb-member">Tr.Cường</span>
+                        <span class="ftb-member">Như Anh</span>
+                        <span class="ftb-member">Gia Huy</span>
+                        <span class="ftb-member">Gia Hòa</span>
+                        <span class="ftb-member">Nguyễn Tiến</span>
+                        <span class="ftb-member">Nhất Duy</span>
+                        <span class="ftb-member">Trúc Ngân</span>
+                        <span class="ftb-member">Khang Lee</span>
+                    </div>
+                </div>
+                <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
+                <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
     <script src="edupass-ai.js"></script>

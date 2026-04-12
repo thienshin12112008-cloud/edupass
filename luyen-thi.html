@@ -14,6 +14,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="edupass-ai.css">
     <script>
+    // Auth guard — yêu cầu đăng nhập
+    (function(){
+        if (!localStorage.getItem('loggedIn')) {
+            window.location.replace('dang-nhap.html?redirect=' + encodeURIComponent(window.location.pathname));
+        }
+    })();
+    </script>
+    <script>
     // EduPass brand typography: E và P in hoa lớn
     (function(){
         function wrapEduPass(node) {
@@ -46,14 +54,25 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">🏠 Trang chủ</a></li>
                 <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
-                <li><a href="luyen-thi.html" class="active">✏️ Luyện thi</a></li>
-                <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                        ✏️ Luyện thi <span class="nav-arrow">▾</span>
+                    </a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="luyen-thi.html" class="active"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
+                        <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
+                        <li><a href="note-lich-hoc.html"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
+                        <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+                <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
             </ul>
             <div class="nav-actions">
                 <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
                 <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
             </div>
-                <button class="nav-hamburger" id="navHamburger" aria-label="Mo menu" aria-expanded="false"><span></span><span></span><span></span></button>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
@@ -239,7 +258,8 @@
                 <div class="footer-col">
                     <h5 class="footer-col-title">Về EduPass</h5>
                     <ul class="footer-nav">
-                        <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                                            <li><a href="gioi-thieu.html"> Giới thiệu</a></li>
+                    <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
                         <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
                         <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
                         <li><a href="dang-nhap.html">🔑 Đăng nhập</a></li>
@@ -267,6 +287,35 @@
             </div>
 
             <div class="footer-bottom-new">
+                <div class="footer-team-block">
+                    <div class="ftb-top">
+                        <span class="ftb-school-badge"> Lớp 12A5  THCS-THPT Hòa Bình</span>
+                    </div>
+                    <div class="ftb-teacher">
+                        <div class="ftb-teacher-card">
+                            <span class="ftb-teacher-icon"></span>
+                            <div class="ftb-teacher-info">
+                                <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
+                                <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ftb-sep">
+                        <span class="ftb-sep-line"></span>
+                        <span class="ftb-sep-text">Thành viên nhóm</span>
+                        <span class="ftb-sep-line"></span>
+                    </div>
+                    <div class="footer-team-members">
+                        <span class="ftb-member">Tr.Cường</span>
+                        <span class="ftb-member">Như Anh</span>
+                        <span class="ftb-member">Gia Huy</span>
+                        <span class="ftb-member">Gia Hòa</span>
+                        <span class="ftb-member">Nguyễn Tiến</span>
+                        <span class="ftb-member">Nhất Duy</span>
+                        <span class="ftb-member">Trúc Ngân</span>
+                        <span class="ftb-member">Khang Lee</span>
+                    </div>
+                </div>
                 <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
                 <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
             </div>

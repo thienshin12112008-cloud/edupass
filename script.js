@@ -1316,7 +1316,7 @@ function displayMaterials(items, containerId) {
         const subjectObj = subjects.find(function(s) { return s.id === material.subject; });
         const subjectName = subjectObj ? subjectObj.name : material.subject;
         const isFree = material.price === 0;
-        const priceText = isFree ? '🎁 Miễn phí' : material.price.toLocaleString('vi-VN') + 'đ';
+        const priceText = isFree ? '🎁 Tải về' : material.price.toLocaleString('vi-VN') + 'đ';
         const btnText = isFree ? '⬇ Tải về' : '💳 Mua';
         return '<div class="material-card" onclick="previewMaterial(' + material.id + ')">'
             + '<div class="material-header">'
@@ -1380,7 +1380,7 @@ function previewMaterial(id) {
                     <h3>${material.title}</h3>
                     <p class="preview-description">${material.description}</p>
                     <div class="preview-meta">
-                        <p class="preview-price"><strong>� Giá:</strong> ${material.price === 0 ? 'Miễn phí' : material.price.toLocaleString('vi-VN') + 'đ'}</p>
+                        <p class="preview-price"><strong>💰 Giá:</strong> ${material.price === 0 ? 'Tải về' : material.price.toLocaleString('vi-VN') + 'đ'}</p>
                     </div>
                     <button class="btn-primary" onclick="closePreviewModal(); downloadMaterial(${material.id})">
                         ${material.price === 0 ? '📥 Tải về ngay' : '🛒 Mua ngay'}
@@ -1411,7 +1411,7 @@ function downloadMaterial(id) {
     }
     
     if (material.price === 0) {
-        // Tài liệu miễn phí - mở trực tiếp link Google Drive
+        // Tài liệu - xóa comment miễn phí
         window.open(material.downloadLink, '_blank');
     } else {
         showPaymentModal(material);
@@ -2179,7 +2179,9 @@ if (document.getElementById('loginForm')) {
                 // Always save to localStorage for persistent login
                 localStorage.setItem('loggedIn', 'true');
                 alert('Đăng nhập thành công!');
-                window.location.href = 'tai-khoan.html';
+                const params = new URLSearchParams(window.location.search);
+                const redirect = params.get('redirect');
+                window.location.href = redirect || 'tai-khoan.html';
             } else {
                 // Show error
                 const errorMsg = document.getElementById('errorMessage');
@@ -2575,9 +2577,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         toggle.addEventListener('click', function (e) {
             e.preventDefault();
+            e.stopPropagation();
             var isOpen = dropdown.classList.contains('open');
-            document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
-            if (!isOpen) dropdown.classList.add('open');
+            document.querySelectorAll('.nav-dropdown.open').forEach(function (d) {
+                if (d !== dropdown) d.classList.remove('open');
+            });
+            dropdown.classList.toggle('open', !isOpen);
             toggle.setAttribute('aria-expanded', String(!isOpen));
         });
     });

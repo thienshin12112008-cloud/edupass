@@ -1,0 +1,24 @@
+# File zip thừa
+*.zip
+
+# Ảnh gốc nặng không cần thiết
+c97693f2-41ea-4b3e-b0a9-c16bcda2a53b.png
+dnt.png
+logotieude.png
+them-lich-hoc.png
+TKB.png
+bam-gio.png
+lich-hoc.png
+flashcard.png
+50demh01.jpg
+8e2cd9923b54b50aec45.jpg
+ck.jpg
+AI edupass.png
+
+# Thư mục EduPass (bản sao thừa)
+EduPass/
+
+# Hệ thống
+.DS_Store
+Thumbs.db
+desktop.ini

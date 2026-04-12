@@ -44,75 +44,134 @@
                 <span class="logo-text">EduPass</span>
             </a>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html">🏠 Trang chủ</a></li>
-                <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
-                <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
-                <li><a href="tao-de-thi.html">📝 Tạo đề thi</a></li>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="tai-lieu.html">Kho tài liệu</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                        Luyện thi <span class="nav-arrow">▾</span>
+                    </a>
+                    <ul class="nav-dropdown-menu">
+                        <li>
+                            <a href="luyen-thi.html">
+                                <span class="ndm-icon">✏️</span>
+                                <span class="ndm-text">
+                                    <strong>Luyện thi</strong>
+                                    <small>Hàng ngàn đề thi, chấm điểm tự động</small>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tao-de-thi.html">
+                                <span class="ndm-icon">🛠️</span>
+                                <span class="ndm-text">
+                                    <strong>Tạo đề thi</strong>
+                                    <small>Tự tạo đề theo môn và độ khó</small>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="note-lich-hoc.html">
+                                <span class="ndm-icon">📓</span>
+                                <span class="ndm-text">
+                                    <strong>Note & Lịch học</strong>
+                                    <small>Ghi chú và lên kế hoạch ôn thi</small>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="flashcard.html">
+                                <span class="ndm-icon">🃏</span>
+                                <span class="ndm-text">
+                                    <strong>Flashcard</strong>
+                                    <small>Ôn từ vựng & công thức siêu nhanh</small>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+                <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
             </ul>
             <div class="nav-actions">
                 <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
                 <a href="dang-ky.html" class="active btn-nav-register">Đăng ký</a>
             </div>
-                <button class="nav-hamburger" id="navHamburger" aria-label="Mo menu" aria-expanded="false"><span></span><span></span><span></span></button>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
     <section class="auth-section">
         <div class="container">
-            <div class="auth-box">
-                <div class="auth-mascot">
-                    <img src="assets/logo2.png" alt="EduPass Mascot" class="auth-mascot-img">
-                </div>
-                <div class="auth-logo-container">
-                    <img src="logo.png" alt="EduPass Logo" class="auth-logo">
-                    <p class="auth-slogan">Learn today. Pass tomorrow.</p>
-                </div>
-                <h2>Đăng ký tài khoản</h2>
-                
-                <div id="errorMessage" class="error-message" style="display: none;"></div>
-                
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label for="fullname">Họ và tên</label>
-                        <input type="text" id="fullname" name="fullname" placeholder="Nguyễn Văn A" required>
-                        <span class="helper-text">Nhập họ tên đầy đủ của bạn</span>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
-                        <span class="helper-text">Email sẽ dùng để đăng nhập</span>
-                        <span class="error-text" id="emailError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Mật khẩu</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="password" name="password" placeholder="Tối thiểu 6 ký tự" required>
-                            <button type="button" class="toggle-password" onclick="togglePasswordRegister('password', 'eyeIcon1')">
-                                <span class="eye-icon" id="eyeIcon1">👁️</span>
-                            </button>
+            <div class="auth-wrap">
+                <!-- Left branding panel -->
+                <div class="auth-panel-left">
+                    <div class="apl-top">
+                        <img src="logo.png" alt="EduPass" class="apl-logo">
+                        <div class="apl-brand-box">
+                            <div class="apl-brand">EduPass</div>
                         </div>
-                        <span class="helper-text">Sử dụng mật khẩu mạnh để bảo mật tài khoản</span>
-                        <span class="error-text" id="passwordError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword">Xác nhận mật khẩu</label>
-                        <div class="password-wrapper">
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-                            <button type="button" class="toggle-password" onclick="togglePasswordRegister('confirmPassword', 'eyeIcon2')">
-                                <span class="eye-icon" id="eyeIcon2">👁️</span>
-                            </button>
+                        <div class="apl-slogan">Learn today. Pass tomorrow.</div>
+                        <div class="apl-features">
+                            <div class="apl-feature"><span class="apl-feature-icon">📚</span> Kho tài liệu học tập</div>
+                            <div class="apl-feature"><span class="apl-feature-icon">✏️</span> Hàng ngàn đề luyện thi</div>
+                            <div class="apl-feature"><span class="apl-feature-icon">🤖</span> Trợ lý AI 24/7</div>
+                            <div class="apl-feature"><span class="apl-feature-icon">📊</span> Theo dõi tiến độ</div>
                         </div>
-                        <span class="helper-text">Nhập lại mật khẩu để xác nhận</span>
-                        <span class="error-text" id="confirmPasswordError"></span>
                     </div>
-                    <button type="submit" class="btn-primary btn-full" id="registerBtn">
-                        <span class="btn-text">Đăng ký</span>
-                        <span class="btn-loader" style="display: none;">
-                            <span class="spinner"></span> Đang xử lý...
-                        </span>
-                    </button>
-                </form>
-                <p class="auth-link">Đã có tài khoản? <a href="dang-nhap.html">Đăng nhập ngay</a></p>
+                    <div class="apl-bottom">
+                        <img src="assets/logo2.png" alt="EduPass Mascot" class="apl-mascot">
+                    </div>
+                </div>
+
+                <!-- Right form panel -->
+                <div class="auth-panel-right">
+                    <h2>Tạo tài khoản 🎓</h2>
+                    <p class="auth-subtitle">Tham gia cùng hàng ngàn học sinh đang luyện thi</p>
+
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="fullname">Họ và tên</label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Nguyễn Văn A" required>
+                            <span class="error-text" id="fullnameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+                            <span class="helper-text">Email sẽ dùng để đăng nhập</span>
+                            <span class="error-text" id="emailError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="password" name="password" placeholder="Tối thiểu 6 ký tự" required>
+                                <button type="button" class="toggle-password" onclick="togglePasswordRegister('password', 'eyeIcon1')">
+                                    <span class="eye-icon" id="eyeIcon1">👁️</span>
+                                </button>
+                            </div>
+                            <span class="error-text" id="passwordError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Xác nhận mật khẩu</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                                <button type="button" class="toggle-password" onclick="togglePasswordRegister('confirmPassword', 'eyeIcon2')">
+                                    <span class="eye-icon" id="eyeIcon2">👁️</span>
+                                </button>
+                            </div>
+                            <span class="error-text" id="confirmPasswordError"></span>
+                        </div>
+                        <button type="submit" class="btn-primary btn-full" id="registerBtn">
+                            <span class="btn-text">Đăng ký</span>
+                            <span class="btn-loader" style="display: none;"><span class="spinner"></span> Đang xử lý...</span>
+                        </button>
+                    </form>
+
+                    <p class="auth-link">Đã có tài khoản? <a href="dang-nhap.html">Đăng nhập ngay</a></p>
+                </div>
             </div>
         </div>
     </section>
@@ -142,7 +201,8 @@
                 <div class="footer-col">
                     <h5 class="footer-col-title">Về EduPass</h5>
                     <ul class="footer-nav">
-                        <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                                            <li><a href="gioi-thieu.html"> Giới thiệu</a></li>
+                    <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
                         <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
                         <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
                         <li><a href="dang-nhap.html">🔑 Đăng nhập</a></li>
@@ -170,12 +230,80 @@
             </div>
 
             <div class="footer-bottom-new">
+                <div class="footer-team-block">
+                    <div class="ftb-top">
+                        <span class="ftb-school-badge"> Lớp 12A5  THCS-THPT Hòa Bình</span>
+                    </div>
+                    <div class="ftb-teacher">
+                        <div class="ftb-teacher-card">
+                            <span class="ftb-teacher-icon"></span>
+                            <div class="ftb-teacher-info">
+                                <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
+                                <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ftb-sep">
+                        <span class="ftb-sep-line"></span>
+                        <span class="ftb-sep-text">Thành viên nhóm</span>
+                        <span class="ftb-sep-line"></span>
+                    </div>
+                    <div class="footer-team-members">
+                        <span class="ftb-member">Tr.Cường</span>
+                        <span class="ftb-member">Như Anh</span>
+                        <span class="ftb-member">Gia Huy</span>
+                        <span class="ftb-member">Gia Hòa</span>
+                        <span class="ftb-member">Nguyễn Tiến</span>
+                        <span class="ftb-member">Nhất Duy</span>
+                        <span class="ftb-member">Trúc Ngân</span>
+                        <span class="ftb-member">Khang Lee</span>
+                    </div>
+                </div>
                 <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
                 <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
             </div>
         </div>
     </footer>
 
+    <script>
+    // Logo typewriter
+    const logoEl = document.getElementById('logoText');
+    const logoWord = 'EduPass';
+    let logoChar = 0;
+    function typeLogo() {
+        if (logoChar <= logoWord.length) {
+            logoEl.textContent = logoWord.slice(0, logoChar);
+            logoChar++;
+            setTimeout(typeLogo, 120);
+        }
+    }
+    setTimeout(typeLogo, 200);
+
+    // Search dropdown
+    function toggleSearchDropdown() {
+        document.getElementById('searchDropdown').classList.toggle('open');
+    }
+    document.getElementById('heroSearchInput').addEventListener('input', function() {
+        const q = this.value.toLowerCase().trim();
+        document.getElementById('searchDropdown').classList.add('open');
+        document.querySelectorAll('.search-item').forEach(item => {
+            item.style.display = item.textContent.toLowerCase().includes(q) || q === '' ? 'flex' : 'none';
+        });
+    });
+    document.getElementById('heroSearchInput').addEventListener('focus', function() {
+        document.getElementById('searchDropdown').classList.add('open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!document.getElementById('heroSearchBox').contains(e.target))
+            document.getElementById('searchDropdown').classList.remove('open');
+    });
+    document.getElementById('heroSearchInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const q = this.value.trim();
+            window.location.href = 'tai-lieu.html' + (q ? '?q=' + encodeURIComponent(q) : '');
+        }
+    });
+    </script>
     <script src="script.js"></script>
     <script src="edupass-ai.js"></script>
     <script>
@@ -200,6 +328,7 @@
         });
         menu.querySelectorAll('a').forEach(function(a){
             a.addEventListener('click', function(){
+                if (a.classList.contains('nav-dropdown-toggle')) return;
                 menu.classList.remove('open');
                 btn.classList.remove('open');
                 btn.setAttribute('aria-expanded','false');

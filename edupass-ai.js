@@ -328,18 +328,18 @@ class EduPassAI {
         
         // Hóa học
         else if (message.includes('hóa') || message.includes('chemistry') || message.includes('phản ứng')) {
-            response = '🧪 Tài liệu Hóa Học trên EduPass:\n\n• <a href="https://drive.google.com/drive/folders/1kBHkBjiXZfA8AG5glUhMc21Vp9HepQjr" target="_blank" style="color:#0288d1">40 Đề Thực Chiến Hóa (Phạm Văn Trọng)</a>\n• <a href="https://drive.google.com/drive/folders/12pi6K9724NWWIIpKTjtcM1AYzqZe7DaR" target="_blank" style="color:#0288d1">60 Đề Minh Họa 2026 Hóa Học</a>\n• <a href="https://drive.google.com/file/d/1kvfnUhhJCNjMACkKFKbSSfr_HikzsEO4/view" target="_blank" style="color:#0288d1">30 Đề Đúng Sai & Trả Lời Ngắn 2026</a>\n• <a href="https://drive.google.com/drive/folders/1mpKKF_omZSBhEeLO7e6FFvSZZ3CqlRjp" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Hóa</a>\n• <a href="https://drive.google.com/file/d/1zGSUDWGwrBE_YV2cnht23oOJuFK9DeGn/view" target="_blank" style="color:#0288d1">🎁 Quà Miễn Phí Hóa Học</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Hóa →</a>';
+            response = '🧪 Tài liệu Hóa Học trên EduPass:\n\n• <a href="https://drive.google.com/drive/folders/1kBHkBjiXZfA8AG5glUhMc21Vp9HepQjr" target="_blank" style="color:#0288d1">40 Đề Thực Chiến Hóa (Phạm Văn Trọng)</a>\n• <a href="https://drive.google.com/drive/folders/12pi6K9724NWWIIpKTjtcM1AYzqZe7DaR" target="_blank" style="color:#0288d1">60 Đề Minh Họa 2026 Hóa Học</a>\n• <a href="https://drive.google.com/file/d/1kvfnUhhJCNjMACkKFKbSSfr_HikzsEO4/view" target="_blank" style="color:#0288d1">30 Đề Đúng Sai & Trả Lời Ngắn 2026</a>\n• <a href="https://drive.google.com/drive/folders/1mpKKF_omZSBhEeLO7e6FFvSZZ3CqlRjp" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Hóa</a>\n• <a href="https://drive.google.com/file/d/1zGSUDWGwrBE_YV2cnht23oOJuFK9DeGn/view" target="_blank" style="color:#0288d1">🎁 Tài Liệu Hóa Học</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Hóa →</a>';
         }
         
         // Ngữ Văn
         else if (message.includes('văn') || message.includes('ngữ văn') || message.includes('thơ') || 
                  message.includes('văn học') || message.includes('phân tích')) {
-            response = '📖 Tài liệu Ngữ Văn trên EduPass:\n\n• <a href="https://drive.google.com/file/d/1J4-0b2-WLqMP85Vdt3Vo8XzL7vhY4-R3/view" target="_blank" style="color:#0288d1">100 Đề Minh Họa TN THPT 2025</a>\n• <a href="https://drive.google.com/file/d/1dIqGqyPff5qiVxyhjJ_cdB5YqTV9zhw-/view" target="_blank" style="color:#0288d1">Toàn Bộ Kiến Thức Ngữ Văn 12</a>\n• <a href="https://drive.google.com/file/d/1Ld6INdyDVy1pwqBNX_kyFY9XQibS4q7p/view" target="_blank" style="color:#0288d1">Tài Liệu 9+ Ngữ Văn (3 tập)</a>\n• <a href="https://drive.google.com/drive/folders/1Tu-19gIQMpG29wGgXFRXQ-79d9JbwBbv" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Văn</a>\n• <a href="https://drive.google.com/file/d/1RiT3muRQ3V13a0JQ3HEhGIEZv_o_7AuT/view" target="_blank" style="color:#0288d1">🎁 Quà Miễn Phí Ngữ Văn</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Văn →</a>';
+            response = '📖 Tài liệu Ngữ Văn trên EduPass:\n\n• <a href="https://drive.google.com/file/d/1J4-0b2-WLqMP85Vdt3Vo8XzL7vhY4-R3/view" target="_blank" style="color:#0288d1">100 Đề Minh Họa TN THPT 2025</a>\n• <a href="https://drive.google.com/file/d/1dIqGqyPff5qiVxyhjJ_cdB5YqTV9zhw-/view" target="_blank" style="color:#0288d1">Toàn Bộ Kiến Thức Ngữ Văn 12</a>\n• <a href="https://drive.google.com/file/d/1Ld6INdyDVy1pwqBNX_kyFY9XQibS4q7p/view" target="_blank" style="color:#0288d1">Tài Liệu 9+ Ngữ Văn (3 tập)</a>\n• <a href="https://drive.google.com/drive/folders/1Tu-19gIQMpG29wGgXFRXQ-79d9JbwBbv" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Văn</a>\n• <a href="https://drive.google.com/file/d/1RiT3muRQ3V13a0JQ3HEhGIEZv_o_7AuT/view" target="_blank" style="color:#0288d1">🎁 Tài Liệu Ngữ Văn</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Văn →</a>';
         }
         
         // Tiếng Anh
         else if (message.includes('anh') || message.includes('english') || message.includes('tiếng anh')) {
-            response = '🇬🇧 Tài liệu Tiếng Anh trên EduPass:\n\n• <a href="https://drive.google.com/drive/folders/1RNRixqYjQZLLkKJsZLDX8rvFyBiFiOmk" target="_blank" style="color:#0288d1">Từ Vựng Đọc Hiểu Chuyên Sâu (Cô Phạm Liễu)</a>\n• <a href="https://drive.google.com/open?id=1ymtmhB2Mer2ODjHMxtuPpN0nYIEp97bw" target="_blank" style="color:#0288d1">Tài Liệu Cô Mai Phương 2026 (9 phần)</a>\n• <a href="https://drive.google.com/file/d/1Qpj_4GEbAll-mUAY62A4AqwR9dGrL1n6/view" target="_blank" style="color:#0288d1">Bộ Đề ĐGNL Tiếng Anh (Cô Trang Anh)</a>\n• <a href="https://drive.google.com/drive/folders/1PEp64xAvjdJ4c-T5WMmWWXoPgPlJRqKe" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Anh</a>\n• <a href="https://drive.google.com/drive/folders/1TFEeYqg4JO8YmBI_M3NhHJkOT1YXWMbz" target="_blank" style="color:#0288d1">🎁 Quà Miễn Phí Tiếng Anh</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Tiếng Anh →</a>';
+            response = '🇬🇧 Tài liệu Tiếng Anh trên EduPass:\n\n• <a href="https://drive.google.com/drive/folders/1RNRixqYjQZLLkKJsZLDX8rvFyBiFiOmk" target="_blank" style="color:#0288d1">Từ Vựng Đọc Hiểu Chuyên Sâu (Cô Phạm Liễu)</a>\n• <a href="https://drive.google.com/open?id=1ymtmhB2Mer2ODjHMxtuPpN0nYIEp97bw" target="_blank" style="color:#0288d1">Tài Liệu Cô Mai Phương 2026 (9 phần)</a>\n• <a href="https://drive.google.com/file/d/1Qpj_4GEbAll-mUAY62A4AqwR9dGrL1n6/view" target="_blank" style="color:#0288d1">Bộ Đề ĐGNL Tiếng Anh (Cô Trang Anh)</a>\n• <a href="https://drive.google.com/drive/folders/1PEp64xAvjdJ4c-T5WMmWWXoPgPlJRqKe" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Anh</a>\n• <a href="https://drive.google.com/drive/folders/1TFEeYqg4JO8YmBI_M3NhHJkOT1YXWMbz" target="_blank" style="color:#0288d1">🎁 Tài Liệu Tiếng Anh</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Tiếng Anh →</a>';
         }
         
         // Lịch Sử
@@ -354,7 +354,7 @@ class EduPassAI {
         
         // Sinh học
         else if (message.includes('sinh') || message.includes('sinh học') || message.includes('biology')) {
-            response = '🧬 Tài liệu Sinh Học trên EduPass:\n\n• <a href="https://drive.google.com/file/d/1aBxBBHBDE7b_60SWyng3fd_uTRSqq6au/view" target="_blank" style="color:#0288d1">Ôn Thi Toàn Diện Sinh 12 Tập 1 (Cô Trà My)</a>\n• <a href="https://drive.google.com/file/d/1jOdtoBU_MNu5wKZnUFrBSx_qMvPW1SxK/view" target="_blank" style="color:#0288d1">Ôn Thi Toàn Diện Sinh 12 Tập 2 (Cô Trà My)</a>\n• <a href="https://drive.google.com/drive/folders/1ORse9h0ULrLp3GwNEqyJAL_Ra5cQJys-" target="_blank" style="color:#0288d1">40 Đề HSG Sinh 12 Chương Trình Mới</a>\n• <a href="https://drive.google.com/drive/folders/1TFDQDzlIvUazshI9BqoXOf-oK2I_3Zcq" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Sinh</a>\n• <a href="https://drive.google.com/drive/folders/162vljNxilJKqcOHXWI27rn9FxnqptvOf" target="_blank" style="color:#0288d1">🎁 Quà Miễn Phí Sinh Học</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Sinh Học →</a>';
+            response = '🧬 Tài liệu Sinh Học trên EduPass:\n\n• <a href="https://drive.google.com/file/d/1aBxBBHBDE7b_60SWyng3fd_uTRSqq6au/view" target="_blank" style="color:#0288d1">Ôn Thi Toàn Diện Sinh 12 Tập 1 (Cô Trà My)</a>\n• <a href="https://drive.google.com/file/d/1jOdtoBU_MNu5wKZnUFrBSx_qMvPW1SxK/view" target="_blank" style="color:#0288d1">Ôn Thi Toàn Diện Sinh 12 Tập 2 (Cô Trà My)</a>\n• <a href="https://drive.google.com/drive/folders/1ORse9h0ULrLp3GwNEqyJAL_Ra5cQJys-" target="_blank" style="color:#0288d1">40 Đề HSG Sinh 12 Chương Trình Mới</a>\n• <a href="https://drive.google.com/drive/folders/1TFDQDzlIvUazshI9BqoXOf-oK2I_3Zcq" target="_blank" style="color:#0288d1">Tổng Hợp Đề Thi Thử 2025 Sinh</a>\n• <a href="https://drive.google.com/drive/folders/162vljNxilJKqcOHXWI27rn9FxnqptvOf" target="_blank" style="color:#0288d1">🎁 Tài Liệu Sinh Học</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Xem tất cả tài liệu Sinh Học →</a>';
         }
         
         // Đề thi
@@ -364,7 +364,7 @@ class EduPassAI {
         
         // Tài liệu
         else if (message.includes('tài liệu') || message.includes('tìm') || message.includes('download') || message.includes('tải')) {
-            response = '📚 Kho tài liệu EduPass (83 tài liệu MIỄN PHÍ):\n\n📐 <a href="tai-lieu.html" style="color:#0288d1">Toán</a> | ⚛️ <a href="tai-lieu.html" style="color:#0288d1">Vật Lý</a> | 🧪 <a href="tai-lieu.html" style="color:#0288d1">Hóa</a> | 🧬 <a href="tai-lieu.html" style="color:#0288d1">Sinh</a>\n📖 <a href="tai-lieu.html" style="color:#0288d1">Văn</a> | 🇬🇧 <a href="tai-lieu.html" style="color:#0288d1">Anh</a> | 🏛️ <a href="tai-lieu.html" style="color:#0288d1">Sử</a> | 🌍 <a href="tai-lieu.html" style="color:#0288d1">Địa</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Vào kho tài liệu →</a>\n\n💬 Bạn cần tài liệu môn gì? Mình gửi link trực tiếp!';
+            response = '📚 Kho tài liệu EduPass (83 tài liệu):\n\n📐 <a href="tai-lieu.html" style="color:#0288d1">Toán</a> | ⚛️ <a href="tai-lieu.html" style="color:#0288d1">Vật Lý</a> | 🧪 <a href="tai-lieu.html" style="color:#0288d1">Hóa</a> | 🧬 <a href="tai-lieu.html" style="color:#0288d1">Sinh</a>\n📖 <a href="tai-lieu.html" style="color:#0288d1">Văn</a> | 🇬🇧 <a href="tai-lieu.html" style="color:#0288d1">Anh</a> | 🏛️ <a href="tai-lieu.html" style="color:#0288d1">Sử</a> | 🌍 <a href="tai-lieu.html" style="color:#0288d1">Địa</a>\n\n👉 <a href="tai-lieu.html" style="color:#00c853;font-weight:700">Vào kho tài liệu →</a>\n\n💬 Bạn cần tài liệu môn gì? Mình gửi link trực tiếp!';
         }
         
         // Điểm số
@@ -386,12 +386,12 @@ class EduPassAI {
         
         // Đăng ký/Đăng nhập
         else if (message.includes('đăng ký') || message.includes('tài khoản') || message.includes('đăng nhập')) {
-            response = '👤 Tài khoản EduPass:\n\n✨ Lợi ích khi đăng ký:\n• Lưu tiến độ học tập\n• Theo dõi điểm số\n• Tải tài liệu miễn phí\n• Tạo đề thi không giới hạn\n• Nhận thông báo tài liệu mới\n\n📝 Đăng ký ngay:\n1. Click <a href="dang-ky.html" style="color:#667eea">Đăng ký</a>\n2. Điền thông tin\n3. Xác nhận email\n4. Bắt đầu học!\n\n🎁 Miễn phí 100%!';
+            response = '👤 Tài khoản EduPass:\n\n✨ Lợi ích khi đăng ký:\n• Lưu tiến độ học tập\n• Theo dõi điểm số\n• Tải tài liệu\n• Tạo đề thi không giới hạn\n• Nhận thông báo tài liệu mới\n\n📝 Đăng ký ngay:\n1. Click <a href="dang-ky.html" style="color:#667eea">Đăng ký</a>\n2. Điền thông tin\n3. Xác nhận email\n4. Bắt đầu học!';
         }
         
         // Giá cả
         else if (message.includes('giá') || message.includes('phí') || message.includes('tiền') || message.includes('mua')) {
-            response = '💰 Bảng giá EduPass:\n\n🆓 Miễn phí:\n• Tạo đề thi không giới hạn\n• Luyện thi trực tuyến\n• Tài liệu cơ bản\n• Xem điểm, thống kê\n\n⭐ Premium (10,000đ - 50,000đ):\n• Tài liệu chất lượng cao\n• Đề thi độc quyền\n• Video bài giảng\n• Hỗ trợ ưu tiên\n\n💎 VIP (Liên hệ):\n• Truy cập toàn bộ tài liệu\n• Gia sư online 1-1\n• Lộ trình cá nhân hóa';
+            response = '💰 Bảng giá EduPass:\n\n🆓 Cơ bản:\n• Tạo đề thi không giới hạn\n• Luyện thi trực tuyến\n• Tài liệu cơ bản\n• Xem điểm, thống kê\n\n⭐ Premium (10,000đ - 50,000đ):\n• Tài liệu chất lượng cao\n• Đề thi độc quyền\n• Video bài giảng\n• Hỗ trợ ưu tiên\n\n💎 VIP (Liên hệ):\n• Truy cập toàn bộ tài liệu\n• Gia sư online 1-1\n• Lộ trình cá nhân hóa';
         }
         
         // Môn học
@@ -614,7 +614,7 @@ class EduPassAI {
                 this.showTypingIndicator();
                 setTimeout(() => {
                     this.hideTypingIndicator();
-                    this.addMessage('ai', '📚 Kho tài liệu EduPass siêu phong phú!\n\n🎯 Có gì:\n• Sách giáo khoa (SGK) đầy đủ\n• Sách bài tập (SBT) có lời giải\n• Đề thi các năm (2015-2024)\n• Tài liệu ôn thi THPT QG\n• Video bài giảng\n• Bài tập nâng cao\n\n🔍 Tìm kiếm theo:\n• Môn học (12 môn)\n• Lớp (6, 7, 8, 9, 10, 11, 12)\n• Loại (Miễn phí/Premium)\n\n👉 <a href="tai-lieu.html" style="color: #667eea; font-weight: 600;">Xem kho tài liệu ngay</a>\n\n💬 Bạn cần tài liệu môn gì, lớp mấy? Mình gợi ý cho!');
+                    this.addMessage('ai', '📚 Kho tài liệu EduPass siêu phong phú!\n\n🎯 Có gì:\n• Sách giáo khoa (SGK) đầy đủ\n• Sách bài tập (SBT) có lời giải\n• Đề thi các năm (2015-2024)\n• Tài liệu ôn thi THPT QG\n• Video bài giảng\n• Bài tập nâng cao\n\n🔍 Tìm kiếm theo:\n• Môn học (12 môn)\n• Lớp (6, 7, 8, 9, 10, 11, 12)\n• Loại (Cơ bản/Premium)\n\n👉 <a href="tai-lieu.html" style="color: #667eea; font-weight: 600;">Xem kho tài liệu ngay</a>\n\n💬 Bạn cần tài liệu môn gì, lớp mấy? Mình gợi ý cho!');
                 }, 1000);
                 break;
             case 'help':
@@ -639,7 +639,7 @@ THÔNG TIN EDUPASS:
 
 TRANG WEB: index.html | tai-lieu.html | luyen-thi.html | tao-de-thi.html | tai-khoan.html | cau-chuyen.html | hanh-trinh-edupass.html
 
-KHO TÀI LIỆU ĐẦY ĐỦ VỚI LINK TẢI (83 tài liệu MIỄN PHÍ):
+KHO TÀI LIỆU ĐẦY ĐỦ VỚI LINK TẢI (83 tài liệu):
 
 📐 TOÁN (link kho: tai-lieu.html?subject=toan):
 1. Bộ Đề Thi Thử TN THPT Môn Toán → https://drive.google.com/drive/folders/1IuzMQM-HspXdi6eV_Jcke_DFCGfyvwFP
@@ -729,7 +729,7 @@ KHO TÀI LIỆU ĐẦY ĐỦ VỚI LINK TẢI (83 tài liệu MIỄN PHÍ):
 5. Tổng Hợp Tài Liệu Tiếng Anh Cô Mai Phương 2026 (9 phần) → https://drive.google.com/open?id=1ymtmhB2Mer2ODjHMxtuPpN0nYIEp97bw
 6. Tài Liệu Tổng Hợp Tiếng Anh → https://drive.google.com/file/d/1BJbUdejhTGlL48CTuRbl74OgSc1nyYqQ/view
 
-🎁 QUÀ MIỄN PHÍ THEO MÔN (Google Drive):
+🎁 TÀI LIỆU THEO MÔN (Google Drive):
 - Ngữ Văn: https://drive.google.com/file/d/1RiT3muRQ3V13a0JQ3HEhGIEZv_o_7AuT/view
 - Toán: https://drive.google.com/drive/folders/1-JRpMi9ghHs-2sGJT9xsPHVSup4iPP7K
 - Tiếng Anh: https://drive.google.com/drive/folders/1TFEeYqg4JO8YmBI_M3NhHJkOT1YXWMbz

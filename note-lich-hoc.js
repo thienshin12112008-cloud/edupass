@@ -592,3 +592,203 @@ document.addEventListener('DOMContentLoaded', function() {
         Notification.requestPermission();
     }
 });
+
+// ==============================
+// ===== THỜI KHÓA BIỂU =========
+// ==============================
+var tkbWeekOffset = 0; // 0 = tuần hiện tại
+
+function tkbGetWeekKey(offset) {
+    var now = new Date();
+    var day = now.getDay(); // 0=CN
+    var monday = new Date(now);
+    monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+    var y = monday.getFullYear();
+    var m = pad2(monday.getMonth() + 1);
+    var d = pad2(monday.getDate());
+    return 'tkb_' + y + '_' + m + '_' + d;
+}
+
+function tkbGetWeekDates(offset) {
+    var now = new Date();
+    var day = now.getDay();
+    var monday = new Date(now);
+    monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+    var dates = [];
+    for (var i = 0; i < 6; i++) {
+        var d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        dates.push(d);
+    }
+    return dates;
+}
+
+function tkbRender() {
+    var key = tkbGetWeekKey(tkbWeekOffset);
+    var data = loadData(key, {});
+    var dates = tkbGetWeekDates(tkbWeekOffset);
+
+    // Week label
+    var label = document.getElementById('tkbWeekLabel');
+    if (label) {
+        var start = dates[0];
+        var end = dates[5];
+        label.textContent = 'Tuần ' + start.getDate() + '/' + pad2(start.getMonth()+1) +
+            ' – ' + end.getDate() + '/' + pad2(end.getMonth()+1) + '/' + end.getFullYear();
+    }
+
+    var sessions = [
+        { label: '☀️ Sáng', slots: [1,2,3,4,5] },
+        { label: '🌤️ Chiều', slots: [6,7,8,9,10] }
+    ];
+
+    var today = new Date();
+    var todayStr = today.getFullYear() + '-' + pad2(today.getMonth()+1) + '-' + pad2(today.getDate());
+
+    var html = '';
+    sessions.forEach(function(session) {
+        // Session header row
+        html += '<tr class="tkb-session-row"><td colspan="7" class="tkb-session-label">' + session.label + '</td></tr>';
+        session.slots.forEach(function(slot) {
+            html += '<tr class="tkb-row">';
+            html += '<td class="tkb-slot-num">Tiết ' + slot + '</td>';
+            for (var col = 0; col < 6; col++) {
+                var d = dates[col];
+                var dStr = d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate());
+                var cellKey = 'slot_' + slot + '_col_' + col;
+                var val = (data[cellKey] || '');
+                var isToday = dStr === todayStr ? ' tkb-today-col' : '';
+                html += '<td class="tkb-cell' + isToday + '">' +
+                    '<input type="text" class="tkb-input" data-key="' + cellKey + '" value="' + escHtml(val) + '" placeholder="—">' +
+                    '</td>';
+            }
+            html += '</tr>';
+        });
+    });
+
+    document.getElementById('tkbBody').innerHTML = html;
+}
+
+function tkbSave() {
+    var key = tkbGetWeekKey(tkbWeekOffset);
+    var data = {};
+    document.querySelectorAll('.tkb-input').forEach(function(inp) {
+        data[inp.dataset.key] = inp.value;
+    });
+    saveData(key, data);
+    var toast = document.getElementById('tkbToast');
+    if (toast) {
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+    }
+}
+
+function tkbChangeWeek(dir) {
+    tkbWeekOffset += dir;
+    tkbRender();
+}
+
+function tkbGoToday() {
+    tkbWeekOffset = 0;
+    tkbRender();
+}
+
+// Init TKB khi tab được mở
+var _origSwitchTab = switchTab;
+switchTab = function(tab) {
+    _origSwitchTab(tab);
+    if (tab === 'timetable') tkbRender();
+};
+
+// ==============================
+// ===== THÔNG BÁO ĐẾN HẠN ======
+// ==============================
+
+function checkDueTasks() {
+    var now = new Date();
+    var todayKey = now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate());
+    var todayTasks = tasks[todayKey] || [];
+    var currentTime = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+
+    todayTasks.forEach(function(task, idx) {
+        if (task.done) return;
+        if (!task.timeStart) return;
+
+        // Thông báo đúng giờ bắt đầu
+        if (task.timeStart === currentTime) {
+            var notifKey = 'notif_' + todayKey + '_' + idx + '_start';
+            if (!sessionStorage.getItem(notifKey)) {
+                sessionStorage.setItem(notifKey, '1');
+                showDueToast('⏰ Đến giờ rồi! ' + task.subject, 'start');
+                sendBrowserNotif('⏰ Đến giờ học!', task.subject + ' — Bắt đầu ngay nào!');
+            }
+        }
+
+        // Thông báo trước 5 phút
+        var d = new Date(now.getFullYear(), now.getMonth(), now.getDate(),
+            parseInt(task.timeStart.split(':')[0]),
+            parseInt(task.timeStart.split(':')[1]) - 5);
+        var remind = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+        if (remind === currentTime) {
+            var remindKey = 'notif_' + todayKey + '_' + idx + '_remind';
+            if (!sessionStorage.getItem(remindKey)) {
+                sessionStorage.setItem(remindKey, '1');
+                showDueToast('🔔 Còn 5 phút: ' + task.subject, 'remind');
+                sendBrowserNotif('🔔 Nhắc nhở học tập', 'Còn 5 phút nữa: ' + task.subject);
+            }
+        }
+
+        // Thông báo quá hạn (timeEnd đã qua mà chưa done)
+        if (task.timeEnd) {
+            var endParts = task.timeEnd.split(':');
+            var endD = new Date(now.getFullYear(), now.getMonth(), now.getDate(),
+                parseInt(endParts[0]), parseInt(endParts[1]));
+            // Thông báo ngay khi hết giờ
+            var endTime = pad2(endD.getHours()) + ':' + pad2(endD.getMinutes());
+            if (endTime === currentTime) {
+                var endKey = 'notif_' + todayKey + '_' + idx + '_end';
+                if (!sessionStorage.getItem(endKey)) {
+                    sessionStorage.setItem(endKey, '1');
+                    showDueToast('❗ Chưa hoàn thành: ' + task.subject, 'overdue');
+                    sendBrowserNotif('❗ Chưa hoàn thành!', task.subject + ' — Hãy đánh dấu hoàn thành nhé!');
+                }
+            }
+        }
+    });
+}
+
+function showDueToast(msg, type) {
+    var toast = document.getElementById('dueToast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'dueToast';
+        toast.className = 'nlh-due-toast';
+        document.body.appendChild(toast);
+    }
+    toast.className = 'nlh-due-toast nlh-due-' + type + ' show';
+    toast.textContent = msg;
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(function() {
+        toast.classList.remove('show');
+    }, 5000);
+}
+
+function sendBrowserNotif(title, body) {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'granted') {
+        new Notification(title, { body: body, icon: 'logo.png' });
+    } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission().then(function(p) {
+            if (p === 'granted') new Notification(title, { body: body, icon: 'logo.png' });
+        });
+    }
+}
+
+// Chạy kiểm tra mỗi 30 giây
+document.addEventListener('DOMContentLoaded', function() {
+    if (Notification && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+    setInterval(checkDueTasks, 30000);
+    checkDueTasks(); // chạy ngay khi load
+});

@@ -1,0 +1,1442 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcard - EduPass</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f4ff;color:#333;min-height:100vh}
+a{text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+textarea,input,select{font-family:inherit}
+
+/* NAV */
+.nav{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);height:64px;display:flex;align-items:center;padding:0 2rem;gap:1.5rem;position:sticky;top:0;z-index:50}
+.nav-logo{display:flex;align-items:center;gap:.5rem}
+.nav-logo img{height:38px}
+.nav-logo span{font-size:1.4rem;font-weight:900;background:linear-gradient(90deg,#00c853,#0288d1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:.3rem;margin-left:auto}
+.nav-links a{color:#555;font-size:.88rem;font-weight:600;padding:.4rem .9rem;border-radius:50px;transition:all .2s}
+.nav-links a:hover{background:#f0f4ff;color:#667eea}
+.nav-links a.cur{background:#667eea;color:#fff}
+.nav-auth{display:flex;gap:.5rem;margin-left:.5rem}
+.btn-login{color:#667eea;border:1.5px solid #667eea;border-radius:50px;padding:.38rem 1rem;font-size:.85rem;font-weight:600;background:none;transition:all .2s}
+.btn-login:hover{background:#667eea;color:#fff}
+.btn-reg{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:50px;padding:.42rem 1rem;font-size:.85rem;font-weight:600;transition:opacity .2s}
+.btn-reg:hover{opacity:.88}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#0f0c29,#1a1040,#16213e);
+  padding:4.5rem 2rem 4rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 60%,rgba(102,126,234,.28) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 25%,rgba(167,139,250,.2) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 100%,rgba(0,200,83,.08) 0%,transparent 45%);
+  pointer-events:none;
+}
+.hero-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;
+  gap:4rem;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:rgba(102,126,234,.15);
+  border:1px solid rgba(102,126,234,.35);
+  color:#c4b5fd;font-size:.8rem;font-weight:600;
+  padding:.38rem 1rem;border-radius:50px;
+  margin-bottom:1.2rem;
+  backdrop-filter:blur(8px);
+  letter-spacing:.3px;
+}
+.hero h1{
+  font-size:clamp(2.2rem,4vw,3.4rem);
+  font-weight:900;color:#fff;
+  line-height:1.15;margin-bottom:1rem;
+  letter-spacing:-.5px;
+}
+.hero-hl{
+  background:linear-gradient(135deg,#818cf8,#a78bfa,#c084fc);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero p{
+  color:rgba(255,255,255,.62);
+  font-size:.97rem;line-height:1.75;
+  margin-bottom:2rem;max-width:460px;
+}
+.hero-stats{
+  display:flex;align-items:center;gap:1.5rem;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:1rem 1.5rem;
+  width:fit-content;
+  backdrop-filter:blur(12px);
+}
+.stat-num{display:block;font-size:1.75rem;font-weight:900;color:#a78bfa;line-height:1}
+.stat-lbl{font-size:.7rem;color:rgba(255,255,255,.45);margin-top:.2rem;display:block;white-space:nowrap}
+.stat-div{width:1px;height:34px;background:rgba(255,255,255,.1)}
+/* Demo card */
+.demo-wrap{
+  perspective:1000px;cursor:pointer;
+  width:300px;height:195px;flex-shrink:0;
+  filter:drop-shadow(0 0 32px rgba(102,126,234,.45));
+}
+.demo-inner{
+  width:100%;height:100%;position:relative;
+  transform-style:preserve-3d;
+  transition:transform .65s cubic-bezier(.4,0,.2,1);
+  border-radius:22px;
+}
+.demo-wrap.flipped .demo-inner{transform:rotateY(180deg)}
+.demo-f,.demo-b{
+  position:absolute;inset:0;border-radius:22px;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+  border:1px solid rgba(255,255,255,.12);
+}
+.demo-f{
+  background:linear-gradient(145deg,#4f46e5,#7c3aed);
+  box-shadow:0 20px 50px rgba(79,70,229,.45),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.demo-b{
+  background:linear-gradient(145deg,#059669,#10b981);
+  transform:rotateY(180deg);
+  box-shadow:0 20px 50px rgba(5,150,105,.4),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.demo-lbl{
+  font-size:.6rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:2px;color:rgba(255,255,255,.55);margin-bottom:.8rem;
+}
+.demo-word{font-size:1.7rem;font-weight:800;color:#fff;letter-spacing:-.3px}
+.demo-hint{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:.6rem;animation:fc-hint 2.5s ease-in-out infinite}
+@keyframes fc-hint{0%,100%{opacity:.35}50%{opacity:.85}}
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem}
+  .demo-wrap{width:260px;height:170px;margin:0 auto}
+  .hero h1{font-size:2.2rem}
+  .hero p{max-width:100%}
+}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:2rem 2rem 4rem}
+
+/* Toolbar */
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.toolbar-l{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;flex:1}
+.search-box{display:flex;align-items:center;background:#fff;border:1.5px solid #e0e7ff;border-radius:50px;padding:.38rem .9rem;gap:.4rem}
+.search-box input{border:none;outline:none;font-size:.88rem;color:#333;background:transparent;width:150px}
+.filters{display:flex;gap:.35rem;flex-wrap:wrap}
+.ftab{background:#fff;border:1.5px solid #e0e7ff;color:#667eea;font-size:.8rem;font-weight:600;padding:.32rem .8rem;border-radius:50px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.ftab:hover,.ftab.on{background:#667eea;color:#fff;border-color:#667eea}
+.btn-new{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:50px;padding:.55rem 1.3rem;font-size:.9rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:.4rem;box-shadow:0 4px 14px rgba(102,126,234,.35);transition:all .2s;white-space:nowrap}
+.btn-new:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(102,126,234,.45)}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.4rem}
+.deck{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 3px 16px rgba(0,0,0,.07);border:1px solid rgba(0,0,0,.05);transition:transform .25s,box-shadow .25s}
+.deck:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.deck-banner{height:82px;display:flex;align-items:center;justify-content:center;font-size:2.6rem;position:relative}
+.deck-banner::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.07)}
+.deck-body{padding:1rem 1.2rem .7rem}
+.deck-sub{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#667eea;margin-bottom:.25rem}
+.deck-name{font-size:.98rem;font-weight:800;color:#1a1a2e;margin-bottom:.25rem;line-height:1.3}
+.deck-desc{font-size:.78rem;color:#888;margin-bottom:.6rem;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.deck-meta{display:flex;justify-content:space-between;font-size:.75rem;color:#aaa}
+.deck-cnt{font-weight:700;color:#667eea}
+.deck-bar{height:3px;background:#f0f0f0;border-radius:2px;margin:.6rem 0 0;overflow:hidden}
+.deck-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:2px;transition:width .4s}
+.deck-btns{display:flex;gap:.4rem;padding:.65rem 1.2rem 1rem;border-top:1px solid #f5f5f5}
+.db{flex:1;padding:.42rem;border:none;border-radius:9px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}
+.db-s{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.db-s:hover{opacity:.88}
+.db-e{background:#f0f4ff;color:#667eea}
+.db-e:hover{background:#e0e7ff}
+.db-d{background:#fff0f0;color:#e53935}
+.db-d:hover{background:#ffe0e0}
+
+/* Empty */
+.empty{text-align:center;padding:4rem 2rem;color:#aaa;display:none}
+.empty-ico{font-size:3.5rem;margin-bottom:.8rem}
+.empty h3{font-size:1.1rem;color:#555;margin-bottom:.4rem}
+.empty p{margin-bottom:1.2rem;font-size:.9rem}
+
+/* ===== MODAL SYSTEM ===== */
+.fc-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(10,8,30,.65);
+  backdrop-filter:blur(6px);
+  z-index:9000;
+  align-items:center;justify-content:center;
+  padding:1rem;
+}
+.fc-overlay.open{display:flex}
+
+.fc-modal{
+  background:#fff;
+  border-radius:24px;
+  width:100%;
+  box-shadow:0 24px 80px rgba(0,0,0,.25);
+  overflow:hidden;
+  animation:fcModalIn .25s cubic-bezier(.34,1.56,.64,1);
+  display:flex;flex-direction:column;
+}
+.fc-modal-sm{max-width:500px}
+.fc-modal-lg{max-width:820px;max-height:88vh}
+
+@keyframes fcModalIn{
+  from{opacity:0;transform:scale(.94) translateY(16px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+.fc-modal-head{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:1.4rem 1.6rem 1rem;
+  border-bottom:1px solid #f0f2f8;
+  flex-shrink:0;
+}
+.fc-modal-head h2{font-size:1.1rem;font-weight:800;color:#1a1a2e;margin:0}
+.fc-sub{font-size:.78rem;color:#aaa;margin-top:.2rem;display:block}
+
+.fc-close{
+  background:#f4f5f8;border:none;border-radius:50%;
+  width:32px;height:32px;font-size:.85rem;color:#666;
+  cursor:pointer;flex-shrink:0;
+  transition:background .15s,color .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.fc-close:hover{background:#ffe0e0;color:#e53935}
+
+.fc-modal-body{padding:1.2rem 1.6rem}
+
+.fc-modal-foot{
+  display:flex;justify-content:flex-end;gap:.7rem;
+  padding:1rem 1.6rem 1.4rem;
+  border-top:1px solid #f0f2f8;
+  flex-shrink:0;
+}
+
+/* Form elements */
+.fc-field{margin-bottom:.9rem}
+.fc-field label{
+  display:block;font-size:.8rem;font-weight:700;
+  color:#555;margin-bottom:.38rem;
+}
+.fc-req{color:#e53935}
+.fc-opt{font-weight:400;color:#aaa;font-size:.75rem}
+
+.fc-input{
+  width:100%;
+  border:1.5px solid #e8eaf6;
+  border-radius:12px;
+  padding:.58rem .9rem;
+  font-size:.88rem;
+  color:#1a1a2e;
+  background:#fafbff;
+  outline:none;
+  font-family:inherit;
+  transition:border-color .2s,box-shadow .2s;
+}
+.fc-input:focus{
+  border-color:#667eea;
+  box-shadow:0 0 0 3px rgba(102,126,234,.12);
+}
+.fc-textarea{resize:vertical;min-height:72px}
+.fc-input-sm{width:140px;padding:.32rem .75rem;font-size:.8rem}
+
+.fc-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+
+.fc-colors{display:flex;gap:.5rem;flex-wrap:wrap;padding-top:.3rem}
+.fc-colors div{
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  border:3px solid transparent;
+  transition:transform .15s,border-color .15s;
+}
+.fc-colors div:hover{transform:scale(1.15)}
+.fc-colors div.active{border-color:#1a1a2e;transform:scale(1.1)}
+
+/* Buttons */
+.fc-btn-primary{
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:#fff;border:none;border-radius:12px;
+  padding:.58rem 1.5rem;font-size:.88rem;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(102,126,234,.3);
+  transition:opacity .2s,transform .2s;
+}
+.fc-btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+
+.fc-btn-success{
+  background:linear-gradient(135deg,#059669,#10b981);
+  color:#fff;border:none;border-radius:12px;
+  padding:.58rem 1.5rem;font-size:.88rem;font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(5,150,105,.3);
+  transition:opacity .2s,transform .2s;
+}
+.fc-btn-success:hover{opacity:.9;transform:translateY(-1px)}
+
+.fc-btn-cancel{
+  background:#f4f5f8;border:none;border-radius:12px;
+  padding:.58rem 1.3rem;font-size:.88rem;font-weight:600;
+  color:#666;cursor:pointer;transition:background .15s;
+}
+.fc-btn-cancel:hover{background:#eaecf4}
+
+.fc-btn-icon{
+  background:#f0f4ff;color:#667eea;border:none;
+  border-radius:12px;padding:.58rem .9rem;
+  font-size:.82rem;font-weight:600;cursor:pointer;
+  transition:background .15s;white-space:nowrap;
+}
+.fc-btn-icon:hover{background:#e0e7ff}
+
+/* Cards modal layout */
+.fc-cards-body{
+  display:grid;grid-template-columns:260px 1fr;
+  gap:1.2rem;padding:1.2rem 1.6rem;
+  overflow:hidden;flex:1;min-height:0;
+}
+.fc-cards-sidebar{display:flex;flex-direction:column;gap:.7rem}
+.fc-cards-actions{display:flex;gap:.5rem}
+.fc-cards-actions .fc-btn-primary{flex:1}
+
+.fc-cards-list-wrap{display:flex;flex-direction:column;min-height:0}
+.fc-cards-list-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.7rem;flex-shrink:0;
+  font-size:.82rem;font-weight:700;color:#555;
+}
+.fc-cards-list{
+  overflow-y:auto;flex:1;
+  display:flex;flex-direction:column;gap:.45rem;
+}
+.fc-cards-list::-webkit-scrollbar{width:4px}
+.fc-cards-list::-webkit-scrollbar-track{background:#f5f5f5;border-radius:2px}
+.fc-cards-list::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
+
+/* Import */
+.fc-import-hint{font-size:.83rem;color:#666;margin-bottom:.7rem;line-height:1.6}
+.fc-import-hint code{
+  background:#f0f2ff;color:#667eea;
+  padding:1px 6px;border-radius:5px;font-size:.8rem;
+}
+.fc-import-example{
+  background:#f5f7ff;border:1px solid #e0e7ff;
+  border-radius:10px;padding:.75rem 1rem;
+  font-size:.78rem;color:#555;
+  margin-bottom:.9rem;font-family:monospace;line-height:2;
+}
+
+@media(max-width:640px){
+  .fc-row{grid-template-columns:1fr}
+  .fc-cards-body{grid-template-columns:1fr;max-height:none;overflow:visible}
+  .fc-cards-list{max-height:220px}
+  .fc-modal-lg{max-height:95vh}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-solid">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="EduPass Logo" class="logo-img">
+            <span class="logo-text">EduPass</span>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">🏠 Trang chủ</a></li>
+            <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+            <li class="nav-dropdown">
+                <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    ✏️ Luyện thi <span class="nav-arrow">▾</span>
+                </a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
+                    <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
+                    <li><a href="note-lich-hoc.html"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
+                    <li><a href="flashcard.html" class="active"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                </ul>
+            </li>
+            <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+            <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
+            <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
+        </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-badge">🃏 Flashcard thông minh</span>
+      <h1>Ôn tập <span class="hero-hl">siêu tốc</span><br>với Flashcard</h1>
+      <p>Học từ vựng, công thức và kiến thức trọng tâm bằng phương pháp lặp lại ngắt quãng — hiệu quả đã được khoa học chứng minh.</p>
+      <div class="hero-stats">
+        <div><span class="stat-num" id="sTotal">0</span><span class="stat-lbl">Thẻ đã tạo</span></div>
+        <div class="stat-div"></div>
+        <div><span class="stat-num" id="sDecks">0</span><span class="stat-lbl">Bộ thẻ</span></div>
+        <div class="stat-div"></div>
+        <div><span class="stat-num" id="sLearned">0</span><span class="stat-lbl">Đã thuộc</span></div>
+      </div>
+    </div>
+    <div class="demo-wrap" id="demoCard" onclick="this.classList.toggle('flipped')">
+      <div class="demo-inner">
+        <div class="demo-f">
+          <div class="demo-lbl">Câu hỏi</div>
+          <div class="demo-word">Photosynthesis</div>
+          <div class="demo-hint">Nhấn để lật 👆</div>
+        </div>
+        <div class="demo-b">
+          <div class="demo-lbl">Đáp án</div>
+          <div class="demo-word">Quang hợp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HƯỚNG DẪN SỬ DỤNG -->
+<section class="fc-guide">
+  <div class="fc-guide-inner">
+    <div class="fc-guide-header">
+      <span class="fc-guide-badge">📖 Hướng dẫn sử dụng</span>
+      <h2>Bắt đầu chỉ trong <span class="fc-guide-hl">3 bước đơn giản</span></h2>
+    </div>
+    <div class="fc-guide-steps">
+      <div class="fc-guide-step">
+        <div class="fc-step-num">1</div>
+        <div class="fc-step-icon">🗂️</div>
+        <h3>Tạo bộ thẻ</h3>
+        <p>Nhấn <strong>＋ Tạo bộ thẻ mới</strong>, đặt tên, chọn môn học và màu sắc yêu thích.</p>
+      </div>
+      <div class="fc-guide-arrow">→</div>
+      <div class="fc-guide-step">
+        <div class="fc-step-num">2</div>
+        <div class="fc-step-icon">✏️</div>
+        <h3>Thêm thẻ</h3>
+        <p>Nhấn <strong>✏️ Thẻ</strong> để thêm câu hỏi và đáp án. Có thể import hàng loạt bằng dấu <code>|</code>.</p>
+      </div>
+      <div class="fc-guide-arrow">→</div>
+      <div class="fc-guide-step">
+        <div class="fc-step-num">3</div>
+        <div class="fc-step-icon">🚀</div>
+        <h3>Học ngay</h3>
+        <p>Nhấn <strong>🚀 Học</strong> để bắt đầu. Chọn chế độ <em>Lật thẻ</em>, <em>Trắc nghiệm</em> hoặc <em>Điền từ</em>.</p>
+      </div>
+    </div>
+
+    <div class="fc-guide-tips">
+      <div class="fc-tip">
+        <span class="fc-tip-ico">⌨️</span>
+        <div><strong>Phím tắt khi học:</strong> <kbd>Space</kbd> lật thẻ &nbsp;·&nbsp; <kbd>←</kbd> <kbd>→</kbd> chuyển thẻ &nbsp;·&nbsp; <kbd>Esc</kbd> thoát</div>
+      </div>
+      <div class="fc-tip">
+        <span class="fc-tip-ico">📥</span>
+        <div><strong>Import nhanh:</strong> Mỗi dòng 1 thẻ, dùng <code>|</code> phân cách — VD: <code>Photosynthesis | Quang hợp</code></div>
+      </div>
+      <div class="fc-tip">
+        <span class="fc-tip-ico">✅</span>
+        <div><strong>Theo dõi tiến độ:</strong> Đánh dấu <em>Đã thuộc</em> để thống kê % hoàn thành trên mỗi bộ thẻ</div>
+      </div>
+    </div>
+
+    <!-- LƯU Ý -->
+    <div class="fc-notes">
+      <div class="fc-notes-title">📌 Lưu ý cho học viên</div>
+      <div class="fc-notes-grid">
+        <div class="fc-note fc-note-yellow">
+          <span class="fc-note-ico">⚠️</span>
+          <div>
+            <strong>Tối thiểu 4 thẻ</strong>
+            <p>Mỗi bộ thẻ cần ít nhất <strong>4 thẻ</strong> mới có thể bắt đầu học. Hãy thêm đủ thẻ trước khi nhấn Học.</p>
+          </div>
+        </div>
+        <div class="fc-note fc-note-blue">
+          <span class="fc-note-ico">💾</span>
+          <div>
+            <strong>Dữ liệu lưu trên trình duyệt</strong>
+            <p>Thẻ được lưu trong bộ nhớ trình duyệt. Xoá cache hoặc đổi trình duyệt sẽ <strong>mất dữ liệu</strong>. Hãy ghi chép lại nếu cần.</p>
+          </div>
+        </div>
+        <div class="fc-note fc-note-green">
+          <span class="fc-note-ico">🔄</span>
+          <div>
+            <strong>Ôn luyện đều đặn</strong>
+            <p>Phương pháp Spaced Repetition hiệu quả nhất khi bạn ôn <strong>mỗi ngày 10–15 phút</strong> thay vì học dồn một lúc.</p>
+          </div>
+        </div>
+        <div class="fc-note fc-note-purple">
+          <span class="fc-note-ico">🎯</span>
+          <div>
+            <strong>Chọn chế độ phù hợp</strong>
+            <p><em>Lật thẻ</em> để ôn tổng quát · <em>Trắc nghiệm</em> để kiểm tra · <em>Điền từ</em> để luyện nhớ sâu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.fc-notes{margin-top:2rem}
+.fc-notes-title{
+  font-size:.82rem;font-weight:800;color:#888;
+  text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:.9rem;
+}
+.fc-notes-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:.75rem;
+}
+.fc-note{
+  display:flex;align-items:flex-start;gap:.85rem;
+  border-radius:14px;padding:1rem 1.1rem;
+  border:1.5px solid transparent;
+}
+.fc-note-ico{font-size:1.3rem;flex-shrink:0;margin-top:.05rem}
+.fc-note strong{display:block;font-size:.88rem;font-weight:800;margin-bottom:.25rem}
+.fc-note p{font-size:.82rem;line-height:1.6;margin:0}
+
+.fc-note-yellow{background:#fffbeb;border-color:#fde68a;color:#78350f}
+.fc-note-yellow strong{color:#92400e}
+.fc-note-blue{background:#eff6ff;border-color:#bfdbfe;color:#1e3a5f}
+.fc-note-blue strong{color:#1d4ed8}
+.fc-note-green{background:#f0fdf4;border-color:#bbf7d0;color:#14532d}
+.fc-note-green strong{color:#15803d}
+.fc-note-purple{background:#faf5ff;border-color:#e9d5ff;color:#4c1d95}
+.fc-note-purple strong{color:#7c3aed}
+</style>
+
+<style>
+.fc-guide{background:#fff;padding:3.5rem 2rem;border-bottom:1px solid #f0f2f8}
+.fc-guide-inner{max-width:1100px;margin:0 auto}
+.fc-guide-header{text-align:center;margin-bottom:2.5rem}
+.fc-guide-badge{
+  display:inline-block;background:#f0f4ff;color:#667eea;
+  font-size:.8rem;font-weight:700;padding:.35rem 1rem;
+  border-radius:50px;margin-bottom:.8rem;
+}
+.fc-guide-header h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:900;color:#1a1a2e;margin:0}
+.fc-guide-hl{background:linear-gradient(135deg,#667eea,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.fc-guide-steps{
+  display:flex;align-items:center;justify-content:center;
+  gap:1rem;margin-bottom:2.5rem;flex-wrap:wrap;
+}
+.fc-guide-step{
+  background:#fafbff;border:1.5px solid #e8eaf6;
+  border-radius:20px;padding:1.8rem 1.5rem;
+  text-align:center;flex:1;min-width:200px;max-width:280px;
+  transition:transform .2s,box-shadow .2s;
+}
+.fc-guide-step:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(102,126,234,.12)}
+.fc-step-num{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,#667eea,#764ba2);
+  color:#fff;font-size:.78rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto .8rem;
+}
+.fc-step-icon{font-size:2.2rem;margin-bottom:.7rem;line-height:1}
+.fc-guide-step h3{font-size:1rem;font-weight:800;color:#1a1a2e;margin-bottom:.5rem}
+.fc-guide-step p{font-size:.85rem;color:#666;line-height:1.65;margin:0}
+.fc-guide-step strong{color:#667eea}
+.fc-guide-step code{background:#f0f4ff;color:#667eea;padding:1px 5px;border-radius:4px;font-size:.82rem}
+
+.fc-guide-arrow{font-size:1.5rem;color:#c7d2fe;flex-shrink:0}
+
+.fc-guide-tips{
+  display:flex;flex-direction:column;gap:.7rem;
+  background:#f5f7ff;border:1px solid #e0e7ff;
+  border-radius:16px;padding:1.2rem 1.5rem;
+}
+.fc-tip{
+  display:flex;align-items:flex-start;gap:.9rem;
+  font-size:.88rem;color:#555;line-height:1.6;
+}
+.fc-tip-ico{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.fc-tip strong{color:#1a1a2e}
+.fc-tip code{background:#e8edff;color:#667eea;padding:1px 6px;border-radius:4px;font-size:.82rem}
+.fc-tip kbd{
+  background:#1a1a2e;color:#fff;
+  padding:1px 7px;border-radius:5px;
+  font-size:.78rem;font-family:inherit;
+}
+@media(max-width:640px){
+  .fc-guide-arrow{display:none}
+  .fc-guide-step{max-width:100%}
+}
+</style>
+
+<!-- HỆ SINH THÁI FLASHCARD -->
+<section class="fce-section">
+  <div class="fce-inner">
+    <div class="fce-header">
+      <span class="fce-badge">✨ 3 chế độ học tập</span>
+      <h2>Hệ sinh thái <span class="fce-hl">Flashcard</span></h2>
+      <p>Mọi cách học bạn cần — trong một bộ thẻ duy nhất</p>
+    </div>
+    <div class="fce-cards">
+
+      <div class="fce-card fce-flip">
+        <div class="fce-card-icon">🃏</div>
+        <h3>Lật thẻ</h3>
+        <p>Xem câu hỏi, tự nhớ rồi lật để kiểm tra. Đánh giá mức độ thuộc để hệ thống theo dõi tiến độ.</p>
+        <div class="fce-tags">
+          <span>← → Chuyển thẻ</span>
+          <span>Space Lật thẻ</span>
+          <span>✅ Đã thuộc</span>
+        </div>
+      </div>
+
+      <div class="fce-card fce-quiz">
+        <div class="fce-card-icon">✏️</div>
+        <h3>Trắc nghiệm</h3>
+        <p>Chọn đáp án đúng trong 4 lựa chọn. Hệ thống tự tạo câu hỏi ngẫu nhiên từ bộ thẻ của bạn.</p>
+        <div class="fce-tags">
+          <span>4 đáp án</span>
+          <span>Ngẫu nhiên</span>
+          <span>Phản hồi tức thì</span>
+        </div>
+      </div>
+
+      <div class="fce-card fce-write">
+        <div class="fce-card-icon">✍️</div>
+        <h3>Điền từ</h3>
+        <p>Tự gõ đáp án không cần gợi ý. Chế độ khó nhất, giúp ghi nhớ sâu và lâu hơn.</p>
+        <div class="fce-tags">
+          <span>Gõ tay</span>
+          <span>Enter kiểm tra</span>
+          <span>Nhớ sâu hơn</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.fce-section{background:linear-gradient(135deg,#0f0c29,#1a1040,#16213e);padding:4rem 2rem;position:relative;overflow:hidden}
+.fce-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(102,126,234,.2) 0%,transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(167,139,250,.15) 0%,transparent 50%);pointer-events:none}
+.fce-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.fce-header{text-align:center;margin-bottom:2.5rem}
+.fce-badge{display:inline-block;background:rgba(102,126,234,.2);border:1px solid rgba(102,126,234,.35);color:#c4b5fd;font-size:.8rem;font-weight:600;padding:.35rem 1rem;border-radius:50px;margin-bottom:.8rem}
+.fce-header h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#fff;margin-bottom:.5rem}
+.fce-hl{background:linear-gradient(135deg,#818cf8,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fce-header p{color:rgba(255,255,255,.55);font-size:.95rem}
+.fce-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.fce-card{
+  border-radius:20px;padding:2rem 1.6rem;
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(12px);
+  transition:transform .25s,box-shadow .25s;
+  position:relative;overflow:hidden;
+}
+.fce-card::before{content:'';position:absolute;inset:0;opacity:.06;pointer-events:none}
+.fce-card:hover{transform:translateY(-6px)}
+.fce-flip{background:rgba(79,70,229,.18);border-color:rgba(79,70,229,.35)}
+.fce-flip:hover{box-shadow:0 16px 40px rgba(79,70,229,.3)}
+.fce-quiz{background:rgba(245,87,108,.15);border-color:rgba(245,87,108,.3)}
+.fce-quiz:hover{box-shadow:0 16px 40px rgba(245,87,108,.25)}
+.fce-write{background:rgba(5,150,105,.15);border-color:rgba(5,150,105,.3)}
+.fce-write:hover{box-shadow:0 16px 40px rgba(5,150,105,.25)}
+.fce-card-icon{font-size:2.5rem;margin-bottom:1rem;line-height:1}
+.fce-card h3{font-size:1.15rem;font-weight:800;color:#fff;margin-bottom:.6rem}
+.fce-card p{font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:1.2rem}
+.fce-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.fce-tags span{
+  font-size:.72rem;font-weight:600;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.8);
+  padding:.25rem .7rem;border-radius:50px;
+}
+@media(max-width:768px){.fce-cards{grid-template-columns:1fr}}
+</style>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="toolbar">
+    <div class="toolbar-l">
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="fcSearch" placeholder="Tìm bộ thẻ..." oninput="onSearch(this.value)">
+      </div>
+      <div class="filters" id="filters">
+        <button class="ftab on" data-f="all">Tất cả</button>
+        <button class="ftab" data-f="Toán">📐 Toán</button>
+        <button class="ftab" data-f="Tiếng Anh">🇬🇧 Anh</button>
+        <button class="ftab" data-f="Vật Lý">⚡ Lý</button>
+        <button class="ftab" data-f="Hóa Học">🧪 Hóa</button>
+        <button class="ftab" data-f="Sinh Học">🧬 Sinh</button>
+        <button class="ftab" data-f="Lịch Sử">🏛️ Sử</button>
+        <button class="ftab" data-f="Địa Lý">🌍 Địa</button>
+        <button class="ftab" data-f="Ngữ Văn">📖 Văn</button>
+        <button class="ftab" data-f="Tiếng Pháp">🇫🇷 Pháp</button>
+        <button class="ftab" data-f="Tiếng Nhật">🇯🇵 Nhật</button>
+        <button class="ftab" data-f="Tiếng Trung">🇨🇳 Trung</button>
+        <button class="ftab" data-f="Tin Học">💻 Tin</button>
+        <button class="ftab" data-f="GDCD">⚖️ GDCD</button>
+        <button class="ftab" data-f="Khác">📚 Khác</button>
+      </div>
+    </div>
+    <button class="btn-new" id="btnNew">＋ Tạo bộ thẻ mới</button>
+  </div>
+  <div class="grid" id="fcGrid"></div>
+  <div class="empty" id="fcEmpty">
+    <div class="empty-ico">🃏</div>
+    <h3>Chưa có bộ thẻ nào</h3>
+    <p>Tạo bộ thẻ đầu tiên để bắt đầu ôn tập!</p>
+    <button class="btn-new" style="margin:0 auto" onclick="openDeckModal(null)">＋ Tạo ngay</button>
+  </div>
+</div>
+
+<!-- ===== MODAL TẠO/SỬA BỘ THẺ ===== -->
+<div id="mDeck" class="fc-overlay">
+  <div class="fc-modal fc-modal-sm">
+    <div class="fc-modal-head">
+      <div>
+        <h2 id="mDeckTitle">✨ Tạo bộ thẻ mới</h2>
+      </div>
+      <button class="fc-close" onclick="closeDeckModal()">✕</button>
+    </div>
+    <div class="fc-modal-body">
+      <div class="fc-field">
+        <label>Tên bộ thẻ <span class="fc-req">*</span></label>
+        <input id="iName" type="text" class="fc-input" placeholder="VD: Từ vựng Tiếng Anh Unit 1">
+      </div>
+      <div class="fc-row">
+        <div class="fc-field">
+          <label>Môn học</label>
+          <select id="iSubject" class="fc-input">
+            <option value="Tiếng Anh">🇬🇧 Tiếng Anh</option>
+            <option value="Toán">📐 Toán</option>
+            <option value="Ngữ Văn">📖 Ngữ Văn</option>
+            <option value="Vật Lý">⚡ Vật Lý</option>
+            <option value="Hóa Học">🧪 Hóa Học</option>
+            <option value="Sinh Học">🧬 Sinh Học</option>
+            <option value="Lịch Sử">🏛️ Lịch Sử</option>
+            <option value="Địa Lý">🌍 Địa Lý</option>
+            <option value="GDCD">⚖️ GDCD</option>
+            <option value="Tin Học">💻 Tin Học</option>
+            <option value="Tiếng Pháp">🇫🇷 Tiếng Pháp</option>
+            <option value="Tiếng Nhật">🇯🇵 Tiếng Nhật</option>
+            <option value="Tiếng Trung">🇨🇳 Tiếng Trung</option>
+            <option value="Tiếng Hàn">🇰🇷 Tiếng Hàn</option>
+            <option value="Tiếng Đức">🇩🇪 Tiếng Đức</option>
+            <option value="Công Nghệ">🔧 Công Nghệ</option>
+            <option value="Thể Dục">🏃 Thể Dục</option>
+            <option value="Âm Nhạc">🎵 Âm Nhạc</option>
+            <option value="Mỹ Thuật">🎨 Mỹ Thuật</option>
+            <option value="Khác">📚 Khác</option>
+          </select>
+        </div>
+        <div class="fc-field">
+          <label>Màu chủ đề</label>
+          <div id="iColors" class="fc-colors"></div>
+        </div>
+      </div>
+      <div class="fc-field">
+        <label>Mô tả <span class="fc-opt">(tuỳ chọn)</span></label>
+        <textarea id="iDesc" class="fc-input fc-textarea" rows="2" placeholder="Mô tả ngắn về bộ thẻ..."></textarea>
+      </div>
+    </div>
+    <div class="fc-modal-foot">
+      <button class="fc-btn-cancel" onclick="closeDeckModal()">Huỷ</button>
+      <button class="fc-btn-primary" onclick="saveDeck()">💾 Lưu bộ thẻ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL QUẢN LÝ THẺ ===== -->
+<div id="mCards" class="fc-overlay">
+  <div class="fc-modal fc-modal-lg">
+    <div class="fc-modal-head">
+      <div>
+        <h2 id="mCardsTitle">Quản lý thẻ</h2>
+        <span id="mCardsCount" class="fc-sub">0 thẻ</span>
+      </div>
+      <button class="fc-close" onclick="closeCardsModal()">✕</button>
+    </div>
+    <div class="fc-cards-body">
+      <!-- Sidebar thêm thẻ -->
+      <div class="fc-cards-sidebar">
+        <div class="fc-field">
+          <label>Mặt trước <span class="fc-req">*</span></label>
+          <textarea id="cFront" class="fc-input fc-textarea" rows="3" placeholder="Câu hỏi hoặc từ cần học..."></textarea>
+        </div>
+        <div class="fc-field">
+          <label>Mặt sau <span class="fc-req">*</span></label>
+          <textarea id="cBack" class="fc-input fc-textarea" rows="3" placeholder="Đáp án hoặc nghĩa của từ..."></textarea>
+        </div>
+        <div class="fc-field">
+          <label>Ghi chú <span class="fc-opt">(tuỳ chọn)</span></label>
+          <input id="cNote" type="text" class="fc-input" placeholder="Mẹo nhớ, ví dụ...">
+        </div>
+        <div class="fc-cards-actions">
+          <button id="btnAddCard" class="fc-btn-primary" onclick="addCard()">＋ Thêm thẻ</button>
+          <button class="fc-btn-icon" onclick="openImport()" title="Import hàng loạt">📥 Import</button>
+        </div>
+      </div>
+      <!-- Danh sách thẻ -->
+      <div class="fc-cards-list-wrap">
+        <div class="fc-cards-list-head">
+          <span>Danh sách thẻ</span>
+          <input id="cSearch" type="text" class="fc-input fc-input-sm" placeholder="🔍 Tìm thẻ..." oninput="filterCards()">
+        </div>
+        <div id="cList" class="fc-cards-list"></div>
+      </div>
+    </div>
+    <div class="fc-modal-foot">
+      <button class="fc-btn-cancel" onclick="closeCardsModal()">Đóng</button>
+      <button class="fc-btn-success" onclick="goStudy()">🚀 Học ngay</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL IMPORT ===== -->
+<div id="mImport" class="fc-overlay">
+  <div class="fc-modal fc-modal-sm">
+    <div class="fc-modal-head">
+      <h2>📥 Import thẻ hàng loạt</h2>
+      <button class="fc-close" onclick="closeImport()">✕</button>
+    </div>
+    <div class="fc-modal-body">
+      <p class="fc-import-hint">Mỗi dòng 1 thẻ, dùng <code>|</code> để phân cách mặt trước và mặt sau.</p>
+      <div class="fc-import-example">Photosynthesis | Quang hợp<br>Mitosis | Nguyên phân<br>Ecosystem | Hệ sinh thái</div>
+      <textarea id="iText" class="fc-input fc-textarea" rows="7" placeholder="Dán nội dung vào đây..."></textarea>
+    </div>
+    <div class="fc-modal-foot">
+      <button class="fc-btn-cancel" onclick="closeImport()">Huỷ</button>
+      <button class="fc-btn-primary" onclick="doImport()">📥 Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== STUDY OVERLAY ===== -->
+<div id="studyOv" style="display:none;position:fixed;inset:0;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);z-index:9500;flex-direction:column;overflow-y:auto">
+  <div style="max-width:700px;width:100%;margin:0 auto;padding:1.5rem 1.5rem 3rem;display:flex;flex-direction:column;min-height:100vh">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;flex-wrap:wrap">
+      <button onclick="exitStudy()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:50px;padding:.45rem 1rem;font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap">← Thoát</button>
+      <div id="sTitle" style="flex:1;font-size:.95rem;font-weight:700;color:rgba(255,255,255,.85);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+      <div style="display:flex;gap:.35rem">
+        <button id="bFlip" onclick="setMode('flip')" style="border-radius:50px;padding:.38rem .85rem;font-size:.78rem;font-weight:600;cursor:pointer;border:1px solid rgba(102,126,234,.6);background:rgba(102,126,234,.35);color:#fff">🃏 Lật thẻ</button>
+        <button id="bQuiz" onclick="setMode('quiz')" style="border-radius:50px;padding:.38rem .85rem;font-size:.78rem;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.65)">✏️ Trắc nghiệm</button>
+        <button id="bWrite" onclick="setMode('write')" style="border-radius:50px;padding:.38rem .85rem;font-size:.78rem;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.65)">✍️ Điền từ</button>
+      </div>
+    </div>
+    <!-- Progress -->
+    <div style="margin-bottom:1.8rem">
+      <div style="height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-bottom:.45rem">
+        <div id="sProg" style="height:100%;background:linear-gradient(90deg,#667eea,#a78bfa);border-radius:3px;transition:width .4s;width:0"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.5)">
+        <span id="sProgTxt">0 / 0</span><span id="sScore">✅ 0 &nbsp; ❌ 0</span>
+      </div>
+    </div>
+
+    <!-- FLIP -->
+    <div id="pFlip" style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div style="perspective:1100px;width:100%;max-width:500px;margin:0 auto 1.4rem">
+        <div id="sCard" onclick="flipCard()" style="width:100%;height:250px;cursor:pointer;position:relative">
+          <div id="sCardInner" style="width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:26px">
+            <div style="position:absolute;inset:0;border-radius:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.2rem;text-align:center;background:linear-gradient(135deg,#667eea,#764ba2);box-shadow:0 20px 55px rgba(102,126,234,.35)">
+              <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:.9rem">Câu hỏi</div>
+              <div id="sFront" style="font-size:clamp(1rem,3vw,1.7rem);font-weight:800;color:#fff;line-height:1.3;margin-bottom:.4rem"></div>
+              <div id="sFrontNote" style="font-size:.8rem;color:rgba(255,255,255,.7);font-style:italic"></div>
+              <div style="position:absolute;bottom:1rem;font-size:.72rem;color:rgba(255,255,255,.4);animation:pulse 2s ease-in-out infinite">Nhấn để xem đáp án 👆</div>
+            </div>
+            <div style="position:absolute;inset:0;border-radius:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.2rem;text-align:center;background:linear-gradient(135deg,#11998e,#38ef7d);box-shadow:0 20px 55px rgba(17,153,142,.35)">
+              <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:.9rem">Đáp án</div>
+              <div id="sBack" style="font-size:clamp(1rem,3vw,1.7rem);font-weight:800;color:#fff;line-height:1.3;margin-bottom:.4rem"></div>
+              <div id="sBackNote" style="font-size:.8rem;color:rgba(255,255,255,.7);font-style:italic"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="flipAns" style="display:none;gap:.8rem;justify-content:center;margin-bottom:1.3rem;flex-wrap:wrap">
+        <button onclick="answer(false)" style="border:2px solid rgba(229,57,53,.3);background:rgba(229,57,53,.15);color:#ff6b6b;border-radius:50px;padding:.6rem 1.3rem;font-size:.88rem;font-weight:700;cursor:pointer">❌ Chưa thuộc</button>
+        <button onclick="answer('hard')" style="border:2px solid rgba(255,152,0,.3);background:rgba(255,152,0,.15);color:#ffb74d;border-radius:50px;padding:.6rem 1.3rem;font-size:.88rem;font-weight:700;cursor:pointer">😅 Khó nhớ</button>
+        <button onclick="answer(true)" style="border:2px solid rgba(56,239,125,.3);background:rgba(56,239,125,.15);color:#38ef7d;border-radius:50px;padding:.6rem 1.3rem;font-size:.88rem;font-weight:700;cursor:pointer">✅ Đã thuộc</button>
+      </div>
+      <div id="flipNav" style="display:flex;align-items:center;gap:1.2rem;justify-content:center">
+        <button onclick="prevCard()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);border-radius:50px;padding:.45rem 1.1rem;font-size:.85rem;font-weight:600;cursor:pointer">← Trước</button>
+        <span id="flipInfo" style="font-size:.85rem;color:rgba(255,255,255,.5)"></span>
+        <button onclick="nextCard()" style="background:rgba(102,126,234,.3);border:1px solid rgba(102,126,234,.5);color:#fff;border-radius:50px;padding:.45rem 1.1rem;font-size:.85rem;font-weight:600;cursor:pointer">Tiếp →</button>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="pQuiz" style="display:none;flex:1;flex-direction:column;align-items:center">
+      <div id="qQ" style="font-size:1.3rem;font-weight:800;color:#fff;text-align:center;margin-bottom:1.8rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem;width:100%;max-width:500px"></div>
+      <div id="qOpts" style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;width:100%;max-width:500px;margin-bottom:.9rem"></div>
+      <div id="qFb" style="display:none;font-size:.9rem;font-weight:700;text-align:center;padding:.65rem 1.4rem;border-radius:50px;margin-bottom:.9rem"></div>
+      <button id="qNext" onclick="nextQuiz()" style="display:none;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:50px;padding:.65rem 1.8rem;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer">Tiếp theo →</button>
+    </div>
+
+    <!-- WRITE -->
+    <div id="pWrite" style="display:none;flex:1;flex-direction:column;align-items:center">
+      <div id="wQ" style="font-size:1.3rem;font-weight:800;color:#fff;text-align:center;margin-bottom:1.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem;width:100%;max-width:500px"></div>
+      <input id="wIn" type="text" placeholder="Nhập đáp án của bạn..."
+        style="width:100%;max-width:500px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:12px;padding:.85rem 1.1rem;font-size:.95rem;color:#fff;outline:none;margin-bottom:.9rem;font-family:inherit"
+        onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='rgba(255,255,255,.2)'">
+      <button onclick="checkWrite()" style="background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:50px;padding:.65rem 1.8rem;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:.9rem">Kiểm tra ✓</button>
+      <div id="wFb" style="display:none;font-size:.9rem;font-weight:700;text-align:center;padding:.65rem 1.4rem;border-radius:50px;margin-bottom:.9rem"></div>
+      <button id="wNext" onclick="nextWrite()" style="display:none;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:50px;padding:.65rem 1.8rem;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer">Tiếp theo →</button>
+    </div>
+
+    <!-- RESULT -->
+    <div id="pResult" style="display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem">
+      <div id="rIco" style="font-size:4.5rem;margin-bottom:.9rem">🎉</div>
+      <h2 id="rTitle" style="font-size:1.9rem;font-weight:900;color:#fff;margin-bottom:.4rem"></h2>
+      <p id="rDesc" style="color:rgba(255,255,255,.65);margin-bottom:1.8rem;font-size:.95rem"></p>
+      <div style="display:flex;gap:1.3rem;margin-bottom:2rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.3rem 2rem">
+        <div style="text-align:center"><span id="rOk" style="display:block;font-size:2.3rem;font-weight:900;color:#38ef7d;line-height:1">0</span><small style="font-size:.75rem;color:rgba(255,255,255,.5)">Đúng</small></div>
+        <div style="text-align:center"><span id="rNo" style="display:block;font-size:2.3rem;font-weight:900;color:#ff6b6b;line-height:1">0</span><small style="font-size:.75rem;color:rgba(255,255,255,.5)">Sai</small></div>
+        <div style="text-align:center"><span id="rPct" style="display:block;font-size:2.3rem;font-weight:900;color:#a78bfa;line-height:1">0%</span><small style="font-size:.75rem;color:rgba(255,255,255,.5)">Tỉ lệ</small></div>
+      </div>
+      <div style="display:flex;gap:.9rem">
+        <button onclick="restartStudy()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:50px;padding:.65rem 1.5rem;font-size:.88rem;font-weight:700;cursor:pointer">🔄 Học lại</button>
+        <button onclick="exitStudy()" style="background:linear-gradient(135deg,#11998e,#38ef7d);border:none;border-radius:50px;padding:.65rem 1.5rem;font-size:.88rem;font-weight:700;color:#fff;cursor:pointer">← Về bộ thẻ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a2e;color:#fff;padding:.75rem 1.6rem;border-radius:50px;font-size:.88rem;font-weight:600;box-shadow:0 8px 28px rgba(0,0,0,.3);z-index:99999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap"></div>
+
+<style>
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+</style>
+
+<script>
+// ===== DATA =====
+var decks=[];
+try{decks=JSON.parse(localStorage.getItem('fc_decks')||'[]');if(!Array.isArray(decks))decks=[];}catch(e){decks=[];}
+
+var curId=null,editIdx=null,editDeckId=null,selColor='blue';
+var filterSub='all',searchQ='';
+var sCards=[],sIdx=0,sMode='flip',sOk=0,sNo=0,sDeckId=null;
+var sFlipped=false,qDone=false,wDone=false;
+
+var COLORS={blue:'linear-gradient(135deg,#667eea,#764ba2)',green:'linear-gradient(135deg,#11998e,#38ef7d)',orange:'linear-gradient(135deg,#f093fb,#f5576c)',teal:'linear-gradient(135deg,#4facfe,#00f2fe)',gold:'linear-gradient(135deg,#f7971e,#ffd200)',red:'linear-gradient(135deg,#fd7043,#ff8a65)'};
+var ICONS={'Tiếng Anh':'🇬🇧','Toán':'📐','Ngữ Văn':'📖','Vật Lý':'⚡','Hóa Học':'🧪','Sinh Học':'🧬','Lịch Sử':'🏛️','Địa Lý':'🌍','GDCD':'⚖️','Tin Học':'💻','Tiếng Pháp':'🇫🇷','Tiếng Nhật':'🇯🇵','Tiếng Trung':'🇨🇳','Tiếng Hàn':'🇰🇷','Tiếng Đức':'🇩🇪','Công Nghệ':'🔧','Thể Dục':'🏃','Âm Nhạc':'🎵','Mỹ Thuật':'🎨','Khác':'📚'};
+
+function save(){localStorage.setItem('fc_decks',JSON.stringify(decks));}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._t);t._t=setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},2500);
+}
+
+function updateStats(){
+  var tot=decks.reduce(function(s,d){return s+d.cards.length;},0);
+  var lrn=decks.reduce(function(s,d){return s+d.cards.filter(function(c){return c.learned;}).length;},0);
+  document.getElementById('sTotal').textContent=tot;
+  document.getElementById('sDecks').textContent=decks.length;
+  document.getElementById('sLearned').textContent=lrn;
+}
+
+function renderDecks(){
+  var grid=document.getElementById('fcGrid');
+  var empty=document.getElementById('fcEmpty');
+  var list=decks.filter(function(d){
+    return(filterSub==='all'||d.subject===filterSub)&&(!searchQ||d.name.toLowerCase().indexOf(searchQ.toLowerCase())>=0);
+  });
+  if(list.length===0){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  grid.innerHTML=list.map(function(d){
+    var tot=d.cards.length;
+    var lrn=d.cards.filter(function(c){return c.learned;}).length;
+    var pct=tot>0?Math.round(lrn/tot*100):0;
+    var bg=COLORS[d.color]||COLORS.blue;
+    var ico=ICONS[d.subject]||'📚';
+    return '<div class="deck">'+
+      '<div class="deck-banner" style="background:'+bg+'"><span style="position:relative;z-index:1">'+ico+'</span></div>'+
+      '<div class="deck-body">'+
+        '<div class="deck-sub">'+esc(d.subject)+'</div>'+
+        '<div class="deck-name">'+esc(d.name)+'</div>'+
+        (d.desc?'<div class="deck-desc">'+esc(d.desc)+'</div>':'')+
+        '<div class="deck-meta"><span class="deck-cnt">🃏 '+tot+' thẻ</span><span>'+pct+'% đã thuộc</span></div>'+
+        '<div class="deck-bar"><div class="deck-fill" style="width:'+pct+'%"></div></div>'+
+      '</div>'+
+      '<div class="deck-btns">'+
+        '<button class="db db-s" onclick="startStudy(\''+d.id+'\')">🚀 Học</button>'+
+        '<button class="db db-e" onclick="openCardsModal(\''+d.id+'\')">✏️ Thẻ</button>'+
+        '<button class="db db-d" onclick="delDeck(\''+d.id+'\')">🗑️</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function onSearch(v){searchQ=v;renderDecks();}
+
+// ===== DECK MODAL =====
+function openDeckModal(id){
+  editDeckId=id||null;
+  var d=id?decks.find(function(x){return x.id===id;}):null;
+  document.getElementById('mDeckTitle').textContent=id?'Sửa bộ thẻ':'Tạo bộ thẻ mới';
+  document.getElementById('iName').value=d?d.name:'';
+  document.getElementById('iDesc').value=d?(d.desc||''):'';
+  document.getElementById('iSubject').value=d?d.subject:'Tiếng Anh';
+  selColor=d?d.color:'blue';
+  var cp=document.getElementById('iColors');
+  cp.innerHTML=Object.keys(COLORS).map(function(c){
+    return '<div onclick="pickColor(\''+c+'\')" id="col_'+c+'" style="width:26px;height:26px;border-radius:50%;cursor:pointer;background:'+COLORS[c]+';border:3px solid '+(c===selColor?'#1a1a2e':'transparent')+';flex-shrink:0"></div>';
+  }).join('');
+  show('mDeck');
+  setTimeout(function(){document.getElementById('iName').focus();},100);
+}
+function closeDeckModal(){hide('mDeck');}
+function pickColor(c){
+  selColor=c;
+  Object.keys(COLORS).forEach(function(k){
+    var el=document.getElementById('col_'+k);
+    if(el)el.style.borderColor=(k===c?'#1a1a2e':'transparent');
+  });
+}
+function saveDeck(){
+  var name=document.getElementById('iName').value.trim();
+  if(!name){toast('⚠️ Vui lòng nhập tên bộ thẻ');return;}
+  var subject=document.getElementById('iSubject').value;
+  var desc=document.getElementById('iDesc').value.trim();
+  if(editDeckId){
+    var d=decks.find(function(x){return x.id===editDeckId;});
+    if(d){d.name=name;d.subject=subject;d.desc=desc;d.color=selColor;}
+    toast('✅ Đã cập nhật bộ thẻ');
+  }else{
+    decks.unshift({id:'d'+Date.now(),name:name,subject:subject,desc:desc,color:selColor,cards:[],createdAt:Date.now()});
+    toast('✅ Đã tạo bộ thẻ mới');
+  }
+  save();renderDecks();updateStats();hide('mDeck');
+}
+function delDeck(id){
+  if(!confirm('Xoá bộ thẻ này?'))return;
+  decks=decks.filter(function(d){return d.id!==id;});
+  save();renderDecks();updateStats();toast('🗑️ Đã xoá');
+}
+
+// ===== CARDS MODAL =====
+function openCardsModal(id){
+  curId=id;editIdx=null;
+  var d=decks.find(function(x){return x.id===id;});
+  if(!d)return;
+  document.getElementById('mCardsTitle').textContent=d.name;
+  document.getElementById('cFront').value='';
+  document.getElementById('cBack').value='';
+  document.getElementById('cNote').value='';
+  document.getElementById('cSearch').value='';
+  document.getElementById('btnAddCard').textContent='＋ Thêm thẻ';
+  renderCards(d);
+  show('mCards');
+  setTimeout(function(){document.getElementById('cFront').focus();},100);
+}
+function closeCardsModal(){hide('mCards');curId=null;editIdx=null;}
+
+function renderCards(d){
+  var q=(document.getElementById('cSearch').value||'').toLowerCase();
+  var need=Math.max(0,4-d.cards.length);
+  document.getElementById('mCardsCount').textContent=d.cards.length+' thẻ'+(need>0?' · ⚠️ Cần thêm '+need+' thẻ nữa':'✅ Đủ để học');
+  var items=d.cards.map(function(c,i){return{c:c,i:i};}).filter(function(x){
+    return!q||x.c.front.toLowerCase().indexOf(q)>=0||x.c.back.toLowerCase().indexOf(q)>=0;
+  });
+  var list=document.getElementById('cList');
+  if(items.length===0){
+    list.innerHTML='<div style="text-align:center;color:#aaa;padding:2rem;font-size:.83rem">Chưa có thẻ nào. Thêm thẻ đầu tiên!</div>';
+    return;
+  }
+  list.innerHTML=items.map(function(x,di){
+    return '<div style="background:#fafbff;border:1.5px solid #e8edff;border-radius:11px;padding:.6rem .8rem;display:flex;align-items:flex-start;gap:.6rem">'+
+      '<span style="font-size:.68rem;font-weight:800;color:#aaa;background:#f0f0f0;border-radius:5px;padding:.15rem .4rem;flex-shrink:0;margin-top:2px">'+(di+1)+'</span>'+
+      '<div style="flex:1;min-width:0">'+
+        '<div style="font-size:.84rem;font-weight:700;color:#333;margin-bottom:.18rem">'+esc(x.c.front)+'</div>'+
+        '<div style="font-size:.78rem;color:#667eea">'+esc(x.c.back)+'</div>'+
+        (x.c.note?'<div style="font-size:.72rem;color:#aaa;font-style:italic;margin-top:.12rem">'+esc(x.c.note)+'</div>':'')+
+      '</div>'+
+      '<div style="display:flex;gap:.2rem;flex-shrink:0">'+
+        '<button onclick="editCard('+x.i+')" style="background:none;border:none;cursor:pointer;font-size:.8rem;padding:.18rem .32rem;border-radius:5px;color:#aaa">✏️</button>'+
+        '<button onclick="delCard('+x.i+')" style="background:none;border:none;cursor:pointer;font-size:.8rem;padding:.18rem .32rem;border-radius:5px;color:#aaa">🗑️</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+function filterCards(){
+  var d=decks.find(function(x){return x.id===curId;});
+  if(d)renderCards(d);
+}
+function addCard(){
+  var front=document.getElementById('cFront').value.trim();
+  var back=document.getElementById('cBack').value.trim();
+  var note=document.getElementById('cNote').value.trim();
+  if(!front||!back){toast('⚠️ Nhập đủ mặt trước và mặt sau');return;}
+  var d=decks.find(function(x){return x.id===curId;});
+  if(!d){toast('❌ Không tìm thấy bộ thẻ');return;}
+  if(editIdx!==null){
+    d.cards[editIdx]={front:front,back:back,note:note,learned:d.cards[editIdx].learned};
+    editIdx=null;document.getElementById('btnAddCard').textContent='＋ Thêm thẻ';
+    toast('✅ Đã cập nhật thẻ');
+  }else{
+    d.cards.push({front:front,back:back,note:note,learned:false});
+    toast('✅ Đã thêm thẻ');
+  }
+  document.getElementById('cFront').value='';
+  document.getElementById('cBack').value='';
+  document.getElementById('cNote').value='';
+  document.getElementById('cFront').focus();
+  save();renderCards(d);renderDecks();updateStats();
+}
+function editCard(i){
+  var d=decks.find(function(x){return x.id===curId;});
+  if(!d||!d.cards[i])return;
+  var c=d.cards[i];
+  document.getElementById('cFront').value=c.front;
+  document.getElementById('cBack').value=c.back;
+  document.getElementById('cNote').value=c.note||'';
+  document.getElementById('btnAddCard').textContent='💾 Lưu thẻ';
+  editIdx=i;document.getElementById('cFront').focus();
+}
+function delCard(i){
+  var d=decks.find(function(x){return x.id===curId;});
+  if(!d)return;
+  d.cards.splice(i,1);
+  if(editIdx===i){editIdx=null;document.getElementById('btnAddCard').textContent='＋ Thêm thẻ';}
+  save();renderCards(d);renderDecks();updateStats();toast('🗑️ Đã xoá thẻ');
+}
+function goStudy(){
+  var d=decks.find(function(x){return x.id===curId;});
+  if(!d||d.cards.length<4){toast('⚠️ Cần ít nhất 4 thẻ để bắt đầu học');return;}
+  var id=curId;closeCardsModal();startStudy(id);
+}
+
+// ===== IMPORT =====
+function openImport(){document.getElementById('iText').value='';show('mImport');}
+function closeImport(){hide('mImport');}
+function doImport(){
+  var text=document.getElementById('iText').value.trim();
+  if(!text)return;
+  var d=decks.find(function(x){return x.id===curId;});
+  if(!d)return;
+  var added=0;
+  text.split('\n').forEach(function(line){
+    var parts=line.split('|');
+    if(parts.length>=2){
+      var f=parts[0].trim(),b=parts[1].trim(),n=parts[2]?parts[2].trim():'';
+      if(f&&b){d.cards.push({front:f,back:b,note:n,learned:false});added++;}
+    }
+  });
+  save();renderCards(d);renderDecks();updateStats();closeImport();
+  toast('✅ Đã import '+added+' thẻ');
+}
+
+// ===== STUDY =====
+function startStudy(id){
+  var d=decks.find(function(x){return x.id===id;});
+  if(!d||d.cards.length<4){toast('⚠️ Cần ít nhất 4 thẻ để bắt đầu học');return;}
+  sDeckId=id;sCards=d.cards.slice().sort(function(){return Math.random()-.5;});
+  sIdx=0;sOk=0;sNo=0;
+  document.getElementById('sTitle').textContent=d.name;
+  document.getElementById('pResult').style.display='none';
+  document.getElementById('studyOv').style.display='flex';
+  setMode('flip');
+}
+function exitStudy(){document.getElementById('studyOv').style.display='none';}
+
+function setMode(m){
+  sMode=m;sIdx=0;sOk=0;sNo=0;
+  sCards=sCards.slice().sort(function(){return Math.random()-.5;});
+  ['pFlip','pQuiz','pWrite'].forEach(function(id){document.getElementById(id).style.display='none';});
+  document.getElementById('p'+m.charAt(0).toUpperCase()+m.slice(1)).style.display='flex';
+  ['bFlip','bQuiz','bWrite'].forEach(function(id){
+    var b=document.getElementById(id);
+    b.style.background='rgba(255,255,255,.08)';b.style.borderColor='rgba(255,255,255,.15)';b.style.color='rgba(255,255,255,.65)';
+  });
+  var ab=document.getElementById('b'+m.charAt(0).toUpperCase()+m.slice(1));
+  ab.style.background='rgba(102,126,234,.35)';ab.style.borderColor='rgba(102,126,234,.6)';ab.style.color='#fff';
+  document.getElementById('pResult').style.display='none';
+  renderStudyCard();
+}
+
+function updProg(){
+  var tot=sCards.length,pct=tot>0?Math.round(sIdx/tot*100):0;
+  document.getElementById('sProg').style.width=pct+'%';
+  document.getElementById('sProgTxt').textContent=sIdx+' / '+tot;
+  document.getElementById('sScore').textContent='✅ '+sOk+'   ❌ '+sNo;
+}
+function renderStudyCard(){
+  if(sCards.length===0)return;
+  if(sIdx>=sCards.length){showResult();return;}
+  updProg();
+  if(sMode==='flip')renderFlip(sCards[sIdx]);
+  else if(sMode==='quiz')renderQuiz(sCards[sIdx]);
+  else renderWrite(sCards[sIdx]);
+}
+
+function renderFlip(c){
+  sFlipped=false;
+  document.getElementById('sCardInner').style.transform='';
+  document.getElementById('sFront').textContent=c.front;
+  document.getElementById('sFrontNote').textContent='';
+  document.getElementById('sBack').textContent=c.back;
+  document.getElementById('sBackNote').textContent=c.note||'';
+  document.getElementById('flipAns').style.display='none';
+  document.getElementById('flipNav').style.display='flex';
+  document.getElementById('flipInfo').textContent=(sIdx+1)+' / '+sCards.length;
+}
+function flipCard(){
+  sFlipped=!sFlipped;
+  document.getElementById('sCardInner').style.transform=sFlipped?'rotateY(180deg)':'';
+  document.getElementById('flipAns').style.display=sFlipped?'flex':'none';
+  document.getElementById('flipNav').style.display=sFlipped?'none':'flex';
+}
+function answer(r){
+  var d=decks.find(function(x){return x.id===sDeckId;});
+  if(d){var o=d.cards.find(function(c){return c.front===sCards[sIdx].front;});if(o)o.learned=(r===true);}
+  if(r===true)sOk++;else sNo++;
+  save();sIdx++;renderStudyCard();
+}
+function prevCard(){if(sIdx>0){sIdx--;renderStudyCard();}}
+function nextCard(){sIdx++;renderStudyCard();}
+
+function renderQuiz(c){
+  qDone=false;
+  document.getElementById('qQ').textContent=c.front;
+  document.getElementById('qFb').style.display='none';
+  document.getElementById('qNext').style.display='none';
+  var others=sCards.filter(function(_,i){return i!==sIdx;}).map(function(x){return x.back;});
+  var wrongs=others.sort(function(){return Math.random()-.5;}).slice(0,3);
+  var opts=[c.back].concat(wrongs).sort(function(){return Math.random()-.5;});
+  var con=document.getElementById('qOpts');con.innerHTML='';
+  opts.forEach(function(opt){
+    var btn=document.createElement('button');
+    btn.textContent=opt;
+    btn.style.cssText='background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);color:rgba(255,255,255,.9);border-radius:12px;padding:.85rem .9rem;font-size:.88rem;font-weight:600;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s';
+    btn.onmouseover=function(){if(!btn.disabled)btn.style.background='rgba(102,126,234,.25)';};
+    btn.onmouseout=function(){if(!btn.disabled&&btn.style.borderColor!=='rgb(56, 239, 125)'&&btn.style.borderColor!=='rgb(255, 107, 107)')btn.style.background='rgba(255,255,255,.08)';};
+    btn.onclick=function(){
+      if(qDone)return;qDone=true;
+      var ok=(opt===c.back);
+      if(ok)sOk++;else sNo++;
+      con.querySelectorAll('button').forEach(function(b){
+        b.disabled=true;
+        if(b.textContent===c.back){b.style.background='rgba(56,239,125,.2)';b.style.borderColor='#38ef7d';b.style.color='#38ef7d';}
+        else if(b===btn&&!ok){b.style.background='rgba(229,57,53,.2)';b.style.borderColor='#ff6b6b';b.style.color='#ff6b6b';}
+      });
+      var fb=document.getElementById('qFb');
+      fb.textContent=ok?'✅ Chính xác!':'❌ Sai rồi! Đáp án: '+c.back;
+      fb.style.cssText='display:block;font-size:.9rem;font-weight:700;text-align:center;padding:.65rem 1.4rem;border-radius:50px;margin-bottom:.9rem;background:'+(ok?'rgba(56,239,125,.15)':'rgba(229,57,53,.15)')+';color:'+(ok?'#38ef7d':'#ff6b6b');
+      document.getElementById('qNext').style.display='block';
+      updProg();
+    };
+    con.appendChild(btn);
+  });
+}
+function nextQuiz(){sIdx++;renderStudyCard();}
+
+function renderWrite(c){
+  wDone=false;
+  document.getElementById('wQ').textContent=c.front;
+  document.getElementById('wIn').value='';
+  document.getElementById('wFb').style.display='none';
+  document.getElementById('wNext').style.display='none';
+  setTimeout(function(){document.getElementById('wIn').focus();},80);
+}
+function checkWrite(){
+  if(wDone)return;
+  var c=sCards[sIdx];
+  var inp=document.getElementById('wIn').value.trim().toLowerCase();
+  var cor=c.back.trim().toLowerCase();
+  wDone=true;
+  var ok=(inp===cor)||(cor.indexOf(inp)>=0&&inp.length>2);
+  if(ok)sOk++;else sNo++;
+  var fb=document.getElementById('wFb');
+  fb.textContent=ok?'✅ Chính xác!':'❌ Đáp án đúng: '+c.back;
+  fb.style.cssText='display:block;font-size:.9rem;font-weight:700;text-align:center;padding:.65rem 1.4rem;border-radius:50px;margin-bottom:.9rem;background:'+(ok?'rgba(56,239,125,.15)':'rgba(229,57,53,.15)')+';color:'+(ok?'#38ef7d':'#ff6b6b');
+  document.getElementById('wNext').style.display='block';
+  updProg();
+}
+function nextWrite(){sIdx++;renderStudyCard();}
+
+function showResult(){
+  ['pFlip','pQuiz','pWrite'].forEach(function(id){document.getElementById(id).style.display='none';});
+  var tot=sCards.length,pct=tot>0?Math.round(sOk/tot*100):0;
+  document.getElementById('rOk').textContent=sOk;
+  document.getElementById('rNo').textContent=sNo;
+  document.getElementById('rPct').textContent=pct+'%';
+  document.getElementById('rIco').textContent=pct>=80?'🎉':pct>=50?'💪':'📚';
+  document.getElementById('rTitle').textContent=pct>=80?'Xuất sắc!':pct>=50?'Khá tốt!':'Cần ôn thêm!';
+  document.getElementById('rDesc').textContent='Bạn đã trả lời đúng '+sOk+'/'+tot+' thẻ ('+pct+'%)';
+  document.getElementById('pResult').style.display='flex';
+  document.getElementById('sProg').style.width='100%';
+  save();renderDecks();updateStats();
+}
+function restartStudy(){
+  sIdx=0;sOk=0;sNo=0;
+  sCards=sCards.slice().sort(function(){return Math.random()-.5;});
+  document.getElementById('pResult').style.display='none';
+  setMode(sMode);
+}
+
+// ===== HELPERS =====
+function show(id){document.getElementById(id).classList.add('open');}
+function hide(id){document.getElementById(id).classList.remove('open');}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded',function(){
+  if(decks.length===0){
+    decks=[
+      {id:'d1',name:'Từ vựng Tiếng Anh - Unit 1',subject:'Tiếng Anh',desc:'Từ vựng chủ đề thiên nhiên',color:'blue',cards:[
+        {front:'Photosynthesis',back:'Quang hợp',note:'Photo=ánh sáng',learned:false},
+        {front:'Ecosystem',back:'Hệ sinh thái',note:'',learned:true},
+        {front:'Biodiversity',back:'Đa dạng sinh học',note:'',learned:false},
+        {front:'Deforestation',back:'Phá rừng',note:'',learned:false},
+        {front:'Renewable energy',back:'Năng lượng tái tạo',note:'',learned:true}
+      ]},
+      {id:'d2',name:'Công thức Vật Lý - Điện học',subject:'Vật Lý',desc:'Công thức điện học lớp 11',color:'teal',cards:[
+        {front:'Định luật Ohm',back:'U = I × R',note:'U(V), I(A), R(Ω)',learned:false},
+        {front:'Công suất điện',back:'P = U × I',note:'P tính bằng Watt',learned:false},
+        {front:'Điện trở nối tiếp',back:'R = R₁ + R₂',note:'',learned:true}
+      ]}
+    ];
+    save();
+  }
+  renderDecks();updateStats();
+
+  document.getElementById('btnNew').onclick=function(){openDeckModal(null);};
+
+  document.getElementById('filters').addEventListener('click',function(e){
+    var btn=e.target.closest('.ftab');
+    if(!btn)return;
+    document.querySelectorAll('.ftab').forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    filterSub=btn.dataset.f;
+    renderDecks();
+  });
+
+  document.getElementById('cBack').addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();addCard();}
+  });
+  document.getElementById('wIn').addEventListener('keydown',function(e){
+    if(e.key==='Enter')checkWrite();
+  });
+
+  ['mDeck','mCards','mImport'].forEach(function(id){
+    document.getElementById(id).addEventListener('click',function(e){
+      if(e.target===this)hide(id);
+    });
+  });
+
+  document.addEventListener('keydown',function(e){
+    var ov=document.getElementById('studyOv');
+    if(ov.style.display!=='flex')return;
+    if(e.key==='Escape')exitStudy();
+    if(e.key===' '&&sMode==='flip'){e.preventDefault();flipCard();}
+    if(e.key==='ArrowRight'&&sMode==='flip')nextCard();
+    if(e.key==='ArrowLeft'&&sMode==='flip')prevCard();
+  });
+});
+</script>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo-wrap"><img src="logo.png" alt="EduPass" class="footer-logo"></a>
+                <p class="footer-desc">Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                <p class="footer-tagline-new">✨ Learn today. Pass tomorrow.</p>
+            </div>
+            <div class="footer-col">
+                <h5 class="footer-col-title">Khám phá</h5>
+                <ul class="footer-nav">
+                    <li><a href="index.html">🏠 Trang chủ</a></li>
+                    <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+                    <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                    <li><a href="flashcard.html">🃏 Flashcard</a></li>
+                    <li><a href="note-lich-hoc.html">📓 Note & Lịch học</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5 class="footer-col-title">Về EduPass</h5>
+                <ul class="footer-nav">
+                                        <li><a href="gioi-thieu.html"> Giới thiệu</a></li>
+                    <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                    <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
+                    <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
+                    <li><a href="dang-nhap.html">🔑 Đăng nhập</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5 class="footer-col-title">Liên hệ</h5>
+                <ul class="footer-contact-list">
+                    <li><a href="mailto:edupasshotro@gmail.com">📧 edupasshotro@gmail.com</a></li>
+                    <li><a href="tel:0348908243">📱 0348 908 243</a></li>
+                    <li><a href="tel:0876422788">📱 0876 422 788</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-col-brand">
+                <h5 class="footer-col-title">EduPass</h5>
+                <p class="footer-copy">© 2026 EduPass.<br>All rights reserved.</p>
+                <p class="footer-slogan">Learn today.<br>Pass tomorrow.</p>
+                <p class="footer-slogan-vi">EduPass – Nền tảng học tập thông minh cho học sinh THPT</p>
+                <p class="footer-slogan-vi2">🎓 Học hôm nay · Đỗ ngày mai</p>
+            </div>
+        </div>
+        <div class="footer-bottom-new">
+                <div class="footer-team-block">
+                    <div class="ftb-top">
+                        <span class="ftb-school-badge"> Lớp 12A5  THCS-THPT Hòa Bình</span>
+                    </div>
+                    <div class="ftb-teacher">
+                        <div class="ftb-teacher-card">
+                            <span class="ftb-teacher-icon"></span>
+                            <div class="ftb-teacher-info">
+                                <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
+                                <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ftb-sep">
+                        <span class="ftb-sep-line"></span>
+                        <span class="ftb-sep-text">Thành viên nhóm</span>
+                        <span class="ftb-sep-line"></span>
+                    </div>
+                    <div class="footer-team-members">
+                        <span class="ftb-member">Tr.Cường</span>
+                        <span class="ftb-member">Như Anh</span>
+                        <span class="ftb-member">Gia Huy</span>
+                        <span class="ftb-member">Gia Hòa</span>
+                        <span class="ftb-member">Nguyễn Tiến</span>
+                        <span class="ftb-member">Nhất Duy</span>
+                        <span class="ftb-member">Trúc Ngân</span>
+                        <span class="ftb-member">Khang Lee</span>
+                    </div>
+                </div>
+            <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
+            <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</html>

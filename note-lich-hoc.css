@@ -409,10 +409,20 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .nlh-notes-layout { grid-template-columns: 1fr; }
+    .nlh-notes-layout {
+        grid-template-columns: 1fr;
+        min-height: unset;
+    }
     .nlh-schedule-layout { grid-template-columns: 1fr; }
-    .nlh-notes-sidebar { max-height: 260px; }
-    .nlh-note-textarea { min-height: 220px; }
+    .nlh-notes-sidebar {
+        max-height: 240px;
+        min-height: 160px;
+    }
+    .nlh-notes-editor {
+        min-height: 420px;
+    }
+    .nlh-note-textarea { min-height: 280px; }
+    .nlh-editor-active { height: auto; }
 }
 
 /* ===== TIMER TAB ===== */
@@ -765,3 +775,399 @@
     text-decoration: none;
 }
 .nlh-music-yt-link:hover { text-decoration: underline; }
+
+/* ==============================
+   THỜI KHÓA BIỂU
+   ============================== */
+.tkb-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+}
+
+.tkb-week-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(2,136,209,0.08);
+    border: 1px solid rgba(2,136,209,0.2);
+    border-radius: 10px;
+    padding: 0.35rem 0.75rem;
+}
+
+.tkb-nav-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #0288d1;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    line-height: 1;
+    transition: transform 0.15s;
+}
+.tkb-nav-btn:hover { transform: scale(1.2); }
+
+.tkb-week-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a2a3a;
+    white-space: nowrap;
+    min-width: 180px;
+    text-align: center;
+}
+
+.tkb-btn-today, .tkb-btn-save {
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tkb-btn-today {
+    background: rgba(2,136,209,0.1);
+    color: #0288d1;
+    border: 1px solid rgba(2,136,209,0.25);
+}
+.tkb-btn-today:hover { background: rgba(2,136,209,0.2); }
+
+.tkb-btn-save {
+    background: linear-gradient(135deg, #0288d1, #00897b);
+    color: white;
+    box-shadow: 0 3px 12px rgba(2,136,209,0.3);
+}
+.tkb-btn-save:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(2,136,209,0.4); }
+
+.tkb-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.07);
+}
+
+.tkb-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.tkb-table thead tr {
+    background: linear-gradient(135deg, #0288d1, #00897b);
+}
+
+.tkb-table thead th {
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+.tkb-th-session {
+    width: 72px;
+    text-align: center !important;
+}
+
+.tkb-session-row td {
+    background: linear-gradient(90deg, #f0f7ff, #f5fff8);
+    color: #0277bd;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 0.45rem 1rem;
+    border-top: 2px solid rgba(2,136,209,0.15);
+    letter-spacing: 0.3px;
+}
+
+.tkb-row:hover td { background: #f8fbff; }
+
+.tkb-slot-num {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #607d8b;
+    background: #f8fafc;
+    border-right: 1px solid #e8f0f7;
+    white-space: nowrap;
+    padding: 0.4rem 0.3rem;
+}
+
+.tkb-cell {
+    padding: 0.3rem 0.25rem;
+    border: 1px solid #eef2f7;
+    min-width: 100px;
+}
+
+.tkb-today-col {
+    background: rgba(2,136,209,0.04) !important;
+}
+
+.tkb-today-col .tkb-input {
+    border-color: rgba(2,136,209,0.3) !important;
+}
+
+.tkb-input {
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.82rem;
+    color: #1a2a3a;
+    background: transparent;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.tkb-input:focus {
+    outline: none;
+    border-color: #0288d1;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(2,136,209,0.1);
+}
+
+.tkb-input::placeholder { color: #cdd5db; }
+
+/* Toast */
+.tkb-saved-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: linear-gradient(135deg, #0288d1, #00897b);
+    color: white;
+    padding: 0.65rem 1.5rem;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 6px 24px rgba(2,136,209,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.tkb-saved-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 600px) {
+    .tkb-week-label { min-width: 140px; font-size: 0.8rem; }
+    .tkb-table { min-width: 500px; }
+    .tkb-input { font-size: 0.75rem; padding: 0.3rem; }
+}
+
+/* ── Gợi ý nhạc học ── */
+.nlh-music-suggest {
+    margin-top: 1.2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.2rem;
+}
+
+.nlh-ms-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1a2a3a;
+    margin-bottom: 0.9rem;
+    letter-spacing: 0.3px;
+}
+
+.nlh-ms-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+}
+
+.nlh-ms-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+}
+
+.nlh-ms-head {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0277bd;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.nlh-ms-tag {
+    font-size: 0.65rem;
+    background: rgba(2,136,209,0.1);
+    border: 1px solid rgba(2,136,209,0.25);
+    color: #0288d1;
+    border-radius: 20px;
+    padding: 0.1rem 0.5rem;
+    font-weight: 600;
+}
+
+.nlh-ms-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.nlh-ms-card ul li {
+    font-size: 0.76rem;
+    color: #334155;
+    padding-left: 0.8rem;
+    position: relative;
+}
+
+.nlh-ms-card ul li::before {
+    content: '♪';
+    position: absolute;
+    left: 0;
+    color: #42a5f5;
+    font-size: 0.7rem;
+}
+
+.nlh-ms-tip {
+    font-size: 0.72rem;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 0.4rem;
+}
+
+.nlh-ms-tips-box {
+    background: linear-gradient(135deg, rgba(2,136,209,0.08), rgba(0,200,83,0.06));
+    border: 1px solid rgba(2,136,209,0.15);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+}
+
+.nlh-ms-tips-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0277bd;
+    margin-bottom: 0.5rem;
+}
+
+.nlh-ms-tips-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.nlh-ms-tips-list span {
+    font-size: 0.75rem;
+    color: #334155;
+    background: rgba(2,136,209,0.07);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid rgba(2,136,209,0.15);
+}
+
+@media (max-width: 600px) {
+    .nlh-ms-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Toast thông báo đến hạn ── */
+.nlh-due-toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    min-width: 280px;
+    max-width: 360px;
+    padding: 0.9rem 1.2rem;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(.22,.68,0,1.2);
+    z-index: 99999;
+}
+
+.nlh-due-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.nlh-due-start  { background: linear-gradient(135deg, #0288d1, #00897b); }
+.nlh-due-remind { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.nlh-due-overdue { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+
+/* ============================================
+   NOTE & LỊCH HỌC — MOBILE OPTIMIZATION
+   ============================================ */
+@media (max-width: 768px) {
+    /* Timer layout */
+    .nlh-timer-layout { grid-template-columns: 1fr; }
+
+    /* TKB toolbar */
+    .tkb-toolbar { flex-wrap: wrap; gap: 0.5rem; }
+    .tkb-week-label { min-width: 120px; font-size: 0.78rem; }
+
+    /* Music card */
+    .nlh-music-presets { flex-wrap: wrap; gap: 0.4rem; }
+    .nlh-music-preset { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+    .nlh-music-input-row { flex-direction: column; }
+    .nlh-music-play-btn { width: 100%; }
+
+    /* Gợi ý nhạc */
+    .nlh-ms-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    /* Header */
+    .nlh-header { padding: 32px 16px 28px; }
+    .nlh-header h1 { font-size: 1.5rem; }
+
+    /* Tabs */
+    .nlh-tabs { gap: 0.3rem; flex-wrap: wrap; }
+    .nlh-tab { font-size: 0.78rem; padding: 0.45rem 0.75rem; }
+
+    /* Notes */
+    .nlh-notes-sidebar { max-height: 200px; min-height: 140px; }
+    .nlh-notes-editor { min-height: 380px; }
+    .nlh-editor-active { height: auto; padding: 0; }
+
+    /* Calendar */
+    .nlh-cal-day { font-size: 0.78rem; }
+    .nlh-cal-title { font-size: 0.9rem; }
+
+    /* Tasks */
+    .nlh-task-subject { font-size: 0.85rem; }
+    .nlh-tasks-header { font-size: 0.88rem; }
+
+    /* Timer */
+    .nlh-timer-card { padding: 20px 16px; }
+    .nlh-ring { width: 160px; height: 160px; }
+    .nlh-timer-display { font-size: 2rem; }
+    .nlh-pomo-modes { flex-wrap: wrap; }
+    .nlh-pomo-mode { font-size: 0.78rem; padding: 0.35rem 0.7rem; }
+
+    /* TKB */
+    .tkb-table { min-width: 480px; font-size: 0.75rem; }
+    .tkb-input { font-size: 0.72rem; padding: 0.25rem; }
+    .tkb-slot-num { font-size: 0.68rem; }
+
+    /* Stats */
+    .nlh-stats-row { gap: 0.5rem; }
+    .nlh-stat-num { font-size: 1.4rem; }
+
+    /* Toast */
+    .nlh-due-toast { right: 1rem; left: 1rem; min-width: unset; bottom: 1rem; }
+}
