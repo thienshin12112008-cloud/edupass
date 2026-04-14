@@ -13,6 +13,28 @@
     transform: scaleY(0);
     transform-origin: bottom;
     transition: transform .45s cubic-bezier(.77,0,.18,1), opacity .1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#ep-transition-logo {
+    width: 360px;
+    height: 360px;
+    object-fit: contain;
+    border-radius: 36px;
+    background: rgba(255,255,255,.15);
+    padding: 20px;
+    opacity: 0;
+    transform: scale(.7);
+    transition: opacity .25s ease .15s, transform .35s cubic-bezier(.22,.68,0,1.2) .15s;
+}
+#ep-transition.ep-out #ep-transition-logo {
+    opacity: 1;
+    transform: scale(1);
+}
+#ep-transition.ep-in #ep-transition-logo {
+    opacity: 0;
+    transform: scale(.7);
 }
 #ep-transition.ep-out {
     opacity: 1;

@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H�nh tr�nh h�nh th�nh EduPass - Learn today. Pass tomorrow</title>
+    <title>Hành trình hình thành EduPass - Learn today. Pass tomorrow</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0288d1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="EduPass">
-    <link rel="apple-touch-icon" href="logo.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="popup.css">
-    
+    <link rel="stylesheet" href="effects.css">
     <style>
         .journey-hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -23,517 +17,513 @@
             position: relative;
             overflow: hidden;
         }
-
         .journey-hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-            background-size: cover;
-            opacity: 0.3;
+            inset: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(255,255,255,.06) 0%, transparent 50%);
+            pointer-events: none;
         }
-
         .journey-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 25px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
             position: relative;
             z-index: 1;
-            animation: fadeInDown 1s ease;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 12px rgba(0,0,0,.2);
         }
-
         .journey-hero p {
-            font-size: 1.4rem;
-            opacity: 0.95;
-            max-width: 700px;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            opacity: .9;
+            max-width: 680px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
-            animation: fadeInUp 1s ease 0.3s both;
+            line-height: 1.7;
         }
-
         .journey-content {
             max-width: 1000px;
             margin: 80px auto;
             padding: 0 20px;
             position: relative;
         }
-
-        /* Timeline line */
         .journey-content::before {
             content: '';
             position: absolute;
             left: 50%;
-            top: 0;
-            bottom: 0;
+            top: 0; bottom: 0;
             width: 4px;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(180deg, #667eea, #764ba2);
             transform: translateX(-50%);
             z-index: 0;
+            border-radius: 4px;
         }
-
         .journey-phase {
             background: white;
             border-radius: 20px;
             padding: 40px;
             margin-bottom: 60px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,.1);
             border-left: 6px solid #667eea;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease forwards;
+            transition: transform .3s, box-shadow .3s;
             position: relative;
             z-index: 1;
         }
-
-        .journey-phase:nth-child(odd) {
-            margin-right: 52%;
-        }
-
-        .journey-phase:nth-child(even) {
-            margin-left: 52%;
-            border-left: none;
-            border-right: 6px solid #764ba2;
-        }
-
-        .journey-phase:nth-child(1) { animation-delay: 0.2s; }
-        .journey-phase:nth-child(2) { animation-delay: 0.4s; }
-        .journey-phase:nth-child(3) { animation-delay: 0.6s; }
-        .journey-phase:nth-child(4) { animation-delay: 0.8s; }
-        .journey-phase:nth-child(5) { animation-delay: 1s; }
-        .journey-phase:nth-child(6) { animation-delay: 1.2s; }
-
-        .journey-phase:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
-        }
-
-        .phase-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            display: block;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
+        .journey-phase:nth-child(odd)  { margin-right: 52%; }
+        .journey-phase:nth-child(even) { margin-left: 52%; border-left: none; border-right: 6px solid #764ba2; }
+        .journey-phase:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(102,126,234,.22); }
+        .phase-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
         .phase-title {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 1.9rem;
-            margin-bottom: 20px;
-            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            font-size: 1.7rem; font-weight: 800; margin-bottom: 16px;
         }
-
-        .phase-content {
-            color: #555;
-            line-height: 2;
-            font-size: 1.15rem;
-        }
-
+        .phase-content { color: #555; line-height: 1.9; font-size: 1.05rem; }
         .message-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 100px 20px;
-            margin-top: 80px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            padding: 80px 20px;
+        }
+        .message-box {
+            max-width: 860px; margin: 0 auto;
+            background: white; border-radius: 24px;
+            padding: 56px; box-shadow: 0 20px 60px rgba(0,0,0,.12);
+            border-top: 8px solid #667eea; text-align: center;
+        }
+        .message-icon { font-size: 4rem; margin-bottom: 24px; }
+        .message-title {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            font-size: 2.1rem; font-weight: 800; margin-bottom: 28px;
+        }
+        .message-text { color: #555; line-height: 2; font-size: 1.1rem; }
+        @media (max-width: 768px) {
+            .journey-content::before { left: 20px; }
+            .journey-phase:nth-child(odd),
+            .journey-phase:nth-child(even) { margin: 0 0 40px; border-left: 6px solid #667eea; border-right: none; }
+            .journey-phase { padding: 28px 22px; }
+            .phase-title { font-size: 1.3rem; }
+            .message-box { padding: 36px 22px; }
+            .message-title { font-size: 1.6rem; }
         }
 
-        .message-box {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 25px;
-            padding: 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            border-top: 8px solid #667eea;
+        /* ── Triết lý EduPass ── */
+        .ep-philosophy {
+            padding: 5rem 0;
+            background: linear-gradient(160deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             position: relative;
             overflow: hidden;
         }
-
-        .message-box::before {
+        .ep-philosophy::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102,126,234,.25) 0%, transparent 70%);
+            top: -150px; left: -100px;
+            pointer-events: none;
         }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .ep-philosophy::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(118,75,162,.2) 0%, transparent 70%);
+            bottom: -100px; right: -80px;
+            pointer-events: none;
         }
-
-        .message-icon {
-            font-size: 5rem;
+        .ep-phil-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 3rem;
             position: relative;
             z-index: 1;
         }
-
-        .message-title {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 2.3rem;
-            text-align: center;
-            margin-bottom: 35px;
+        .ep-phil-badge {
+            display: inline-block;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.2);
+            color: #c4b5fd;
+            font-size: .8rem;
             font-weight: 700;
+            padding: .4rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            letter-spacing: .4px;
+        }
+        .ep-phil-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: .6rem;
+        }
+        .ep-phil-header p {
+            color: rgba(255,255,255,.65);
+            font-size: 1rem;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+        .ep-phil-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.2rem;
             position: relative;
             z-index: 1;
+            margin-bottom: 3rem;
         }
-
-        .message-text {
-            color: #555;
-            line-height: 2.2;
-            font-size: 1.2rem;
+        .ep-phil-main {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(102,126,234,.25), rgba(118,75,162,.2));
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 22px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .ep-phil-quote {
+            font-size: 5rem;
+            line-height: .8;
+            color: rgba(196,181,253,.4);
+            font-family: Georgia, serif;
+            margin-bottom: .5rem;
+        }
+        .ep-phil-text {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,.9);
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto .8rem;
+        }
+        .ep-phil-text strong { color: #a78bfa; }
+        .ep-phil-author {
+            font-size: .85rem;
+            color: rgba(255,255,255,.5);
+            font-style: italic;
+        }
+        .ep-phil-card {
+            background: rgba(255,255,255,.07);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 20px;
+            padding: 1.8rem 1.6rem;
+            transition: transform .25s, background .25s;
+        }
+        .ep-phil-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,.12);
+        }
+        .ep-phil-icon {
+            font-size: 2.2rem;
+            margin-bottom: .75rem;
+            display: block;
+        }
+        .ep-phil-card h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #e9d5ff;
+            margin-bottom: .5rem;
+        }
+        .ep-phil-card p {
+            font-size: .85rem;
+            color: rgba(255,255,255,.65);
+            line-height: 1.65;
+            margin: 0;
+        }
+        .ep-phil-cta {
             text-align: center;
             position: relative;
             z-index: 1;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 24px;
+            padding: 2.5rem;
         }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .ep-phil-cta h3 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: .5rem;
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .ep-phil-cta p {
+            color: rgba(255,255,255,.65);
+            margin-bottom: 1.5rem;
+            font-size: .95rem;
         }
-
+        .ep-phil-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .ep-phil-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            padding: .85rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .95rem;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(102,126,234,.4);
+            transition: transform .2s, box-shadow .2s;
+        }
+        .ep-phil-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(102,126,234,.5); }
+        .ep-phil-btn-secondary {
+            background: rgba(255,255,255,.12);
+            color: #fff;
+            padding: .85rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .95rem;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,.2);
+            transition: background .2s;
+        }
+        .ep-phil-btn-secondary:hover { background: rgba(255,255,255,.2); }
         @media (max-width: 768px) {
-            .journey-content::before {
-                left: 20px;
-            }
-
-            .journey-phase:nth-child(odd),
-            .journey-phase:nth-child(even) {
-                margin-left: 0;
-                margin-right: 0;
-                border-left: 6px solid #667eea;
-                border-right: none;
-            }
-
-            .journey-hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .journey-hero p {
-                font-size: 1.1rem;
-            }
-
-            .journey-phase {
-                padding: 30px 25px;
-            }
-
-            .phase-title {
-                font-size: 1.5rem;
-            }
-
-            .phase-content {
-                font-size: 1rem;
-            }
-
-            .message-box {
-                padding: 40px 25px;
-            }
-
-            .message-title {
-                font-size: 1.8rem;
-            }
-
-            .message-text {
-                font-size: 1.05rem;
-            }
+            .ep-phil-grid { grid-template-columns: 1fr 1fr; }
+            .ep-phil-main { grid-column: 1 / -1; }
+        }
+        @media (max-width: 480px) {
+            .ep-phil-grid { grid-template-columns: 1fr; }
+            .ep-philosophy { padding: 3.5rem 0; }
         }
     </style>
-    <script>
-    // EduPass brand typography: E v� P in hoa l?n
-    (function(){
-        function wrapEduPass(node) {
-            if (node.nodeType === 3) { // text node
-                var text = node.nodeValue;
-                if (text.indexOf('EduPass') === -1) return;
-                var span = document.createElement('span');
-                span.innerHTML = text.replace(/EduPass/g,
-                    '<span class="ep-brand"><span class="ep-cap">E</span>du<span class="ep-cap">P</span>ass</span>');
-                node.parentNode.replaceChild(span, node);
-            } else if (node.nodeType === 1) {
-                var skip = ['SCRIPT','STYLE','TEXTAREA','INPUT','CODE','PRE','TITLE','META'];
-                if (skip.indexOf(node.tagName) !== -1) return;
-                Array.from(node.childNodes).forEach(wrapEduPass);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function(){
-            wrapEduPass(document.body);
-        });
-    })();
-    </script>
 </head>
 <body>
-    <nav class="navbar navbar-solid">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <img src="logo.png" alt="EduPass Logo" class="logo-img">
-                <span class="logo-text">EduPass</span>
-            </a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html">?? Trang ch?</a></li>
-                <li><a href="tai-lieu.html">?? Kho t�i li?u</a></li>
-                                <li class="nav-dropdown">
-                    <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                         Luy?n thi <span class="nav-arrow"></span>
-                    </a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="luyen-thi.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>Luy?n thi</strong><small>H�ng ng�n d? thi, ch?m di?m t? d?ng</small></span></a></li>
-                        <li><a href="tao-de-thi.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>T?o d? thi</strong><small>T? t?o d? theo m�n v� d? kh�</small></span></a></li>
-                        <li><a href="note-lich-hoc.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>Note & L?ch h?c</strong><small>Ghi ch� v� l�n k? ho?ch �n thi</small></span></a></li>
-                        <li><a href="flashcard.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>Flashcard</strong><small>�n t? v?ng & c�ng th?c si�u nhanh</small></span></a></li>
-                    </ul>
-                </li>
-                <li><a href="hanh-trinh-edupass.html">?? H�nh tr�nh</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="dang-nhap.html" class="btn-nav-login">�ang nh?p</a>
-                <a href="dang-ky.html" class="btn-nav-register">�ang k�</a>
-            </div>
-                <button class="nav-hamburger" id="navHamburger" aria-label="M? menu" aria-expanded="false"><span></span><span></span><span></span></button>
-        </div>
-    </nav>
 
-    <section class="journey-hero">
-        <h1>?? H�NH TR�NH H�NH TH�NH EDUPASS</h1>
-        <p>T? � tu?ng d?n hi?n th?c - C�u chuy?n v? s? ra d?i c?a n?n t?ng h?c t?p</p>
-    </section>
-
-    <div class="journey-content">
-        <!-- Giai do?n 1 -->
-        <div class="journey-phase">
-            <span class="phase-icon">??</span>
-            <h2 class="phase-title">Giai do?n � tu?ng � Kh?i ngu?n t? nhu c?u h?c t?p</h2>
-            <p class="phase-content">
-                EduPass b?t d?u t? nh?ng tran tr? r?t quen thu?c c?a h?c sinh THPT: kh?i lu?ng ki?n th?c l?n, 
-                �p l?c thi c? v� vi?c t�m ki?m t�i li?u �n t?p c�n r?i r?c. T? d�, � tu?ng x�y d?ng m?t n?n t?ng 
-                h?c t?p t?p trung, d? s? d?ng v� ph� h?p v?i h?c sinh d� du?c h�nh th�nh.
-            </p>
+<nav class="navbar navbar-solid">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="EduPass Logo" class="logo-img">
+            <span class="logo-text">EduPass</span>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">🏠 Trang chủ</a></li>
+            <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+            <li class="nav-dropdown">
+                <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    🛠️ Công cụ học tập <span class="nav-arrow">▾</span>
+                </a>
+                <ul class="nav-dropdown-menu">
+                    <li><a href="luyen-thi.html"><span class="ndm-icon">✏️</span><span class="ndm-text"><strong>Luyện thi</strong><small>Hàng ngàn đề thi, chấm điểm tự động</small></span></a></li>
+                    <li><a href="tao-de-thi.html"><span class="ndm-icon">🛠️</span><span class="ndm-text"><strong>Tạo đề thi</strong><small>Tự tạo đề theo môn và độ khó</small></span></a></li>
+                    <li><a href="note-lich-hoc.html"><span class="ndm-icon">📓</span><span class="ndm-text"><strong>Note & Lịch học</strong><small>Ghi chú và lên kế hoạch ôn thi</small></span></a></li>
+                    <li><a href="flashcard.html"><span class="ndm-icon">🃏</span><span class="ndm-text"><strong>Flashcard</strong><small>Ôn từ vựng & công thức siêu nhanh</small></span></a></li>
+                    <li><a href="dich-thuat.html"><span class="ndm-icon">🌐</span><span class="ndm-text"><strong>Dịch thuật</strong><small>Dịch nhanh sang nhiều ngôn ngữ</small></span></a></li>
+                </ul>
+            </li>
+            <li><a href="hanh-trinh-edupass.html" class="active">🚀 Hành trình</a></li>
+            <li class="nav-mobile-only"><a href="dang-nhap.html" class="btn-nav-login" style="display:block;text-align:center">Đăng nhập</a></li>
+            <li class="nav-mobile-only"><a href="dang-ky.html" class="btn-nav-register" style="display:block;text-align:center">Đăng ký</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>
+            <a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>
         </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Mở menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
 
-        <!-- Giai do?n 2 -->
-        <div class="journey-phase">
-            <span class="phase-icon">??</span>
-            <h2 class="phase-title">Giai do?n x�y d?ng � Nh?ng bu?c di d?u ti�n</h2>
-            <p class="phase-content">
-                T? m?t � tu?ng nh?, d?i ngu s�ng l?p b?t d?u nghi�n c?u, thi?t k? v� ph�t tri?n phi�n b?n d?u ti�n 
-                c?a EduPass. C�c t�nh nang co b?n nhu kho t�i li?u, luy?n d? v� h? th?ng th�ng b�o h?c t?p d?n du?c 
-                ho�n thi?n, d?t n?n m�ng cho n?n t?ng.
-            </p>
-        </div>
+<section class="journey-hero">
+    <h1>🚀 HÀNH TRÌNH HÌNH THÀNH EDUPASS</h1>
+    <p>Từ ý tưởng đến hiện thực — Câu chuyện về sự ra đời của nền tảng học tập dành cho học sinh THPT</p>
+</section>
 
-        <!-- Giai do?n 3 -->
-        <div class="journey-phase">
-            <span class="phase-icon">??</span>
-            <h2 class="phase-title">Giai do?n ph�t tri?n n?i dung � Ho�n thi?n gi� tr? h?c t?p</h2>
-            <p class="phase-content">
-                Kho t�i li?u v� d? luy?n thi du?c x�y d?ng v� ch?n l?c k? lu?ng, b�m s�t chuong tr�nh THPT. 
-                EduPass kh�ng ch? cung c?p t�i li?u, m� c�n hu?ng t?i vi?c gi�p h?c sinh h?c d�ng tr?ng t�m, 
-                �n luy?n c� chi?n lu?c v� ti?t ki?m th?i gian.
-            </p>
-        </div>
+<div class="journey-content">
 
-        <!-- Giai do?n 4 -->
-        <div class="journey-phase">
-            <span class="phase-icon">??</span>
-            <h2 class="phase-title">Giai do?n t�ch h?p c�ng ngh? � ?ng d?ng AI v�o h?c t?p</h2>
-            <p class="phase-content">
-                EduPass b?t d?u ?ng d?ng c�c c�ng c? AI nh?m n�ng cao tr?i nghi?m h?c t?p, h? tr? gi?i b�i, 
-                t?o d? t? luy?n v� c� nh�n h�a qu� tr�nh �n t?p. ��y l� bu?c ti?n quan tr?ng gi�p n?n t?ng 
-                tr? n�n th�ng minh v� linh ho?t hon.
-            </p>
-        </div>
-
-        <!-- Giai do?n 5 -->
-        <div class="journey-phase">
-            <span class="phase-icon">??</span>
-            <h2 class="phase-title">Giai do?n m? r?ng � �?ng h�nh c�ng h?c sinh</h2>
-            <p class="phase-content">
-                EduPass ti?p t?c ho�n thi?n h? sinh th�i h?c t?p v?i m?c ti�u tr? th�nh ngu?i b?n d?ng h�nh 
-                d�ng tin c?y c?a h?c sinh THPT tr�n h�nh tr�nh �n luy?n v� chinh ph?c c�c k? thi quan tr?ng, 
-                d?c bi?t l� k? thi t?t nghi?p v� c�nh c?a d?i h?c.
-            </p>
-        </div>
+    <div class="journey-phase">
+        <span class="phase-icon">💡</span>
+        <h2 class="phase-title">Giai đoạn ý tưởng — Khởi nguồn từ nhu cầu học tập</h2>
+        <p class="phase-content">
+            EduPass bắt đầu từ những trăn trở rất quen thuộc của học sinh THPT: khối lượng kiến thức lớn,
+            áp lực thi cử và việc tìm kiếm tài liệu ôn tập còn rời rạc. Từ đó, ý tưởng xây dựng một nền tảng
+            học tập tập trung, dễ sử dụng và phù hợp với học sinh đã được hình thành.
+        </p>
     </div>
 
-    <section class="message-section">
-        <div class="message-box">
-            <div class="message-icon">??</div>
-            <h2 class="message-title">Th�ng di?p h�nh tr�nh</h2>
-            <p class="message-text">
-                EduPass du?c x�y d?ng t? nh?ng tr?i nghi?m th?t c?a h?c sinh, v?i mong mu?n t?o ra m�i tru?ng 
-                h?c t?p don gi?n nhung hi?u qu? � noi m?i bu?c ti?n nh? h�m nay s? g�p ph?n t?o n�n th�nh c�ng ng�y mai.
-            </p>
+    <div class="journey-phase">
+        <span class="phase-icon">🔨</span>
+        <h2 class="phase-title">Giai đoạn xây dựng — Những bước đi đầu tiên</h2>
+        <p class="phase-content">
+            Từ một ý tưởng nhỏ, đội ngũ sáng lập bắt đầu nghiên cứu, thiết kế và phát triển phiên bản đầu tiên
+            của EduPass. Các tính năng cơ bản như kho tài liệu, luyện đề và hệ thống thông báo học tập dần được
+            hoàn thiện, đặt nền móng cho nền tảng.
+        </p>
+    </div>
+
+    <div class="journey-phase">
+        <span class="phase-icon">📚</span>
+        <h2 class="phase-title">Giai đoạn phát triển nội dung — Hoàn thiện giá trị học tập</h2>
+        <p class="phase-content">
+            Kho tài liệu và đề luyện thi được xây dựng và chọn lọc kỹ lưỡng, bám sát chương trình THPT.
+            EduPass không chỉ cung cấp tài liệu, mà còn hướng tới việc giúp học sinh học đúng trọng tâm,
+            ôn luyện có chiến lược và tiết kiệm thời gian.
+        </p>
+    </div>
+
+
+    <div class="journey-phase">
+        <span class="phase-icon">🌟</span>
+        <h2 class="phase-title">Giai đoạn mở rộng — Đồng hành cùng học sinh</h2>
+        <p class="phase-content">
+            EduPass tiếp tục hoàn thiện hệ sinh thái học tập với mục tiêu trở thành người bạn đồng hành
+            đáng tin cậy của học sinh THPT trên hành trình ôn luyện và chinh phục các kỳ thi quan trọng,
+            đặc biệt là kỳ thi tốt nghiệp và cánh cửa đại học.
+        </p>
+    </div>
+
+</div>
+
+<section class="message-section">
+    <div class="message-box">
+        <div class="message-icon">💌</div>
+        <h2 class="message-title">Thông điệp hành trình</h2>
+        <p class="message-text">
+            EduPass được xây dựng từ những trải nghiệm thật của học sinh, với mong muốn tạo ra môi trường
+            học tập nơi mọi em đều có cơ hội tiếp cận kiến thức chất lượng, học tập hiệu quả và tự tin
+            bước vào các kỳ thi quan trọng.<br><br>
+            Chúng tôi tin rằng: <strong>"Học hôm nay — Đỗ ngày mai."</strong><br><br>
+            Cảm ơn bạn đã đồng hành cùng EduPass trên hành trình này. ✨
+        </p>
+    </div>
+</section>
+
+<!-- Triết lý EduPass -->
+<section class="ep-philosophy">
+    <div class="container">
+        <div class="ep-phil-header">
+            <span class="ep-phil-badge">✨ Triết lý của chúng tôi</span>
+            <h2>Tại sao bạn nên học cùng EduPass?</h2>
+            <p>Không chỉ là một trang web — EduPass là người bạn đồng hành trên hành trình chinh phục tri thức</p>
         </div>
-    </section>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <!-- Brand -->
-                <div class="footer-brand">
-                    <a href="index.html" class="footer-logo-wrap"><img src="logo.png" alt="EduPass" class="footer-logo"></a>
-                    <p class="footer-desc">N?n t?ng h?c t?p tr?c tuy?n v?i kho d? thi v� t�i li?u phong ph�, gi�p h?c sinh d?t k?t qu? cao trong c�c k? thi.</p>
-                    <p class="footer-tagline-new">? Learn today. Pass tomorrow.</p>
-                </div>
-
-                <!-- Nav links -->
-                <div class="footer-col">
-                    <h5 class="footer-col-title">Kh�m ph�</h5>
-                    <ul class="footer-nav">
-                        <li><a href="index.html">?? Trang ch?</a></li>
-                        <li><a href="tai-lieu.html">?? Kho t�i li?u</a></li>
-                                        <li class="nav-dropdown">
-                    <a href="#" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                         Luy?n thi <span class="nav-arrow"></span>
-                    </a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="luyen-thi.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>Luy?n thi</strong><small>H�ng ng�n d? thi, ch?m di?m t? d?ng</small></span></a></li>
-                        <li><a href="tao-de-thi.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>T?o d? thi</strong><small>T? t?o d? theo m�n v� d? kh�</small></span></a></li>
-                        <li><a href="note-lich-hoc.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>Note & L?ch h?c</strong><small>Ghi ch� v� l�n k? ho?ch �n thi</small></span></a></li>
-                        <li><a href="flashcard.html"><span class="ndm-icon"></span><span class="ndm-text"><strong>Flashcard</strong><small>�n t? v?ng & c�ng th?c si�u nhanh</small></span></a></li>
-                    </ul>
-                </li>
-                    </ul>
-                </div>
-
-                <!-- About links -->
-                <div class="footer-col">
-                    <h5 class="footer-col-title">V? EduPass</h5>
-                    <ul class="footer-nav">
-                                            <li><a href="gioi-thieu.html"> Gi?i thi?u</a></li>
-                    <li><a href="cau-chuyen.html">?? C�u chuy?n</a></li>
-                        <li><a href="hanh-trinh-edupass.html">?? H�nh tr�nh</a></li>
-                        <li><a href="dang-ky.html">?? �ang k�</a></li>
-                        <li><a href="dang-nhap.html">?? �ang nh?p</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact -->
-                <div class="footer-col">
-                    <h5 class="footer-col-title">Li�n h?</h5>
-                    <ul class="footer-contact-list">
-                        <li><a href="mailto:edupasshotro@gmail.com">?? edupasshotro@gmail.com</a></li>
-                        <li><a href="tel:0348908243">?? 0348 908 243</a></li>
-                        <li><a href="tel:0876422788">?? 0876 422 788</a></li>
-                    </ul>
-                </div>
-
-                <!-- Copyright & Tagline -->
-                <div class="footer-col footer-col-brand">
-                    <h5 class="footer-col-title">EduPass</h5>
-                    <p class="footer-copy">� 2026 EduPass.<br>All rights reserved.</p>
-                    <p class="footer-slogan">Learn today.<br>Pass tomorrow.</p>
-                    <p class="footer-slogan-vi">EduPass � N?n t?ng h?c t?p th�ng minh cho h?c sinh THPT</p>
-                    <p class="footer-slogan-vi2">?? H?c h�m nay � �? ng�y mai</p>
-                </div>
+        <div class="ep-phil-grid">
+            <div class="ep-phil-card ep-phil-main">
+                <div class="ep-phil-quote">"</div>
+                <p class="ep-phil-text">Chúng tôi không tin vào việc học chăm chỉ một mình. Chúng tôi tin vào việc học <strong>thông minh hơn</strong>, có <strong>định hướng rõ ràng</strong> và được <strong>hỗ trợ đúng lúc</strong>.</p>
+                <div class="ep-phil-author">— Đội ngũ EduPass</div>
             </div>
 
-            <div class="footer-bottom-new">
-                <div class="footer-team-block">
-                    <div class="ftb-top">
-                        <span class="ftb-school-badge"> L?p 12A5  THCS-THPT H�a B�nh</span>
-                    </div>
-                    <div class="ftb-teacher">
-                        <div class="ftb-teacher-card">
-                            <span class="ftb-teacher-icon"></span>
-                            <div class="ftb-teacher-info">
-                                <span class="ftb-teacher-label">Gi�o vi�n hu?ng d?n</span>
-                                <span class="ftb-teacher-name">Th?y Ng� Nguy?n Quang Tru?ng</span>
-                            </div>
+            <div class="ep-phil-card">
+                <div class="ep-phil-icon">🎯</div>
+                <h3>Học có mục tiêu</h3>
+                <p>Mỗi bài thi, mỗi tài liệu đều được chọn lọc để giúp bạn tiến gần hơn đến mục tiêu — không lãng phí một phút nào.</p>
+            </div>
+
+            <div class="ep-phil-card">
+                <div class="ep-phil-icon">💪</div>
+                <h3>Tự tin từ luyện tập</h3>
+                <p>Sự tự tin không đến từ may mắn — nó đến từ hàng trăm lần luyện đề, từng câu hỏi được giải đúng, từng điểm số được cải thiện.</p>
+            </div>
+
+            <div class="ep-phil-card">
+                <div class="ep-phil-icon">🌱</div>
+                <h3>Tiến bộ mỗi ngày</h3>
+                <p>Không cần hoàn hảo ngay từ đầu. Chỉ cần mỗi ngày tốt hơn hôm qua một chút — đó là con đường dẫn đến thành công.</p>
+            </div>
+
+            <div class="ep-phil-card">
+                <div class="ep-phil-icon">🤝</div>
+                <h3>Học sinh làm cho học sinh</h3>
+                <p>EduPass được tạo ra bởi chính những học sinh hiểu rõ áp lực thi cử. Chúng tôi biết bạn cần gì — vì chúng tôi đã từng ở đó.</p>
+            </div>
+
+            <div class="ep-phil-card">
+                <div class="ep-phil-icon">🆓</div>
+                <h3>Miễn phí & Bình đẳng</h3>
+                <p>Kiến thức chất lượng không nên là đặc quyền. EduPass cam kết mang đến cơ hội học tập bình đẳng cho mọi học sinh.</p>
+            </div>
+        </div>
+
+        <div class="ep-phil-cta">
+            <h3>Sẵn sàng bắt đầu hành trình của bạn?</h3>
+            <p>Hàng ngàn học sinh đã tin tưởng EduPass. Hôm nay là ngày tốt nhất để bắt đầu.</p>
+            <div class="ep-phil-btns">
+                <a href="dang-ky.html" class="ep-phil-btn-primary">🎓 Đăng ký miễn phí</a>
+                <a href="tai-lieu.html" class="ep-phil-btn-secondary">📚 Xem tài liệu</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo-wrap"><img src="logo.png" alt="EduPass" class="footer-logo"></a>
+                <p class="footer-desc">Nền tảng học tập trực tuyến với kho đề thi và tài liệu phong phú, giúp học sinh đạt kết quả cao trong các kỳ thi.</p>
+                <p class="footer-tagline-new">✨ Learn today. Pass tomorrow.</p>
+            </div>
+            <div class="footer-col">
+                <h5 class="footer-col-title">Khám phá</h5>
+                <ul class="footer-nav">
+                    <li><a href="index.html">🏠 Trang chủ</a></li>
+                    <li><a href="tai-lieu.html">📚 Kho tài liệu</a></li>
+                    <li><a href="luyen-thi.html">✏️ Luyện thi</a></li>
+                    <li><a href="flashcard.html">🃏 Flashcard</a></li>
+                    <li><a href="note-lich-hoc.html">📓 Note & Lịch học</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5 class="footer-col-title">Về EduPass</h5>
+                <ul class="footer-nav">
+                    <li><a href="gioi-thieu.html">Giới thiệu</a></li>
+                    <li><a href="cau-chuyen.html">💡 Câu chuyện</a></li>
+                    <li><a href="hanh-trinh-edupass.html">🚀 Hành trình</a></li>
+                    <li><a href="dang-ky.html">🎓 Đăng ký</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5 class="footer-col-title">Liên hệ</h5>
+                <ul class="footer-contact-list">
+                    <li><a href="mailto:edupasshotro@gmail.com">📧 edupasshotro@gmail.com</a></li>
+                    <li><a href="tel:0348908243">📱 0348 908 243</a></li>
+                    <li><a href="tel:0876422788">📱 0876 422 788</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-col-brand">
+                <h5 class="footer-col-title">EduPass</h5>
+                <p class="footer-copy">© 2026 EduPass.<br>All rights reserved.</p>
+                <p class="footer-slogan">Learn today.<br>Pass tomorrow.</p>
+            </div>
+        </div>
+        <div class="footer-bottom-new">
+            <div class="footer-team-block">
+                <div class="ftb-top"><span class="ftb-school-badge">🏫 Lớp 12A5 · THCS-THPT Hòa Bình</span></div>
+                <div class="ftb-teacher">
+                    <div class="ftb-teacher-card">
+                        <div class="ftb-teacher-info">
+                            <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
+                            <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
                         </div>
                     </div>
-                    <div class="ftb-sep">
-                        <span class="ftb-sep-line"></span>
-                        <span class="ftb-sep-text">Th�nh vi�n nh�m</span>
-                        <span class="ftb-sep-line"></span>
-                    </div>
-                    <div class="footer-team-members">
-                        <span class="ftb-member">Tr.Cu?ng</span>
-                        <span class="ftb-member">Nhu Anh</span>
-                        <span class="ftb-member">Gia Huy</span>
-                        <span class="ftb-member">Gia H�a</span>
-                        <span class="ftb-member">Nguy?n Ti?n</span>
-                        <span class="ftb-member">Nh?t Duy</span>
-                        <span class="ftb-member">Tr�c Ng�n</span>
-                        <span class="ftb-member">Khang Lee</span>
-                    </div>
                 </div>
-                <p>M?t s?n ph?m do nh�m h?c sinh Tru?ng THCS-THPT H�a B�nh th?c hi?n.</p>
-                <p class="footer-thank-you">C?m on b?n d� l?a ch?n d?ng h�nh c�ng EduPass. N?u tr?i nghi?m chua th?t s? ho�n h?o, ch�ng t�i xin l?i v� s? kh�ng ng?ng ho�n thi?n d? mang d?n m�i tru?ng h?c t?p t?t hon, gi�p b?n t? tin ti?n g?n hon t?i m?c ti�u c?a m�nh.</p>
+                <div class="ftb-sep">
+                    <span class="ftb-sep-line"></span>
+                    <span class="ftb-sep-text">Thành viên nhóm</span>
+                    <span class="ftb-sep-line"></span>
+                </div>
+                <div class="footer-team-members">
+                    <span class="ftb-member">Tr.Cường</span>
+                    <span class="ftb-member">Như Anh</span>
+                    <span class="ftb-member">Gia Huy</span>
+                    <span class="ftb-member">Gia Hòa</span>
+                    <span class="ftb-member">Nguyễn Tiến</span>
+                    <span class="ftb-member">Nhất Duy</span>
+                    <span class="ftb-member">Trúc Ngân</span>
+                    <span class="ftb-member">Khang Lee</span>
+                </div>
             </div>
+            <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
+            <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="script.js"></script>
-    
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .catch(err => console.log('SW error:', err));
-            });
-        }
-    </script>
-    <script>
-    // Hamburger menu
-    (function(){
-        var btn = document.getElementById('navHamburger');
-        var menu = document.getElementById('navMenu');
-        var nav = document.querySelector('.navbar');
-        if(!btn || !menu) return;
-        btn.addEventListener('click', function(){
-            var open = menu.classList.toggle('open');
-            btn.classList.toggle('open', open);
-            btn.setAttribute('aria-expanded', open);
-        });
-        menu.querySelectorAll('a').forEach(function(a){
-            a.addEventListener('click', function(){
-                menu.classList.remove('open');
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded','false');
-            });
-        });
-        document.addEventListener('click', function(e){
-            if(nav && !nav.contains(e.target)){
-                menu.classList.remove('open');
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded','false');
-            }
-        });
-    })();
-    </script>
-    <script src="popup.js"></script>
+<script src="script.js"></script>
+<script src="effects.js"></script>
+<script src="popup.js"></script>
 </body>
 </html>

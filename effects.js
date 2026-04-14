@@ -8,6 +8,7 @@
     function initPageTransition() {
         var overlay = document.createElement('div');
         overlay.id = 'ep-transition';
+        overlay.innerHTML = '<img src="logo.png" alt="EduPass" id="ep-transition-logo">';
         document.body.appendChild(overlay);
 
         // Fade in on load
@@ -38,8 +39,9 @@
             '.tkb-wrap, .nlh-notes-sidebar, .nlh-notes-editor'
         );
         targets.forEach(function (el, i) {
-            // Bỏ qua nếu nằm trong chatbot
+            // Bỏ qua nếu nằm trong chatbot hoặc eco sections (có animation riêng)
             if (el.closest('.ai-chat-window, .ai-greeting-bubble, #aiChatWindow, #aiGreetingBubble')) return;
+            if (el.closest('.nlh-eco-section, .dt-eco-section')) return;
             el.classList.add('ep-reveal');
             el.classList.add('ep-d' + Math.min((i % 6) + 1, 6));
         });
