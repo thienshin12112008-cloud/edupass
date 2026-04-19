@@ -89,7 +89,7 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    opacity: .55;
+    opacity: .2;
 }
 
 /* ── Ripple on click ── */

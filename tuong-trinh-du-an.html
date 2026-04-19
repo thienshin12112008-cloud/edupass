@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tường Trình Dự Án EduPass</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    line-height: 1.75;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 3rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 25% 40%, rgba(99,102,241,.3) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 60%, rgba(124,58,237,.25) 0%, transparent 55%);
+  }
+  .cover-inner { position:relative; z-index:1; max-width:700px; }
+  .cover-tag {
+    display:inline-block; background:rgba(99,102,241,.2);
+    border:1px solid rgba(165,180,252,.35); color:#a5b4fc;
+    padding:.35rem 1.1rem; border-radius:30px;
+    font-size:.78rem; font-weight:600; letter-spacing:1.5px;
+    text-transform:uppercase; margin-bottom:2rem;
+  }
+  .cover-emoji { width:120px; height:120px; margin:0 auto 1rem; display:block; border-radius:18px; object-fit:contain; }
+  .cover-title {
+    font-size:2.8rem; font-weight:800; color:#fff;
+    line-height:1.2; margin-bottom:.8rem; letter-spacing:-1px;
+  }
+  .cover-title span { color:#a5b4fc; }
+  .cover-sub { font-size:1rem; color:#94a3b8; margin-bottom:2.5rem; }
+  .cover-line { width:50px; height:3px; background:linear-gradient(90deg,#4f46e5,#7c3aed); border-radius:3px; margin:0 auto 2.5rem; }
+  .cover-grid {
+    display:grid; grid-template-columns:repeat(2,1fr);
+    gap:.8rem; max-width:500px; margin:0 auto 2rem;
+  }
+  .cover-item {
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
+    border-radius:10px; padding:.8rem 1rem; text-align:left;
+  }
+  .cover-item-label { font-size:.68rem; color:#64748b; text-transform:uppercase; letter-spacing:1px; }
+  .cover-item-value { font-size:.88rem; color:#e2e8f0; font-weight:600; }
+  .cover-slogan { font-size:.95rem; color:#a5b4fc; font-style:italic; border-top:1px solid rgba(255,255,255,.1); padding-top:1.5rem; }
+
+  /* LAYOUT */
+  .wrap { max-width:860px; margin:0 auto; padding:3rem 1.5rem; }
+
+  /* SECTION */
+  .sec { margin-bottom:3rem; }
+  .sec-head {
+    display:flex; align-items:center; gap:.8rem;
+    margin-bottom:1.4rem; padding-bottom:.7rem;
+    border-bottom:2px solid #e2e8f0;
+  }
+  .sec-num {
+    width:34px; height:34px; border-radius:9px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:800; font-size:.85rem; flex-shrink:0;
+  }
+  .sec-title { font-size:1.2rem; font-weight:700; color:#0f172a; }
+
+  /* CARD */
+  .card {
+    background:#fff; border-radius:14px; padding:1.6rem;
+    box-shadow:0 2px 14px rgba(15,23,42,.07);
+    border:1px solid #e2e8f0; margin-bottom:1rem;
+  }
+  .card-title { font-weight:700; font-size:.95rem; margin-bottom:.8rem; color:#0f172a; }
+
+  /* HIGHLIGHT */
+  .hl { border-left:4px solid #4f46e5; background:#ede9fe; border-radius:0 10px 10px 0; padding:1rem 1.3rem; margin-bottom:1rem; color:#3730a3; font-size:.92rem; font-weight:500; }
+  .hl.green { border-left-color:#10b981; background:#d1fae5; color:#065f46; }
+  .hl.blue  { border-left-color:#3b82f6; background:#dbeafe; color:#1e40af; }
+
+  /* GRID */
+  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+
+  /* FEATURE ITEM */
+  .fi { display:flex; gap:.9rem; align-items:flex-start; padding:.9rem 0; border-bottom:1px solid #f1f5f9; }
+  .fi:last-child { border-bottom:none; }
+  .fi-icon { width:42px; height:42px; border-radius:11px; background:#ede9fe; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+  .fi h4 { font-size:.9rem; font-weight:700; margin-bottom:.15rem; }
+  .fi p  { font-size:.82rem; color:#64748b; line-height:1.5; }
+
+  /* TIMELINE */
+  .tl { position:relative; padding-left:2.2rem; }
+  .tl::before { content:''; position:absolute; left:.55rem; top:0; bottom:0; width:2px; background:linear-gradient(180deg,#4f46e5,#7c3aed); border-radius:2px; }
+  .tl-item { position:relative; margin-bottom:1.6rem; }
+  .tl-dot { position:absolute; left:-1.9rem; top:.25rem; width:13px; height:13px; border-radius:50%; background:#4f46e5; border:3px solid #fff; box-shadow:0 0 0 3px #4f46e5; }
+  .tl-phase { font-size:.7rem; font-weight:700; color:#4f46e5; text-transform:uppercase; letter-spacing:1px; margin-bottom:.15rem; }
+  .tl-title { font-weight:700; font-size:.92rem; margin-bottom:.2rem; }
+  .tl-desc  { font-size:.82rem; color:#64748b; line-height:1.55; }
+
+  /* STAT */
+  .stats { display:flex; gap:.8rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+  .stat { flex:1; min-width:120px; background:#fff; border-radius:12px; padding:1.1rem; box-shadow:0 2px 12px rgba(15,23,42,.07); border:1px solid #e2e8f0; text-align:center; }
+  .stat-v { font-size:1.7rem; font-weight:800; color:#4f46e5; line-height:1; }
+  .stat-l { font-size:.72rem; color:#64748b; margin-top:.25rem; }
+
+  /* BADGE */
+  .badge { display:inline-block; padding:.18rem .65rem; border-radius:20px; font-size:.72rem; font-weight:700; }
+  .bg-green  { background:#d1fae5; color:#065f46; }
+  .bg-blue   { background:#dbeafe; color:#1e40af; }
+  .bg-purple { background:#ede9fe; color:#5b21b6; }
+  .bg-orange { background:#fef3c7; color:#92400e; }
+
+  /* TABLE */
+  .tbl-wrap { background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 14px rgba(15,23,42,.07); border:1px solid #e2e8f0; margin-bottom:1rem; }
+  .tbl { width:100%; border-collapse:collapse; font-size:.85rem; }
+  .tbl thead { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:#fff; }
+  .tbl th { padding:.75rem 1rem; text-align:left; font-weight:600; }
+  .tbl td { padding:.7rem 1rem; border-bottom:1px solid #f1f5f9; }
+  .tbl tbody tr:last-child td { border-bottom:none; }
+  .tbl tbody tr:hover { background:#f8fafc; }
+
+  /* QUOTE */
+  .quote { background:linear-gradient(135deg,#0f172a,#1e1b4b); border-radius:14px; padding:2rem; text-align:center; color:#fff; margin:2rem 0; }
+  .quote p { font-size:1.05rem; font-style:italic; color:#c7d2fe; line-height:1.7; margin-bottom:.6rem; }
+  .quote small { font-size:.8rem; color:#64748b; }
+
+  /* FOOTER */
+  footer { background:#0f172a; color:#475569; text-align:center; padding:1.8rem; font-size:.82rem; }
+  footer strong { color:#fff; }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff; border: none; border-radius: 50px;
+    padding: .8rem 1.5rem; font-size: .88rem; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 20px rgba(79,70,229,.4);
+    display: flex; align-items: center; gap: .5rem;
+    transition: transform .2s, box-shadow .2s;
+    font-family: inherit;
+  }
+  .print-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(79,70,229,.5); }
+  @media print { .print-btn { display: none; } }
+
+  @media print { .cover { page-break-after:always; } }
+
+  @media(max-width:600px) {
+    .cover-title { font-size:2rem; }
+    .g2, .g3 { grid-template-columns:1fr; }
+    .cover-grid { grid-template-columns:1fr; }
+    .stats { flex-direction:column; }
+  }
+
+  p { margin-bottom:.7rem; }
+  ul { padding-left:1.4rem; margin-bottom:.7rem; }
+  li { margin-bottom:.25rem; font-size:.88rem; }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">
+  🖨️ Xuất PDF
+</button>
+
+<!-- TRANG BÌA -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-tag">Tường Trình Dự Án · 2026</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:1rem">
+      <img src="logo22240.png" alt="Logo Trường" class="cover-emoji" style="border-radius:0">
+      <img src="assets/logo.png" alt="EduPass Logo" class="cover-emoji">
+    </div>
+    <h1 class="cover-title">Edu<span>Pass</span></h1>
+    <p class="cover-sub">Nền tảng học tập trực tuyến dành cho học sinh THPT Việt Nam</p>
+    <div class="cover-line"></div>
+    <div class="cover-grid">
+      <div class="cover-item"><div class="cover-item-label">Trưởng nhóm</div><div class="cover-item-value">Trần Nguyễn Chí Cường</div></div>
+      <div class="cover-item"><div class="cover-item-label">Đơn vị</div><div class="cover-item-value">THCS-THPT Hòa Bình</div></div>
+      <div class="cover-item"><div class="cover-item-label">Nhóm thực hiện</div><div class="cover-item-value">Học sinh lớp 12A5</div></div>
+      <div class="cover-item"><div class="cover-item-label">Lĩnh vực</div><div class="cover-item-value">Công nghệ Giáo dục</div></div>
+      <div class="cover-item"><div class="cover-item-label">Năm thực hiện</div><div class="cover-item-value">2025 – 2026</div></div>
+    </div>
+    <p class="cover-slogan">"Learn today. Pass tomorrow."</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- TẤM HỘ CHIẾU TRI THỨC -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">✨</div>
+      <div class="sec-title">EduPass – Tấm Hộ Chiếu Tri Thức Của Thế Hệ Mới</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#0f172a,#1e1b4b);border-radius:16px;padding:2rem;margin-bottom:1rem">
+      <p style="font-size:1.05rem;color:#c7d2fe;font-style:italic;line-height:1.8;text-align:center;margin-bottom:0">"Không chỉ giúp bạn học tốt hơn, mà giúp bạn trở thành phiên bản tốt hơn của chính mình."</p>
+    </div>
+    <div class="card">
+      <p>Trong thời đại số hóa, tri thức không còn bị giới hạn trong những trang sách hay lớp học truyền thống. Tuy nhiên, giữa vô vàn nguồn tài liệu rời rạc và phương pháp học thiếu định hướng, học sinh vẫn đang "lạc lối" trong chính hành trình học tập của mình. Đó chính là lý do <strong>EduPass ra đời</strong> — không chỉ là một nền tảng học tập, mà là một <em>"tấm hộ chiếu tri thức"</em> giúp người học bứt phá giới hạn bản thân.</p>
+      <p>EduPass mang trong mình một triết lý cốt lõi: <strong>Học thông minh – Thi hiệu quả – Phát triển toàn diện.</strong> Không đơn thuần cung cấp tài liệu, EduPass xây dựng một hệ sinh thái học tập toàn diện với kho tài liệu đa dạng, hệ thống luyện thi trực tuyến sát thực tế, cùng các công cụ hỗ trợ cá nhân hóa quá trình học. Tại đây, mỗi học sinh không còn học theo kiểu "chạy theo đề", mà học để hiểu, để làm chủ kiến thức và để tự tin bước vào mọi kỳ thi.</p>
+      <p>Điểm khác biệt của EduPass nằm ở việc <strong>biến việc học từ áp lực thành động lực.</strong> Thay vì những giờ học nhàm chán, EduPass tạo ra trải nghiệm học tập hiện đại, trực quan và có định hướng rõ ràng. Người học được theo dõi tiến trình, đánh giá năng lực và nhận những lời động viên phù hợp với từng mức độ — giúp mỗi cá nhân nhận ra rằng: thất bại không phải là điểm dừng, mà là bước đệm để tiến xa hơn.</p>
+      <p>EduPass còn hướng đến việc xây dựng một <strong>cộng đồng học tập tích cực</strong> — nơi học sinh có thể chia sẻ tài liệu, kinh nghiệm và cùng nhau tiến bộ. Đây không chỉ là một nền tảng, mà là một hành trình đồng hành cùng thế hệ trẻ trên con đường chinh phục tri thức.</p>
+      <p>Trong tương lai, EduPass không chỉ dừng lại ở việc hỗ trợ thi cử, mà còn trở thành người bạn đồng hành lâu dài trong việc phát triển kỹ năng, tư duy và định hướng nghề nghiệp. Bởi chúng tôi tin rằng: <strong>giáo dục không chỉ để vượt qua kỳ thi, mà là để mở ra cánh cửa của tương lai.</strong></p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem">
+        <span class="badge bg-purple">🎯 Học thông minh</span>
+        <span class="badge bg-blue">📝 Thi hiệu quả</span>
+        <span class="badge bg-green">🌱 Phát triển toàn diện</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIỚI THIỆU SƠ LƯỢC -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">🌐</div>
+      <div class="sec-title">Giới Thiệu Sơ Lược</div>
+    </div>
+    <div class="hl"><strong>EduPass</strong> là website học tập trực tuyến miễn phí dành cho học sinh THPT, được xây dựng bởi chính học sinh Trường THCS-THPT Hòa Bình với slogan <em>"Learn today. Pass tomorrow."</em></div>
+    <div class="card">
+      <p>Website ra đời từ nhu cầu thực tế: học sinh THPT đang phải tự tìm tài liệu rải rác, không có nơi luyện thi bài bản và miễn phí. EduPass tập hợp tất cả vào một nền tảng duy nhất — dễ dùng, không mất phí, truy cập ngay trên trình duyệt mà không cần cài đặt.</p>
+      <p>Giao diện được thiết kế hiện đại, thân thiện với học sinh, hoạt động tốt trên cả điện thoại lẫn máy tính. Toàn bộ tài liệu và đề thi đều được chọn lọc kỹ, bám sát chương trình THPT 2026.</p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem">
+        <span class="badge bg-green">✅ Miễn phí hoàn toàn</span>
+        <span class="badge bg-blue">📱 Responsive mọi thiết bị</span>
+        <span class="badge bg-purple">🎯 Bám sát CT THPT 2026</span>
+        <span class="badge bg-orange">⚡ Không cần cài đặt</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GHI CHÚ DỮ LIỆU MẪU -->
+  <div class="card" style="border:2px solid #f59e0b;background:#fffbeb;margin-bottom:2rem">
+    <div style="display:flex;gap:.8rem;align-items:flex-start">
+      <div style="font-size:1.8rem;flex-shrink:0">📌</div>
+      <div>
+        <div style="font-weight:700;font-size:.95rem;color:#92400e;margin-bottom:.4rem">Lưu ý về dữ liệu trên website</div>
+        <p style="font-size:.88rem;color:#78350f;margin-bottom:.4rem">Các nội dung hiện có trên website EduPass — bao gồm <strong>tài liệu, đề luyện thi, bài thi, flashcard và đánh giá học viên</strong> — là <strong>dữ liệu mẫu (demo)</strong> được thiết kế sẵn nhằm mục đích minh họa giao diện và tính năng của sản phẩm.</p>
+        <p style="font-size:.88rem;color:#78350f;margin-bottom:0">Dữ liệu này được đặt vào để <strong>ban giám khảo có thể trải nghiệm đầy đủ sản phẩm</strong>. Khi dự án chính thức ra mắt, toàn bộ nội dung sẽ được thay thế bằng tài liệu và đề thi thực tế, chất lượng cao.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÔN HỌC -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">📚</div>
+      <div class="sec-title">Môn Học Nổi Bật</div>
+    </div>
+    <div class="hl">EduPass hỗ trợ đầy đủ <strong>12 môn học</strong> trong chương trình THPT — có tài liệu và đề thi cho tất cả các môn thi tốt nghiệp và đánh giá năng lực.</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1rem">
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">📐</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Toán</div>
+        <div style="font-size:.75rem;color:#64748b">15+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">⚛️</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Vật Lý</div>
+        <div style="font-size:.75rem;color:#64748b">10+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">🧪</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Hóa Học</div>
+        <div style="font-size:.75rem;color:#64748b">10+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">📖</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Ngữ Văn</div>
+        <div style="font-size:.75rem;color:#64748b">8+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">🇬🇧</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Tiếng Anh</div>
+        <div style="font-size:.75rem;color:#64748b">8+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">🧬</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Sinh Học</div>
+        <div style="font-size:.75rem;color:#64748b">7+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">🏛️</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Lịch Sử</div>
+        <div style="font-size:.75rem;color:#64748b">7+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">🌍</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Địa Lý</div>
+        <div style="font-size:.75rem;color:#64748b">7+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">⚖️</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">GDCD</div>
+        <div style="font-size:.75rem;color:#64748b">5+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">💰</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Kinh tế & PL</div>
+        <div style="font-size:.75rem;color:#64748b">5+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">💻</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Tin Học</div>
+        <div style="font-size:.75rem;color:#64748b">4+ tài liệu</div>
+      </div>
+      <div class="card" style="text-align:center;padding:1rem">
+        <div style="font-size:1.6rem">🔧</div>
+        <div style="font-weight:700;font-size:.85rem;margin-top:.3rem">Công Nghệ</div>
+        <div style="font-size:.75rem;color:#64748b">4+ tài liệu</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- I. WEBSITE CÓ GÌ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">I</div>
+      <div class="sec-title">Website EduPass Có Gì?</div>
+    </div>
+    <div class="hl">EduPass là nền tảng học tập trực tuyến tích hợp đầy đủ công cụ cần thiết cho học sinh THPT — từ tài liệu, luyện thi, flashcard đến dịch thuật — tất cả miễn phí.</div>
+    <div class="card">
+      <div class="fi"><div class="fi-icon">📚</div><div><h4>Kho Tài Liệu</h4><p>70+ tài liệu chọn lọc từ giáo viên uy tín, bám sát chương trình THPT 2026. Phân loại theo môn, lớp. Tải về miễn phí.</p></div></div>
+      <div class="fi"><div class="fi-icon">✏️</div><div><h4>Luyện Thi Trực Tuyến</h4><p>Đề thi từ cơ bản đến nâng cao. Đồng hồ đếm ngược thật, chấm điểm tự động, xem đáp án chi tiết sau khi nộp bài.</p></div></div>
+      <div class="fi"><div class="fi-icon">🛠️</div><div><h4>Tạo Đề Thi Tự Luyện</h4><p>Tự tạo đề thi theo môn, lớp, độ khó. Tùy chỉnh số câu, thời gian, xáo trộn câu hỏi.</p></div></div>
+      <div class="fi"><div class="fi-icon">🃏</div><div><h4>Flashcard</h4><p>Ôn từ vựng và công thức bằng phương pháp lặp lại ngắt quãng. Ba chế độ: lật thẻ, trắc nghiệm, điền từ.</p></div></div>
+      <div class="fi"><div class="fi-icon">📓</div><div><h4>Note & Lịch Học</h4><p>Ghi chú thông minh, lịch học theo tháng, Pomodoro Timer 25/5 phút và nhạc Lo-fi giúp tập trung.</p></div></div>
+      <div class="fi"><div class="fi-icon">🌐</div><div><h4>Dịch Thuật Nhanh</h4><p>Dịch tức thì sang 10 ngôn ngữ, lưu lịch sử dịch, hỗ trợ đọc tài liệu tiếng nước ngoài.</p></div></div>
+      <div class="fi"><div class="fi-icon">⏳</div><div><h4>Đếm Ngược Kỳ Thi</h4><p>Đồng hồ đếm ngược thời gian thực đến kỳ thi THPTQG 2026, progress bar chiến dịch 60 ngày ôn luyện.</p></div></div>
+      <div class="fi"><div class="fi-icon">▶️</div><div><h4>Tích Hợp YouTube</h4><p>Xem video YouTube ngay trong website mà không cần rời đi — học viên có thể thư giãn, xem nhạc hoặc video học tập trong giờ giải lao mà vẫn ở trong không gian EduPass.</p></div></div>
+    </div>
+  </div>
+
+  <!-- II. NGÔN NGỮ & CÔNG CỤ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">II</div>
+      <div class="sec-title">Ngôn Ngữ & Công Cụ Sử Dụng</div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">🖥️ Ngôn ngữ lập trình</div>
+        <ul>
+          <li><strong>HTML5</strong> — Cấu trúc trang web, ngữ nghĩa, SEO</li>
+          <li><strong>CSS3</strong> — Giao diện, animation, responsive design</li>
+          <li><strong>JavaScript ES6+</strong> — Logic, tương tác, gọi API</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🔧 Thư viện & Công cụ</div>
+        <ul>
+          <li><strong>Chart.js</strong> — Biểu đồ thống kê trực quan</li>
+          <li><strong>LocalStorage API</strong> — Lưu dữ liệu người dùng</li>
+          <li><strong>GitHub</strong> — Quản lý phiên bản, triển khai</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Công nghệ</th><th>Dùng để làm gì</th><th>Chi phí</th></tr></thead>
+        <tbody>
+          <tr><td>HTML5 / CSS3 / JS</td><td>Toàn bộ giao diện và logic ứng dụng</td><td><span class="badge bg-green">Miễn phí</span></td></tr>
+          <tr><td>Chart.js 4.4</td><td>Vẽ biểu đồ trong trang báo cáo</td><td><span class="badge bg-green">Miễn phí</span></td></tr>
+          <tr><td>LocalStorage</td><td>Lưu tài khoản, lịch sử học, ghi chú</td><td><span class="badge bg-green">Miễn phí</span></td></tr>
+          <tr><td>GitHub Pages</td><td>Hosting & triển khai website</td><td><span class="badge bg-green">Miễn phí</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hl blue"><strong>Lý do chọn công nghệ thuần web:</strong> Không cần cài đặt, chạy thẳng trên trình duyệt, chi phí gần như bằng 0, dễ bảo trì — phù hợp với quy mô dự án học sinh.</div>
+  </div>
+
+  <!-- III. TÍNH NĂNG NỔI BẬT -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">III</div>
+      <div class="sec-title">Tính Năng Nổi Bật</div>
+    </div>
+    <div class="g3">
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">🆓</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Hoàn toàn miễn phí</div>
+        <p style="font-size:.82rem;color:#64748b">70+ tài liệu không có paywall ẩn. Mọi học sinh đều có thể tiếp cận.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">🛠️</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Tạo đề thi tự luyện</div>
+        <p style="font-size:.82rem;color:#64748b">Tự tạo đề thi theo môn, lớp, độ khó — tùy chỉnh số câu, thời gian và xáo trộn câu hỏi theo nhu cầu.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">📱</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Responsive đa thiết bị</div>
+        <p style="font-size:.82rem;color:#64748b">Giao diện tương thích hoàn hảo trên điện thoại, máy tính bảng và máy tính.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">🎯</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Bám sát CT 2026</div>
+        <p style="font-size:.82rem;color:#64748b">Tài liệu và đề thi cập nhật theo chương trình THPT mới nhất, đúng trọng tâm thi.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">🌐</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Hệ sinh thái đầy đủ</div>
+        <p style="font-size:.82rem;color:#64748b">Tài liệu, luyện thi, flashcard, note, dịch thuật — tất cả trong một nền tảng.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- IV. LÝ DO CHỌN -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">IV</div>
+      <div class="sec-title">Lý Do Chọn Dự Án Này</div>
+    </div>
+    <div class="hl">Dự án xuất phát từ chính những trăn trở thực tế của học sinh THPT — không phải từ phòng lab công ty, mà từ bàn học và những đêm ôn thi.</div>
+    <div class="card">
+      <p>Trong thực tế, các công cụ hỗ trợ học tập trên nền tảng số hiện nay vô cùng phong phú, từ kho tài liệu, hệ thống luyện thi đến các ứng dụng quản lý học tập. Tuy nhiên, phần lớn chúng tồn tại một cách <strong>rời rạc, thiếu sự liên kết và đồng bộ.</strong> Người học buộc phải sử dụng nhiều nền tảng khác nhau, gây mất thời gian, gián đoạn trải nghiệm và khó kiểm soát quá trình học tập.</p>
+      <p>Chính vì vậy, việc xây dựng một nền tảng tích hợp <strong>"tất cả trong một"</strong> như EduPass trở nên cần thiết hơn bao giờ hết. EduPass hướng đến việc hợp nhất các công cụ học tập quan trọng vào cùng một hệ sinh thái, giúp người học tiếp cận kiến thức một cách liền mạch, hiệu quả và có định hướng rõ ràng.</p>
+      <div style="background:#f8fafc;border-radius:10px;padding:1rem 1.3rem;border-left:4px solid #4f46e5;margin-top:.5rem">
+        <p style="margin:0;font-size:.92rem;font-style:italic;color:#3730a3"><strong>"Công cụ học tập thì không thiếu, nhưng sự kết nối mới là thứ còn thiếu. EduPass ra đời để lấp đầy khoảng trống đó."</strong></p>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">😓 Vấn đề thực tế</div>
+        <ul>
+          <li>Tài liệu học tập rải rác, mất thời gian tìm kiếm</li>
+          <li>Tài liệu chất lượng thường có giá cao, không phải ai cũng tiếp cận được</li>
+          <li>Không có công cụ luyện thi phù hợp, miễn phí và đầy đủ</li>
+          <li>Thiếu công cụ tự tạo đề thi theo điểm yếu cá nhân</li>
+          <li>Học thụ động, không có phản hồi tức thì về năng lực</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ Tại sao EduPass?</div>
+        <ul>
+          <li><strong>Cấp thiết:</strong> Kỳ thi THPTQG 2026 đang đến gần, nhu cầu ôn luyện rất cao</li>
+          <li><strong>Khả thi:</strong> Công nghệ web thuần không cần chi phí hạ tầng lớn</li>
+          <li><strong>Miễn phí:</strong> Giáo dục chất lượng là quyền của mọi học sinh</li>
+          <li><strong>Thực tế:</strong> Được xây dựng bởi học sinh, hiểu đúng nhu cầu học sinh</li>
+          <li><strong>Bền vững:</strong> Mô hình cộng đồng giúp dự án phát triển lâu dài</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- V. HÀNH TRÌNH PHÁT TRIỂN -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">V</div>
+      <div class="sec-title">Dự Án Phát Triển Như Thế Nào?</div>
+    </div>
+    <div class="card">
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-phase">Giai đoạn 1 · Tháng 9/2025</div>
+          <div class="tl-title">💡 Nảy sinh ý tưởng</div>
+          <div class="tl-desc">Khảo sát nhu cầu học sinh, phân tích các nền tảng hiện có, xác định khoảng trống thị trường. Hình thành ý tưởng xây dựng nền tảng học tập miễn phí, toàn diện.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-phase">Giai đoạn 2 · Tháng 10–11/2025</div>
+          <div class="tl-title">🏗️ Xây dựng nền tảng</div>
+          <div class="tl-desc">Thiết kế giao diện, xây dựng trang chủ, kho tài liệu, hệ thống luyện thi cơ bản và tài khoản người dùng.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-phase">Giai đoạn 3 · Tháng 12/2025 – 01/2026</div>
+          <div class="tl-title">📚 Phát triển nội dung</div>
+          <div class="tl-desc">Tổng hợp 70+ tài liệu chất lượng cao bám sát chương trình THPT 2026 từ các giáo viên uy tín.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-phase">Giai đoạn 4 · Tháng 02–03/2026</div>
+          <div class="tl-title">🛠️ Tích hợp tính năng mới</div>
+          <div class="tl-desc">Ra mắt Tạo đề thi, Flashcard, Note & Lịch học, Dịch thuật, Đếm ngược kỳ thi và hệ thống báo cáo thống kê.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-phase">Giai đoạn 5 · Tháng 04/2026 – Hiện tại</div>
+          <div class="tl-title">🚀 Ra mắt & Hoàn thiện</div>
+          <div class="tl-desc">Ra mắt chính thức, liên tục cập nhật tài liệu mới và cải thiện trải nghiệm dựa trên phản hồi người dùng.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VI. MỞ RỘNG SAU NÀY -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">VI</div>
+      <div class="sec-title">Mở Rộng Sau Này</div>
+    </div>
+    <div class="hl blue">EduPass đang trong quá trình phát triển liên tục — nhiều tính năng mới đang được lên kế hoạch và sẽ ra mắt trong tương lai gần để phục vụ học sinh tốt hơn.</div>
+    <div class="card" style="margin-bottom:1rem">
+      <p>Hiện tại EduPass đã có đầy đủ các công cụ học tập cơ bản. Tuy nhiên, nhóm phát triển nhận thấy vẫn còn nhiều khoảng trống cần lấp đầy để EduPass thực sự trở thành <strong>hệ sinh thái học tập toàn diện nhất</strong> dành cho học sinh THPT. Dưới đây là những tính năng sẽ được triển khai trong thời gian tới:</p>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">📅 Ngắn hạn (2026)</div>
+        <ul>
+          <li>🏫 <strong>Phòng thi ảo</strong> — mô phỏng môi trường thi thật</li>
+          <li>📱 <strong>Ứng dụng di động</strong> iOS & Android</li>
+          <li>👥 <strong>Thi cùng bạn bè</strong> theo thời gian thực</li>
+          <li>📊 <strong>Xuất PDF đề thi</strong> và bảng xếp hạng</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🌟 Dài hạn (2027+)</div>
+        <ul>
+          <li>📖 Mở rộng sang <strong>cấp THCS</strong> và ôn thi Đại học</li>
+          <li>🏫 Hợp tác với <strong>trường học & sở giáo dục</strong></li>
+          <li>💬 Xây dựng <strong>cộng đồng học sinh</strong> toàn quốc</li>
+
+        </ul>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>Tính năng sắp ra mắt</th><th>Dự kiến</th><th>Trạng thái</th></tr></thead>
+        <tbody>
+          <tr><td>🏫 Phòng thi ảo</td><td>Q2/2026</td><td><span class="badge bg-orange">Sắp ra mắt</span></td></tr>
+          <tr><td>📱 Ứng dụng di động</td><td>Q3/2026</td><td><span class="badge bg-blue">Đang phát triển</span></td></tr>
+          <tr><td>👥 Thi cùng bạn bè</td><td>Q3/2026</td><td><span class="badge bg-orange">Lên kế hoạch</span></td></tr>
+          <tr><td>🏆 Bảng xếp hạng</td><td>Q2/2026</td><td><span class="badge bg-orange">Lên kế hoạch</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ĐÁNH GIÁ HỌC VIÊN -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">⭐</div>
+      <div class="sec-title">Đánh Giá Từ Học Viên</div>
+    </div>
+    <div class="hl orange">Phần đánh giá học viên hiện tại trên website là dữ liệu mẫu (placeholder) — được đặt sẵn để tăng tính thẩm mỹ. Khi có học viên thực sử dụng, sẽ thay bằng đánh giá thật.</div>
+    <div class="card">
+      <p>Website EduPass có section <strong>"Đánh giá từ học viên"</strong> hiển thị trên trang chủ. Hiện tại các đánh giá này là dữ liệu mẫu được thiết kế sẵn nhằm minh họa giao diện và tạo trải nghiệm trực quan cho người xem.</p>
+      <p>Khi dự án phát triển và có học viên thực sự sử dụng, phần này sẽ được thay thế hoàn toàn bằng đánh giá thực tế từ cộng đồng học sinh.</p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem">
+        <span class="badge bg-orange">⚠️ Hiện là dữ liệu mẫu</span>
+        <span class="badge bg-blue">� Sẽ thay bằng đánh giá thật</span>
+        <span class="badge bg-purple">� Mục đích minh họa giao diện</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- KHÁT VỌNG TƯƠNG LAI -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">🌱</div>
+      <div class="sec-title">Khát Vọng Của Chúng Tôi Trong Tương Lai Gần</div>
+    </div>
+    <div class="hl blue">EduPass không dừng lại ở một website — chúng tôi muốn trở thành người bạn đồng hành thực sự của mọi học sinh THPT Việt Nam.</div>
+    <div class="card">
+      <p>Xuất phát điểm chỉ là một nhóm học sinh với ý tưởng đơn giản: <em>"Tại sao học sinh không có một nơi học tập miễn phí, đầy đủ và dễ dùng?"</em> — EduPass được tạo ra từ câu hỏi đó.</p>
+      <p>Trong tương lai gần, chúng tôi khát vọng:</p>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">🏫</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Có mặt tại nhiều trường hơn</div>
+        <p style="font-size:.85rem;color:#64748b">Mong muốn EduPass được biết đến và sử dụng rộng rãi tại các trường THPT trên toàn quốc, không chỉ ở Hòa Bình.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">📱</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Ra mắt ứng dụng di động</div>
+        <p style="font-size:.85rem;color:#64748b">Để học sinh có thể ôn thi mọi lúc mọi nơi, ngay cả khi không có máy tính — chỉ cần chiếc điện thoại trong tay.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">🏆</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Xây dựng cộng đồng học sinh</div>
+        <p style="font-size:.85rem;color:#64748b">Tạo không gian để học sinh cùng nhau học, chia sẻ kinh nghiệm ôn thi và động viên nhau vượt qua áp lực thi cử.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">💡</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Luôn miễn phí cho học sinh</div>
+        <p style="font-size:.85rem;color:#64748b">Dù phát triển đến đâu, cam kết cốt lõi không thay đổi: EduPass sẽ luôn miễn phí với học sinh — vì giáo dục là quyền của tất cả mọi người.</p>
+      </div>
+    </div>
+    <div class="quote" style="margin-top:0">
+      <p>"Chúng tôi không chỉ xây dựng một website — chúng tôi đang xây dựng một hành trình,<br>nơi mỗi học sinh đều có cơ hội học tốt hơn và tự tin hơn."</p>
+      <small>— Nhóm phát triển EduPass</small>
+    </div>
+  </div>
+
+  <!-- ỦNG HỘ EDUPASS -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">💛</div>
+      <div class="sec-title">Ủng Hộ EduPass</div>
+    </div>
+    <div class="hl">EduPass hoàn toàn miễn phí — nhưng để duy trì và phát triển, dự án rất cần sự đồng hành từ cộng đồng.</div>
+    <div class="card">
+      <p>Toàn bộ tài liệu, đề thi và tính năng trên EduPass đều miễn phí với học sinh. Tuy nhiên, để duy trì server, cập nhật nội dung và phát triển thêm tính năng mới, nhóm phát triển cần có nguồn kinh phí nhất định.</p>
+      <p>Mỗi khoản ủng hộ dù nhỏ đều là <strong>động lực to lớn</strong> để nhóm tiếp tục cải thiện EduPass mỗi ngày — thêm tài liệu mới, sửa lỗi nhanh hơn và ra mắt tính năng mới sớm hơn.</p>
+      <div style="background:linear-gradient(135deg,#0f172a,#1e1b4b);border-radius:12px;padding:1.4rem;margin-top:1rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+        <div style="text-align:center;flex-shrink:0">
+          <img src="8e2cd9923b54b50aec45.jpg" alt="QR ủng hộ EduPass" style="width:110px;height:110px;border-radius:10px;object-fit:cover;display:block;margin:0 auto .5rem">
+          <div style="font-size:.72rem;color:#94a3b8">Quét QR để ủng hộ</div>
+        </div>
+        <div style="color:#e2e8f0">
+          <div style="font-weight:700;color:#a5b4fc;margin-bottom:.5rem">📝 Nội dung chuyển khoản</div>
+          <div style="font-size:.88rem;margin-bottom:.3rem">Ung ho EduPass + <em>Tên của bạn</em></div>
+          <div style="font-size:.78rem;color:#64748b;margin-bottom:.8rem">Ví dụ: <em>Ung ho EduPass Nguyen Van A</em></div>
+          <div style="font-size:.82rem;color:#94a3b8">📧 trcuong12112008@gmail.com</div>
+          <div style="font-size:.82rem;color:#94a3b8">📱 0348 908 243</div>
+        </div>
+      </div>
+      <p style="margin-top:1rem;font-size:.85rem;color:#64748b;font-style:italic">💛 Mỗi sự đồng hành của bạn đều góp phần giữ cho EduPass miễn phí và ngày càng tốt hơn cho cộng đồng học sinh.</p>
+    </div>
+  </div>
+
+  <!-- GIÁ TRỊ CỘNG ĐỒNG -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">🌍</div>
+      <div class="sec-title">Giá Trị Dự Án Mang Lại Cho Cộng Đồng</div>
+    </div>
+    <div class="hl green">EduPass không chỉ là một nền tảng học tập, mà còn là giải pháp góp phần nâng cao chất lượng giáo dục trong cộng đồng.</div>
+    <div class="g2">
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">📚</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Tài liệu có hệ thống</div>
+        <p style="font-size:.85rem;color:#64748b">Giúp học sinh tiếp cận nguồn tài liệu đa dạng, đáng tin cậy và có hệ thống — giảm sự phụ thuộc vào các nguồn thông tin rời rạc, thiếu kiểm chứng.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">⚖️</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Môi trường học tập công bằng</div>
+        <p style="font-size:.85rem;color:#64748b">Bất kỳ ai cũng có thể học tập và luyện thi trên cùng một nền tảng, không bị giới hạn bởi điều kiện kinh tế hay khu vực địa lý — đặc biệt ý nghĩa với học sinh vùng thiếu tài nguyên.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">🤝</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Cộng đồng học tập tích cực</div>
+        <p style="font-size:.85rem;color:#64748b">Xây dựng nơi người học chia sẻ kiến thức, kinh nghiệm và cùng nhau tiến bộ — lan tỏa tinh thần học tập chủ động, hợp tác và phát triển bền vững.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:1.6rem;margin-bottom:.5rem">🚀</div>
+        <div style="font-weight:700;margin-bottom:.3rem">Thế hệ tự học tốt hơn</div>
+        <p style="font-size:.85rem;color:#64748b">Góp phần hình thành thế hệ học sinh tự học tốt hơn, tư duy tốt hơn và sẵn sàng thích nghi với những thay đổi của xã hội — nền tảng để phát triển nguồn nhân lực chất lượng cao.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- KẾT LUẬN -->
+  <div class="quote">
+    <p>"EduPass được tạo ra để giúp học sinh học đúng cách hôm nay<br>và tự tin bước vào đại học ngày mai."</p>
+    <small>— Trần Nguyễn Chí Cường, Founder EduPass · trcuong12112008@gmail.com · 0348 908 243</small>
+  </div>
+
+  <!-- LỜI CẢM ƠN -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-num">🙏</div>
+      <div class="sec-title">Lời Cảm Ơn</div>
+    </div>
+    <div class="card" style="border-top:3px solid #4f46e5">
+      <p>Lời đầu tiên, chúng em xin gửi lời cảm ơn chân thành và sâu sắc đến <strong>Ban giám khảo</strong> đã dành thời gian quý báu để xem xét, đánh giá và góp ý cho bài dự thi của chúng em. Sự hiện diện và những nhận xét của Ban giám khảo không chỉ là sự ghi nhận đối với nỗ lực của chúng em, mà còn là nguồn động lực to lớn giúp chúng em tiếp tục hoàn thiện ý tưởng của mình.</p>
+      <p>Trong quá trình xây dựng và phát triển dự án EduPass, chúng em đã có cơ hội tìm hiểu, học hỏi và trải nghiệm nhiều kiến thức mới. Tuy nhiên, chắc chắn bài làm vẫn còn nhiều thiếu sót và chưa thật sự hoàn hảo. Vì vậy, chúng em rất mong nhận được những góp ý chân thành, khách quan và sâu sắc từ Ban giám khảo để có thể cải thiện và phát triển dự án một cách tốt hơn trong tương lai.</p>
+      <p>Chúng em tin rằng, mỗi nhận xét dù nhỏ cũng đều mang giá trị lớn, giúp chúng em nhìn nhận lại vấn đề một cách toàn diện hơn, từ đó định hướng rõ ràng hơn cho việc phát triển EduPass — một nền tảng học tập hướng đến sự tiện ích, hiệu quả và phù hợp với nhu cầu của học sinh trong thời đại số.</p>
+      <p>Một lần nữa, chúng em xin trân trọng cảm ơn Ban giám khảo đã quan tâm, theo dõi và đánh giá bài dự thi. Kính chúc Ban giám khảo luôn mạnh khỏe, thành công và tiếp tục đồng hành, truyền cảm hứng cho thế hệ học sinh trong hành trình chinh phục tri thức.</p>
+      <div style="text-align:center;margin-top:1.2rem;padding-top:1rem;border-top:1px solid #e2e8f0">
+        <div style="font-size:1.5rem;margin-bottom:.4rem">🙏</div>
+        <div style="font-weight:700;font-size:1rem;color:#4f46e5">Xin chân thành cảm ơn!</div>
+        <div style="font-size:.82rem;color:#64748b;margin-top:.3rem">Nhóm phát triển EduPass · Lớp 12A5 · Trường THCS-THPT Hòa Bình</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>EduPass</strong> · Tường trình dự án 2025–2026 · Lớp 12A5 · Trường THCS-THPT Hòa Bình<br>
+  <em>Learn today. Pass tomorrow.</em>
+  <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #1e293b;font-size:.78rem;color:#334155;max-width:600px;margin-left:auto;margin-right:auto">
+    🔒 Bài viết này là kết quả của quá trình sáng tạo nghiêm túc, không sao chép dưới bất kỳ hình thức nào. Giá trị của nó nằm ở ý tưởng và tâm huyết, không thể bị thay thế hay sao chép.
+  </div>
+</footer>
+
+</body>
+</html>
