@@ -1924,14 +1924,17 @@ function togglePasswordRegister(inputId, iconId) {
 }
 
 // Account Page Functions
-if (window.location.pathname.includes('tai-khoan.html')) {
-    // Check if user is logged in
+if (window.location.pathname.includes('tai-khoan.html') || window.location.href.includes('tai-khoan.html')) {
     const isLoggedIn = localStorage.getItem('loggedIn');
     if (!isLoggedIn) {
         window.location.href = 'dang-nhap.html';
+    } else {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadAccountData);
+        } else {
+            loadAccountData();
+        }
     }
-    
-    loadAccountData();
 }
 
 function loadAccountData() {
@@ -1983,14 +1986,15 @@ function loadAccountData() {
     }
     
     // Always display fixed avatar (dolphin logo)
-    document.getElementById('avatarImg').src = 'assets/logo2.png';
+    const avatarEl = document.getElementById('avatarImg');
+    if (avatarEl) avatarEl.src = 'assets/logo2.png';
     
     // Display user info
-    document.getElementById('userName').textContent = user.fullname || 'Người dùng';
-    document.getElementById('userEmail').textContent = user.email || '';
-    document.getElementById('displayName').textContent = user.fullname || '-';
-    document.getElementById('displayEmail').textContent = user.email || '-';
-    document.getElementById('displayJoinDate').textContent = accountData.joinDate || '-';
+    if (document.getElementById('userName')) document.getElementById('userName').textContent = user.fullname || 'Người dùng';
+    if (document.getElementById('userEmail')) document.getElementById('userEmail').textContent = user.email || '';
+    if (document.getElementById('displayName')) document.getElementById('displayName').textContent = user.fullname || '-';
+    if (document.getElementById('displayEmail')) document.getElementById('displayEmail').textContent = user.email || '-';
+    if (document.getElementById('displayJoinDate')) document.getElementById('displayJoinDate').textContent = accountData.joinDate || '-';
     
     // Display balance
     if (document.getElementById('accountBalance')) {
@@ -2168,6 +2172,28 @@ window.onclick = function(event) {
 }
 
 // Form đăng nhập
+// Tạo tài khoản demo cho Ban Giám Khảo nếu chưa có
+(function() {
+    // Luôn đảm bảo tài khoản demo tồn tại
+    const existing = JSON.parse(localStorage.getItem('user') || '{}');
+    // Nếu chưa có user hoặc user hiện tại không phải demo thì lưu demo
+    if (!existing.email || existing.email === 'demo@edupass.vn') {
+        localStorage.setItem('user', JSON.stringify({
+            fullname: 'Ban Giám Khảo (Demo)',
+            email: 'demo@edupass.vn',
+            password: '12a5edupass',
+            phone: '',
+            school: 'EduPass Demo',
+            grade: '12'
+        }));
+    }
+    // Luôn lưu demo account riêng để fillDemoAccount dùng
+    localStorage.setItem('demo_account', JSON.stringify({
+        email: 'demo@edupass.vn',
+        password: '12a5edupass'
+    }));
+})();
+
 if (document.getElementById('loginForm')) {
     document.getElementById('loginForm').onsubmit = function(e) {
         e.preventDefault();
@@ -2205,11 +2231,23 @@ if (document.getElementById('loginForm')) {
         // Simulate API call
         setTimeout(() => {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
-            
-            if (user.email === email && user.password === password) {
-                // Always save to localStorage for persistent login
+            const demo = { email: 'demo@edupass.vn', password: '12a5edupass' };
+            const isDemo = email === demo.email && password === demo.password;
+            const isUser = user.email === email && user.password === password;
+
+            if (isDemo || isUser) {
+                // Nếu đăng nhập bằng demo, đảm bảo user được set đúng
+                if (isDemo) {
+                    localStorage.setItem('user', JSON.stringify({
+                        fullname: 'Ban Giám Khảo (Demo)',
+                        email: 'demo@edupass.vn',
+                        password: '12a5edupass',
+                        phone: '',
+                        school: 'EduPass Demo',
+                        grade: '12'
+                    }));
+                }
                 localStorage.setItem('loggedIn', 'true');
-                alert('Đăng nhập thành công!');
                 const params = new URLSearchParams(window.location.search);
                 const redirect = params.get('redirect');
                 window.location.href = redirect || 'tai-khoan.html';
@@ -2421,56 +2459,40 @@ if (document.getElementById('contactForm')) {
 // Update navigation menu based on login status
 function updateNavMenu() {
     const isLoggedIn = localStorage.getItem('loggedIn');
-    const navMenus = document.querySelectorAll('.nav-menu');
-    
-    navMenus.forEach(navMenu => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    // Cập nhật .nav-actions (desktop)
+    document.querySelectorAll('.nav-actions').forEach(function(navActions) {
         if (isLoggedIn) {
-            // User is logged in - show Tài khoản and Đăng xuất
-            const loginLink = navMenu.querySelector('a[href="dang-nhap.html"]');
-            const registerLink = navMenu.querySelector('a[href="dang-ky.html"]');
-            
-            if (loginLink) {
-                loginLink.parentElement.style.display = 'none';
-            }
-            if (registerLink) {
-                registerLink.parentElement.style.display = 'none';
-            }
-            
-            // Check if Tài khoản link already exists
-            const accountLink = navMenu.querySelector('a[href="tai-khoan.html"]');
-            if (!accountLink) {
-                // Add Tài khoản and Đăng xuất links
-                const accountLi = document.createElement('li');
-                accountLi.innerHTML = '<a href="tai-khoan.html">Tài khoản</a>';
-                
-                const logoutLi = document.createElement('li');
-                logoutLi.innerHTML = '<a href="#" onclick="logout()" class="btn-primary">Đăng xuất</a>';
-                
-                navMenu.appendChild(accountLi);
-                navMenu.appendChild(logoutLi);
-            }
+            navActions.innerHTML =
+                '<a href="tai-khoan.html" class="btn-nav-login">👤 ' + (user.fullname || 'Tài khoản') + '</a>' +
+                '<a href="#" onclick="logout();return false;" class="btn-nav-register">Đăng xuất</a>';
         } else {
-            // User is not logged in - show Đăng nhập and Đăng ký
-            const loginLink = navMenu.querySelector('a[href="dang-nhap.html"]');
-            const registerLink = navMenu.querySelector('a[href="dang-ky.html"]');
-            
-            if (loginLink) {
-                loginLink.parentElement.style.display = 'list-item';
-            }
-            if (registerLink) {
-                registerLink.parentElement.style.display = 'list-item';
-            }
-            
-            // Remove Tài khoản and Đăng xuất if they exist
-            const accountLink = navMenu.querySelector('a[href="tai-khoan.html"]');
-            const logoutLink = navMenu.querySelector('a[onclick="logout()"]');
-            
-            if (accountLink) {
-                accountLink.parentElement.remove();
-            }
-            if (logoutLink) {
-                logoutLink.parentElement.remove();
-            }
+            navActions.innerHTML =
+                '<a href="dang-nhap.html" class="btn-nav-login">Đăng nhập</a>' +
+                '<a href="dang-ky.html" class="btn-nav-register">Đăng ký</a>';
+        }
+    });
+
+    // Cập nhật .nav-menu (mobile)
+    document.querySelectorAll('.nav-menu').forEach(function(navMenu) {
+        // Xóa các item dynamic cũ
+        navMenu.querySelectorAll('.nav-dynamic').forEach(function(el) { el.remove(); });
+
+        if (isLoggedIn) {
+            // Ẩn login/register mobile
+            navMenu.querySelectorAll('.nav-mobile-only').forEach(function(el) { el.style.display = 'none'; });
+            // Thêm tài khoản + đăng xuất
+            var li1 = document.createElement('li');
+            li1.className = 'nav-dynamic nav-mobile-only';
+            li1.innerHTML = '<a href="tai-khoan.html" style="display:block;text-align:center">👤 Tài khoản</a>';
+            var li2 = document.createElement('li');
+            li2.className = 'nav-dynamic nav-mobile-only';
+            li2.innerHTML = '<a href="#" onclick="logout();return false;" style="display:block;text-align:center">Đăng xuất</a>';
+            navMenu.appendChild(li1);
+            navMenu.appendChild(li2);
+        } else {
+            navMenu.querySelectorAll('.nav-mobile-only').forEach(function(el) { el.style.display = ''; });
         }
     });
 }
@@ -2602,25 +2624,49 @@ document.addEventListener('keydown', function(event) {
 });
 
 // ===== Nav Dropdown Toggle =====
-document.addEventListener('DOMContentLoaded', function () {
+function initNavDropdowns() {
     document.querySelectorAll('.nav-dropdown').forEach(function (dropdown) {
         var toggle = dropdown.querySelector('.nav-dropdown-toggle');
+        if (!toggle || toggle._dropdownInit) return;
+        toggle._dropdownInit = true;
 
         toggle.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
             var isOpen = dropdown.classList.contains('open');
+            // Đóng tất cả dropdown khác
             document.querySelectorAll('.nav-dropdown.open').forEach(function (d) {
-                if (d !== dropdown) d.classList.remove('open');
+                if (d !== dropdown) {
+                    d.classList.remove('open');
+                    var t = d.querySelector('.nav-dropdown-toggle');
+                    if (t) t.setAttribute('aria-expanded', 'false');
+                }
             });
             dropdown.classList.toggle('open', !isOpen);
             toggle.setAttribute('aria-expanded', String(!isOpen));
         });
     });
+}
 
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('.nav-dropdown')) {
-            document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
-        }
-    });
+document.addEventListener('DOMContentLoaded', initNavDropdowns);
+
+// Đóng dropdown khi click ra ngoài
+document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown.open').forEach(function (d) {
+            d.classList.remove('open');
+            var t = d.querySelector('.nav-dropdown-toggle');
+            if (t) t.setAttribute('aria-expanded', 'false');
+        });
+    }
 });
+
+// Điền tài khoản demo và tự đăng nhập
+function fillDemoAccount() {
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    if (emailEl) emailEl.value = 'demo@edupass.vn';
+    if (passwordEl) passwordEl.value = '12a5edupass';
+    const form = document.getElementById('loginForm');
+    if (form) form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+}

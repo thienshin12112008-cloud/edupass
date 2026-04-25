@@ -141,6 +141,15 @@
                     <h2>Chào mừng trở lại 👋</h2>
                     <p class="auth-subtitle">Đăng nhập để tiếp tục hành trình học tập</p>
 
+                    <!-- Banner tài khoản demo -->
+                    <div style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:1.5px solid #42a5f5;border-radius:10px;padding:12px 16px;margin-bottom:16px;">
+                        <div style="font-size:0.82em;color:#1565c0;font-weight:600;margin-bottom:6px;">🎓 Tài khoản demo dành cho Ban Giám Khảo</div>
+                        <div style="font-size:0.82em;color:#1e3a5f;margin-bottom:8px;">
+                            📧 <strong>demo@edupass.vn</strong> &nbsp;|&nbsp; 🔑 <strong>12a5edupass</strong>
+                        </div>
+                        <button type="button" onclick="fillDemoAccount()" style="background:#1976d2;color:#fff;border:none;border-radius:6px;padding:6px 16px;font-size:0.82em;font-weight:600;cursor:pointer;">⚡ Điền tự động & Đăng nhập</button>
+                    </div>
+
                     <div id="errorMessage" class="error-message" style="display: none;"></div>
 
                     <form id="loginForm">
@@ -290,7 +299,6 @@
                             <div class="ftb-teacher-info">
                                 <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
                                 <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
-                            <span class="ftb-teacher-name">Thầy Lê Tấn Tài</span>
                             </div>
                         </div>
                     </div>
@@ -312,6 +320,13 @@
                 </div>
                 <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
                 <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
+            <div style="margin-top:1.5rem;padding:1.2rem 1.5rem;background:rgba(0,0,0,0.18);border-radius:12px;border-left:3px solid rgba(255,255,255,0.2);">
+                <p style="font-size:0.78rem;color:rgba(255,255,255,0.55);line-height:1.8;margin:0;">
+                    <strong style="color:rgba(255,255,255,0.75);"> Quyền sở hữu trí tuệ</strong><br>
+                    Sản phẩm dự thi này là kết quả của quá trình nghiên cứu, sáng tạo và phát triển nghiêm túc của tập thể chúng tôi, được đầu tư cả về ý tưởng, nội dung lẫn công nghệ nhằm mang đến một giải pháp học tập thực tiễn và bền vững cho cộng đồng học sinh. Mọi quyền sở hữu trí tuệ liên quan đến dự án, bao gồm ý tưởng, nội dung, thiết kế giao diện, hệ thống dữ liệu, tài liệu học tập và các chức năng công nghệ đều thuộc quyền sở hữu hợp pháp của nhóm tác giả và được pháp luật bảo hộ.
+                    Chúng tôi nghiêm cấm mọi hành vi sao chép, chỉnh sửa, sử dụng lại dưới bất kỳ hình thức nào hoặc khai thác vì mục đích thương mại khi chưa có sự đồng ý chính thức từ nhóm tác giả. Mọi hành vi vi phạm quyền sở hữu trí tuệ sẽ được xem xét và xử lý theo đúng quy định của pháp luật hiện hành.
+                </p>
+            </div>
             </div>
         </div>
     </footer>
@@ -319,43 +334,91 @@
     <script>
     // Logo typewriter
     const logoEl = document.getElementById('logoText');
-    const logoWord = 'EduPass';
-    let logoChar = 0;
-    function typeLogo() {
-        if (logoChar <= logoWord.length) {
-            logoEl.textContent = logoWord.slice(0, logoChar);
-            logoChar++;
-            setTimeout(typeLogo, 120);
+    if (logoEl) {
+        const logoWord = 'EduPass';
+        let logoChar = 0;
+        function typeLogo() {
+            if (logoChar <= logoWord.length) {
+                logoEl.textContent = logoWord.slice(0, logoChar);
+                logoChar++;
+                setTimeout(typeLogo, 120);
+            }
         }
+        setTimeout(typeLogo, 200);
     }
-    setTimeout(typeLogo, 200);
-
-    // Search dropdown
-    function toggleSearchDropdown() {
-        document.getElementById('searchDropdown').classList.toggle('open');
-    }
-    document.getElementById('heroSearchInput').addEventListener('input', function() {
-        const q = this.value.toLowerCase().trim();
-        document.getElementById('searchDropdown').classList.add('open');
-        document.querySelectorAll('.search-item').forEach(item => {
-            item.style.display = item.textContent.toLowerCase().includes(q) || q === '' ? 'flex' : 'none';
-        });
-    });
-    document.getElementById('heroSearchInput').addEventListener('focus', function() {
-        document.getElementById('searchDropdown').classList.add('open');
-    });
-    document.addEventListener('click', function(e) {
-        if (!document.getElementById('heroSearchBox').contains(e.target))
-            document.getElementById('searchDropdown').classList.remove('open');
-    });
-    document.getElementById('heroSearchInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const q = this.value.trim();
-            window.location.href = 'tai-lieu.html' + (q ? '?q=' + encodeURIComponent(q) : '');
-        }
-    });
     </script>
     <script src="script.js"></script>
+    <script src="nav-auth.js"></script>
+    <script>
+    // ===== XỬ LÝ ĐĂNG NHẬP (override script.js) =====
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('loginForm');
+        if (!form) return;
+        form.onsubmit = null;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var email = document.getElementById('email').value.trim();
+            var password = document.getElementById('password').value;
+            var emailErr = document.getElementById('emailError');
+            var passErr = document.getElementById('passwordError');
+            var errMsg = document.getElementById('errorMessage');
+            var loginBtn = document.getElementById('loginBtn');
+
+            // Reset errors
+            emailErr.textContent = '';
+            passErr.textContent = '';
+            errMsg.style.display = 'none';
+
+            // Validate
+            var hasError = false;
+            if (!email || !email.includes('@')) { emailErr.textContent = 'Email không hợp lệ'; hasError = true; }
+            if (!password || password.length < 6) { passErr.textContent = 'Mật khẩu phải có ít nhất 6 ký tự'; hasError = true; }
+            if (hasError) return;
+
+            // Loading
+            loginBtn.disabled = true;
+            loginBtn.querySelector('.btn-text').style.display = 'none';
+            loginBtn.querySelector('.btn-loader').style.display = 'flex';
+
+            setTimeout(function() {
+                var DEMO_EMAIL = 'demo@edupass.vn';
+                var DEMO_PASS  = '12a5edupass';
+                var isDemo = (email === DEMO_EMAIL && password === DEMO_PASS);
+
+                var user = {};
+                try { user = JSON.parse(localStorage.getItem('user') || '{}'); } catch(e) {}
+                var isUser = (user.email === email && user.password === password);
+
+                if (isDemo || isUser) {
+                    if (isDemo) {
+                        localStorage.setItem('user', JSON.stringify({
+                            fullname: 'Ban Giám Khảo (Demo)',
+                            email: DEMO_EMAIL,
+                            password: DEMO_PASS,
+                            phone: '', school: 'EduPass Demo', grade: '12'
+                        }));
+                    }
+                    localStorage.setItem('loggedIn', 'true');
+                    var params = new URLSearchParams(window.location.search);
+                    window.location.href = params.get('redirect') || 'tai-khoan.html';
+                } else {
+                    errMsg.textContent = '❌ Email hoặc mật khẩu không đúng!';
+                    errMsg.style.display = 'block';
+                    loginBtn.disabled = false;
+                    loginBtn.querySelector('.btn-text').style.display = 'inline';
+                    loginBtn.querySelector('.btn-loader').style.display = 'none';
+                }
+            }, 800);
+        });
+    });
+
+    function fillDemoAccount() {
+        document.getElementById('email').value = 'demo@edupass.vn';
+        document.getElementById('password').value = '12a5edupass';
+        document.getElementById('loginForm').dispatchEvent(new Event('submit', {bubbles:true, cancelable:true}));
+    }
+    </script>
     
     <script>
         if ('serviceWorker' in navigator) {
@@ -385,16 +448,11 @@
                 btn.setAttribute('aria-expanded','false');
             });
         });
-        document.addEventListener('click', function(e){
-            if(nav && !nav.contains(e.target)){
-                menu.classList.remove('open');
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded','false');
-            }
-        });
     })();
+    if(typeof initNavDropdowns==='function') initNavDropdowns();
     </script>
     <script src="effects.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
+

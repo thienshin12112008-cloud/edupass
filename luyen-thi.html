@@ -300,7 +300,6 @@
                             <div class="ftb-teacher-info">
                                 <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
                                 <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
-                            <span class="ftb-teacher-name">Thầy Lê Tấn Tài</span>
                             </div>
                         </div>
                     </div>
@@ -322,11 +321,19 @@
                 </div>
                 <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
                 <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
+            <div style="margin-top:1.5rem;padding:1.2rem 1.5rem;background:rgba(0,0,0,0.18);border-radius:12px;border-left:3px solid rgba(255,255,255,0.2);">
+                <p style="font-size:0.78rem;color:rgba(255,255,255,0.55);line-height:1.8;margin:0;">
+                    <strong style="color:rgba(255,255,255,0.75);"> Quyền sở hữu trí tuệ</strong><br>
+                    Sản phẩm dự thi này là kết quả của quá trình nghiên cứu, sáng tạo và phát triển nghiêm túc của tập thể chúng tôi, được đầu tư cả về ý tưởng, nội dung lẫn công nghệ nhằm mang đến một giải pháp học tập thực tiễn và bền vững cho cộng đồng học sinh. Mọi quyền sở hữu trí tuệ liên quan đến dự án, bao gồm ý tưởng, nội dung, thiết kế giao diện, hệ thống dữ liệu, tài liệu học tập và các chức năng công nghệ đều thuộc quyền sở hữu hợp pháp của nhóm tác giả và được pháp luật bảo hộ.
+                    Chúng tôi nghiêm cấm mọi hành vi sao chép, chỉnh sửa, sử dụng lại dưới bất kỳ hình thức nào hoặc khai thác vì mục đích thương mại khi chưa có sự đồng ý chính thức từ nhóm tác giả. Mọi hành vi vi phạm quyền sở hữu trí tuệ sẽ được xem xét và xử lý theo đúng quy định của pháp luật hiện hành.
+                </p>
+            </div>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
+    <script src="nav-auth.js"></script>
     
     <script>
         if ('serviceWorker' in navigator) {
@@ -350,21 +357,17 @@
         });
         menu.querySelectorAll('a').forEach(function(a){
             a.addEventListener('click', function(){
+                if(a.classList.contains('nav-dropdown-toggle')) return;
                 menu.classList.remove('open');
                 btn.classList.remove('open');
                 btn.setAttribute('aria-expanded','false');
             });
         });
-        document.addEventListener('click', function(e){
-            if(nav && !nav.contains(e.target)){
-                menu.classList.remove('open');
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded','false');
-            }
-        });
     })();
+    if(typeof initNavDropdowns==='function') initNavDropdowns();
     </script>
     <script src="effects.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
+

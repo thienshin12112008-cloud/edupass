@@ -38,6 +38,31 @@
     </script>
 </head>
 <body>
+
+    <!-- Popup lưu ý dữ liệu demo -->
+    <div id="demo-notice-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;">
+        <div style="background:#fff;border-radius:16px;max-width:620px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.25);overflow:hidden;animation:demoPopIn .35s ease;">
+            <div style="background:linear-gradient(135deg,#ff6f00,#ffa000);padding:18px 24px;display:flex;align-items:center;gap:10px;">
+                <span style="font-size:1.6em;">📌</span>
+                <strong style="color:#fff;font-size:1.05em;letter-spacing:.3px;">Lưu ý về dữ liệu trên website</strong>
+            </div>
+            <div style="padding:22px 26px;color:#3e2723;font-size:0.92em;line-height:1.75;">
+                <p style="margin:0 0 12px;">Toàn bộ nội dung hiện đang hiển thị trên website <strong>EduPass</strong> — bao gồm tài liệu học tập, đề luyện thi, bài kiểm tra, hệ thống flashcard và phần đánh giá học viên — đều là <strong style="color:#e65100;">dữ liệu mẫu (demo)</strong> được xây dựng có chủ đích nhằm mô phỏng chân thực giao diện, chức năng và trải nghiệm vận hành của hệ thống.</p>
+                <p style="margin:0 0 12px;">Những dữ liệu này được thiết kế để <strong>Ban Giám Khảo</strong> có thể trực tiếp trải nghiệm đầy đủ các tính năng nổi bật, đồng thời đánh giá rõ hơn về tính ứng dụng, tính hoàn thiện cũng như tiềm năng phát triển của dự án.</p>
+                <p style="margin:0;">Khi EduPass chính thức đi vào triển khai thực tế, toàn bộ dữ liệu demo sẽ được thay thế bằng hệ thống học liệu chuẩn hóa, đề thi thực tế, kho tài liệu chuyên sâu và nội dung chất lượng cao được cập nhật liên tục, hướng đến mục tiêu xây dựng một nền tảng học tập toàn diện, hiệu quả và bền vững cho cộng đồng học sinh.</p>
+            </div>
+            <div style="padding:0 26px 22px;text-align:right;">
+                <button onclick="document.getElementById('demo-notice-overlay').style.display='none'" style="background:linear-gradient(135deg,#ff6f00,#ffa000);color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:0.95em;font-weight:600;cursor:pointer;letter-spacing:.3px;">Đã hiểu ✓</button>
+            </div>
+        </div>
+    </div>
+    <style>
+    @keyframes demoPopIn {
+        from { opacity:0; transform:scale(.88); }
+        to   { opacity:1; transform:scale(1); }
+    }
+    </style>
+
     <section class="hero">
         <nav class="navbar">
             <div class="container">
@@ -1234,7 +1259,6 @@
                             <div class="ftb-teacher-info">
                                 <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
                                 <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
-                            <span class="ftb-teacher-name">Thầy Lê Tấn Tài</span>
                             </div>
                         </div>
                     </div>
@@ -1265,6 +1289,11 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="nav-auth.js"></script>
+    <script>
+    // Gọi lại init dropdown sau khi tất cả script load xong
+    if (typeof initNavDropdowns === 'function') initNavDropdowns();
+    </script>
     <script>
     // Lightbox cho ảnh scatter
     function nlhLightbox(img) {
@@ -1401,14 +1430,6 @@
                     hamburger.classList.remove('open');
                     hamburger.setAttribute('aria-expanded', 'false');
                 });
-            });
-            // Đóng menu khi click ngoài
-            document.addEventListener('click', (e) => {
-                if (!navbar.contains(e.target)) {
-                    navMenu.classList.remove('open');
-                    hamburger.classList.remove('open');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                }
             });
         }
 
@@ -1895,4 +1916,5 @@
     </script>
 </body>
 </html>
+
 

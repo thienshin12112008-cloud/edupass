@@ -497,19 +497,14 @@
         });
         menu.querySelectorAll('a').forEach(function(a){
             a.addEventListener('click', function(){
+                if(a.classList.contains('nav-dropdown-toggle')) return;
                 menu.classList.remove('open');
                 btn.classList.remove('open');
                 btn.setAttribute('aria-expanded','false');
             });
         });
-        document.addEventListener('click', function(e){
-            if(nav && !nav.contains(e.target)){
-                menu.classList.remove('open');
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded','false');
-            }
-        });
     })();
+    if(typeof initNavDropdowns==='function') initNavDropdowns();
     </script>
     <script src="effects.js"></script>
     <script src="popup.js"></script>

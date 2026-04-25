@@ -769,6 +769,10 @@ textarea,input,select{font-family:inherit}
         <span>🔍</span>
         <input type="text" id="fcSearch" placeholder="Tìm bộ thẻ..." oninput="onSearch(this.value)">
       </div>
+      <!-- Mobile: toggle filter -->
+      <button class="ftab-toggle" id="ftabToggle" onclick="toggleFilters()" style="display:none">
+        🎯 Lọc môn học <span id="ftabArrow">▾</span>
+      </button>
       <div class="filters" id="filters">
         <button class="ftab on" data-f="all">Tất cả</button>
         <button class="ftab" data-f="Toán">📐 Toán</button>
@@ -1004,7 +1008,7 @@ textarea,input,select{font-family:inherit}
     <!-- FLIP -->
     <div id="pFlip" style="flex:1;display:flex;flex-direction:column;align-items:center">
       <div style="perspective:1100px;width:100%;max-width:500px;margin:0 auto 1.4rem">
-        <div id="sCard" onclick="flipCard()" style="width:100%;height:250px;cursor:pointer;position:relative">
+        <div id="sCard" onclick="flipCard()" style="width:100%;min-height:200px;height:clamp(180px,40vw,250px);cursor:pointer;position:relative">
           <div id="sCardInner" style="width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:26px">
             <div style="position:absolute;inset:0;border-radius:26px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.2rem;text-align:center;background:linear-gradient(135deg,#667eea,#764ba2);box-shadow:0 20px 55px rgba(102,126,234,.35)">
               <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6);margin-bottom:.9rem">Câu hỏi</div>
@@ -1035,7 +1039,7 @@ textarea,input,select{font-family:inherit}
     <!-- QUIZ -->
     <div id="pQuiz" style="display:none;flex:1;flex-direction:column;align-items:center">
       <div id="qQ" style="font-size:1.3rem;font-weight:800;color:#fff;text-align:center;margin-bottom:1.8rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem;width:100%;max-width:500px"></div>
-      <div id="qOpts" style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;width:100%;max-width:500px;margin-bottom:.9rem"></div>
+      <div id="qOpts" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem;width:100%;max-width:500px;margin-bottom:.9rem"></div>
       <div id="qFb" style="display:none;font-size:.9rem;font-weight:700;text-align:center;padding:.65rem 1.4rem;border-radius:50px;margin-bottom:.9rem"></div>
       <button id="qNext" onclick="nextQuiz()" style="display:none;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:50px;padding:.65rem 1.8rem;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer">Tiếp theo →</button>
     </div>
@@ -1074,9 +1078,65 @@ textarea,input,select{font-family:inherit}
 
 <style>
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media(max-width:480px){
+  /* Main padding */
+  .main{padding:1rem 1rem 3rem}
+
+  /* Toolbar */
+  .toolbar{flex-direction:column;align-items:stretch;gap:.7rem}
+  .toolbar-l{flex-direction:column;align-items:stretch}
+  .search-box{width:100%}
+  .search-box input{width:100%;flex:1}
+  .btn-new{justify-content:center}
+
+  /* Filter toggle button */
+  .ftab-toggle{display:flex !important;align-items:center;justify-content:space-between;
+    width:100%;background:#fff;border:1.5px solid #e0e7ff;color:#667eea;
+    font-size:.85rem;font-weight:700;padding:.5rem 1rem;border-radius:50px;cursor:pointer}
+
+  /* Filters ẩn mặc định trên mobile */
+  .filters{display:none;flex-direction:column;gap:.4rem;
+    background:#fff;border:1.5px solid #e0e7ff;border-radius:16px;
+    padding:.7rem;margin-top:.3rem}
+  .filters.open{display:flex}
+  .ftab{text-align:left;border-radius:10px;padding:.45rem .9rem}
+
+  /* Grid 1 cột */
+  .grid{grid-template-columns:1fr;gap:1rem}
+
+  /* Hero */
+  .hero{padding:3rem 1rem 2.5rem}
+  .hero h1{font-size:1.8rem}
+  .demo-wrap{width:220px;height:145px}
+
+  /* Modal */
+  .fc-overlay{padding:.5rem}
+  .fc-modal{border-radius:16px}
+  .fc-modal-sm,.fc-modal-lg{max-width:100%;max-height:96vh}
+  .fc-modal-head{padding:1rem 1rem .8rem}
+  .fc-modal-body{padding:.9rem 1rem}
+  .fc-modal-foot{padding:.8rem 1rem 1rem;flex-wrap:wrap}
+  .fc-modal-foot button{flex:1}
+
+  /* Study overlay */
+  #studyOv > div{padding:1rem 1rem 2rem}
+  #sCard{height:200px !important}
+  #qOpts{grid-template-columns:1fr !important}
+  #bFlip,#bQuiz,#bWrite{padding:.32rem .6rem !important;font-size:.72rem !important}
+}
 </style>
 
 <script>
+// ===== FILTER TOGGLE (MOBILE) =====
+function toggleFilters(){
+  var f=document.getElementById('filters');
+  var arrow=document.getElementById('ftabArrow');
+  var open=f.classList.toggle('open');
+  if(arrow) arrow.textContent=open?'▴':'▾';
+}
+
 // ===== DATA =====
 var decks=[];
 try{decks=JSON.parse(localStorage.getItem('fc_decks')||'[]');if(!Array.isArray(decks))decks=[];}catch(e){decks=[];}
@@ -1779,7 +1839,6 @@ document.addEventListener('DOMContentLoaded',function(){
                             <div class="ftb-teacher-info">
                                 <span class="ftb-teacher-label">Giáo viên hướng dẫn</span>
                                 <span class="ftb-teacher-name">Thầy Ngô Nguyễn Quang Trường</span>
-                            <span class="ftb-teacher-name">Thầy Lê Tấn Tài</span>
                             </div>
                         </div>
                     </div>
@@ -1801,12 +1860,42 @@ document.addEventListener('DOMContentLoaded',function(){
                 </div>
             <p>Một sản phẩm do nhóm học sinh Trường THCS-THPT Hòa Bình thực hiện.</p>
             <p class="footer-thank-you">Cảm ơn bạn đã lựa chọn đồng hành cùng EduPass. Nếu trải nghiệm chưa thật sự hoàn hảo, chúng tôi xin lỗi và sẽ không ngừng hoàn thiện để mang đến môi trường học tập tốt hơn, giúp bạn tự tin tiến gần hơn tới mục tiêu của mình.</p>
+            <div style="margin-top:1.5rem;padding:1.2rem 1.5rem;background:rgba(0,0,0,0.18);border-radius:12px;border-left:3px solid rgba(255,255,255,0.2);">
+                <p style="font-size:0.78rem;color:rgba(255,255,255,0.55);line-height:1.8;margin:0;">
+                    <strong style="color:rgba(255,255,255,0.75);"> Quyền sở hữu trí tuệ</strong><br>
+                    Sản phẩm dự thi này là kết quả của quá trình nghiên cứu, sáng tạo và phát triển nghiêm túc của tập thể chúng tôi, được đầu tư cả về ý tưởng, nội dung lẫn công nghệ nhằm mang đến một giải pháp học tập thực tiễn và bền vững cho cộng đồng học sinh. Mọi quyền sở hữu trí tuệ liên quan đến dự án, bao gồm ý tưởng, nội dung, thiết kế giao diện, hệ thống dữ liệu, tài liệu học tập và các chức năng công nghệ đều thuộc quyền sở hữu hợp pháp của nhóm tác giả và được pháp luật bảo hộ.
+                    Chúng tôi nghiêm cấm mọi hành vi sao chép, chỉnh sửa, sử dụng lại dưới bất kỳ hình thức nào hoặc khai thác vì mục đích thương mại khi chưa có sự đồng ý chính thức từ nhóm tác giả. Mọi hành vi vi phạm quyền sở hữu trí tuệ sẽ được xem xét và xử lý theo đúng quy định của pháp luật hiện hành.
+                </p>
+            </div>
         </div>
     </div>
 </footer>
 
 <script src="script.js"></script>
+    <script src="nav-auth.js"></script>
+<script>
+(function(){
+    var btn = document.getElementById('navHamburger');
+    var menu = document.getElementById('navMenu');
+    if(!btn || !menu) return;
+    btn.addEventListener('click', function(){
+        var open = menu.classList.toggle('open');
+        btn.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', open);
+    });
+    menu.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+            if(a.classList.contains('nav-dropdown-toggle')) return;
+            menu.classList.remove('open');
+            btn.classList.remove('open');
+            btn.setAttribute('aria-expanded','false');
+        });
+    });
+})();
+if(typeof initNavDropdowns==='function') initNavDropdowns();
+</script>
 <script src="effects.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>
+
