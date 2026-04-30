@@ -138,7 +138,7 @@
                     <span></span><span></span><span></span>
                 </button>
             </div>
-            <div class="navbar-search-bar">
+            <div class="navbar-search-bar" id="navbarSearchBar">
                 <div class="hero-search" id="heroSearchBox">
                     <span class="search-icon">🔍</span>
                     <input type="text" id="heroSearchInput" placeholder="Tìm kiếm môn học, đề thi..." autocomplete="off">
@@ -192,7 +192,7 @@
             </div>
         </nav>
 
-        <div class="hero-inner">
+        <div class="hero-inner" id="heroMainContent">
             <div class="hero-badge">🎓 Nền tảng học tập số 1 cho học sinh THPT</div>
             <h1 class="hero-title">
                 <span class="hero-title-top">Nền tảng luyện thi</span><br>
@@ -206,7 +206,7 @@
             </div>
         </div>
 
-        <div class="hero-features">
+        <div class="hero-features" id="heroFeaturesContent">
             <div class="hero-feature-item">
                 <span>📖</span>
                 <span>Bài Giảng</span>
@@ -1290,6 +1290,29 @@
 
     <script src="script.js"></script>
     <script src="nav-auth.js"></script>
+    <script>
+    // Ẩn hero content đến hết 2/5/2026, hiện lại từ 3/5/2026
+    // Đổi ảnh hero theo ngày
+    (function() {
+        var now = new Date();
+        var showDate = new Date('2026-05-03T00:00:00');
+        var heroMain = document.getElementById('heroMainContent');
+        var heroFeatures = document.getElementById('heroFeaturesContent');
+        var heroSection = document.querySelector('.hero');
+
+        if (now < showDate) {
+            // Trước 3/5: ẩn content + dùng ảnh mới
+            if (heroMain) heroMain.style.display = 'none';
+            if (heroFeatures) heroFeatures.style.display = 'none';
+            if (heroSection) heroSection.style.backgroundImage = "url('01b4c60e-0ad7-4a0b-8e4b-d953937cc804.png')";
+            var searchBar = document.getElementById('navbarSearchBar');
+            if (searchBar) searchBar.style.display = 'none';
+        } else {
+            // Từ 3/5: hiện content + dùng ảnh gốc
+            if (heroSection) heroSection.style.backgroundImage = "url('c97693f2-41ea-4b3e-b0a9-c16bcda2a53b.png')";
+        }
+    })();
+    </script>
     <script>
     // Gọi lại init dropdown sau khi tất cả script load xong
     if (typeof initNavDropdowns === 'function') initNavDropdowns();
